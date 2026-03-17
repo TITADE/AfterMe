@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="144" viewBox="0 0 1200 144">
+  <rect width="1200" height="144" rx="18" fill="#C9963A"/>
+  <!-- Icon -->
+  <rect x="36" y="18" width="108" height="108" rx="24" fill="#2D3142"/>
+  <rect x="57" y="44" width="66" height="46" rx="6" fill="none" stroke="#FAF9F6" stroke-width="3.5"/>
+  <path d="M57 54 L90 74 L123 54" fill="none" stroke="#FAF9F6" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="114" cy="82" r="17" fill="#C9963A"/>
+  <circle cx="114" cy="82" r="8" fill="none" stroke="#2D3142" stroke-width="2.5"/>
+  <line x1="114" y1="87" x2="114" y2="96" stroke="#2D3142" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="114" y1="92" x2="120" y2="92" stroke="#2D3142" stroke-width="2" stroke-linecap="round"/>
+  <!-- Wordmark -->
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="700" fill="#2D3142" x="162" y="88" letter-spacing="-1.5">after</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="700" fill="#FAF9F6" x="324" y="88" letter-spacing="-1.5">me</text>
+  <!-- Tagline -->
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2D3142" opacity="0.55" x="162" y="114" letter-spacing="2.5">SECURE · LOCAL · YOURS FOREVER</text>
+</svg>

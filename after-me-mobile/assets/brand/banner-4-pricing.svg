@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="620" viewBox="0 0 1320 620">
+  <rect width="1320" height="620" fill="#FAF9F6"/>
+  <rect x="0" y="0" width="1320" height="10" fill="#2D3142"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" font-weight="700" fill="#2D3142" x="80" y="92" letter-spacing="4" opacity="0.38">PRICING</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#2D3142" x="80" y="182" letter-spacing="-2">Pay once.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#C9963A" x="80" y="272">Yours forever.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#2D3142" opacity="0.52" x="80" y="338">No monthly fees. No renewal reminders.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#2D3142" opacity="0.52" x="80" y="376">No risk of being locked out when it matters most.</text>
+  <line x1="80" y1="416" x2="480" y2="416" stroke="#2D3142" stroke-width="1" opacity="0.15"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2D3142" opacity="0.38" x="80" y="452">While every competitor charges monthly — we don't.</text>
+  <!-- Pricing card -->
+  <rect x="780" y="80" width="460" height="460" rx="28" fill="#2D3142" opacity="0.06"/>
+  <rect x="780" y="80" width="460" height="460" rx="28" fill="none" stroke="#2D3142" stroke-width="1.5" opacity="0.14"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#2D3142" opacity="0.48" x="1010" y="170" text-anchor="middle">Personal</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="90" font-weight="700" fill="#2D3142" x="1010" y="294" text-anchor="middle">£79</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#2D3142" opacity="0.4" x="1010" y="336" text-anchor="middle">one-time payment</text>
+  <line x1="840" y1="368" x2="1180" y2="368" stroke="#2D3142" stroke-width="1" opacity="0.12"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2D3142" opacity="0.45" x="1010" y="408" text-anchor="middle">Unlimited documents</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2D3142" opacity="0.45" x="1010" y="442" text-anchor="middle">Unlimited kit updates</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2D3142" opacity="0.45" x="1010" y="476" text-anchor="middle">No subscription. Ever.</text>
+</svg>

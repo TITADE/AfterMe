@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="620" viewBox="0 0 1320 620">
+  <rect width="1320" height="620" fill="#2D3142"/>
+  <rect x="0" y="0" width="660" height="620" fill="#252840" opacity="0.4"/>
+  <!-- Headline -->
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#FAF9F6" x="80" y="180" letter-spacing="-2">The one conversation</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#C9963A" x="80" y="272">you keep putting off.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#FAF9F6" opacity="0.72" x="80" y="348">After Me takes 20 minutes.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#FAF9F6" opacity="0.72" x="80" y="390">Your family will never be left searching.</text>
+  <!-- CTA Button -->
+  <rect x="80" y="440" width="280" height="72" rx="36" fill="#C9963A"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#2D3142" x="220" y="484" text-anchor="middle">Download free</text>
+  <!-- Icon illustration right side -->
+  <rect x="800" y="80" width="420" height="460" rx="36" fill="#FAF9F6" opacity="0.05"/>
+  <rect x="840" y="148" width="340" height="224" rx="16" fill="none" stroke="#FAF9F6" stroke-width="4" opacity="0.35"/>
+  <path d="M840 182 L1010 274 L1180 182" fill="none" stroke="#FAF9F6" stroke-width="4" opacity="0.35" stroke-linecap="round"/>
+  <circle cx="1138" cy="316" r="60" fill="#C9963A" opacity="0.92"/>
+  <circle cx="1138" cy="316" r="30" fill="none" stroke="#2D3142" stroke-width="6"/>
+  <line x1="1138" y1="332" x2="1138" y2="362" stroke="#2D3142" stroke-width="6" stroke-linecap="round"/>
+  <line x1="1138" y1="350" x2="1154" y2="350" stroke="#2D3142" stroke-width="5" stroke-linecap="round"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#FAF9F6" opacity="0.4" x="1010" y="450" text-anchor="middle">after me</text>
+</svg>

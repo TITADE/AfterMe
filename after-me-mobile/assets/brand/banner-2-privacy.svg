@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="620" viewBox="0 0 1320 620">
+  <rect width="1320" height="620" fill="#FAF9F6"/>
+  <rect x="0" y="0" width="1320" height="10" fill="#C9963A"/>
+  <!-- Text -->
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" font-weight="700" fill="#2D3142" x="80" y="98" letter-spacing="4" opacity="0.45">YOUR DOCUMENTS</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="66" font-weight="700" fill="#2D3142" x="80" y="190" letter-spacing="-2">Never leave your phone.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#2D3142" opacity="0.58" x="80" y="252">No cloud. No server. No company can</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#2D3142" opacity="0.58" x="80" y="292">access them — including us.</text>
+  <line x1="80" y1="336" x2="440" y2="336" stroke="#C9963A" stroke-width="1.5" opacity="0.5"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2D3142" opacity="0.42" x="80" y="378" letter-spacing="1">AES-256 encryption  ·  Secure Enclave  ·  Zero knowledge</text>
+  <!-- Phone mockup right -->
+  <rect x="740" y="50" width="500" height="520" rx="30" fill="#2D3142"/>
+  <rect x="770" y="120" width="440" height="60" rx="10" fill="#FAF9F6" opacity="0.07"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#FAF9F6" opacity="0.45" x="810" y="158">Stored on this device only</text>
+  <rect x="770" y="200" width="148" height="128" rx="14" fill="#C9963A" opacity="0.18"/>
+  <rect x="770" y="200" width="148" height="128" rx="14" fill="none" stroke="#C9963A" stroke-width="1.5" opacity="0.5"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#FAF9F6" opacity="0.65" x="844" y="270" text-anchor="middle">Will</text>
+  <rect x="936" y="200" width="148" height="128" rx="14" fill="#FAF9F6" opacity="0.05"/>
+  <rect x="936" y="200" width="148" height="128" rx="14" fill="none" stroke="#FAF9F6" stroke-width="1.5" opacity="0.22"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#FAF9F6" opacity="0.65" x="1010" y="270" text-anchor="middle">Insurance</text>
+  <rect x="770" y="346" width="148" height="128" rx="14" fill="#FAF9F6" opacity="0.05"/>
+  <rect x="770" y="346" width="148" height="128" rx="14" fill="none" stroke="#FAF9F6" stroke-width="1.5" opacity="0.22"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#FAF9F6" opacity="0.65" x="844" y="416" text-anchor="middle">Identity</text>
+  <rect x="936" y="346" width="148" height="128" rx="14" fill="#FAF9F6" opacity="0.05"/>
+  <rect x="936" y="346" width="148" height="128" rx="14" fill="none" stroke="#FAF9F6" stroke-width="1.5" opacity="0.22"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#FAF9F6" opacity="0.65" x="1010" y="416" text-anchor="middle">Property</text>
+</svg>

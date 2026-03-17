@@ -7,9 +7,9 @@ dist/
 web-build/
 expo-env.d.ts
 
-# Native build folders
-**/ios/
-**/android/
+# Native build folders (app-level; excludes modules/storekit/ios which has native source)
+after-me-mobile/ios/
+after-me-mobile/android/
 .kotlin/
 *.orig.*
 *.jks

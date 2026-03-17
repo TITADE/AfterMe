@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="620" viewBox="0 0 1320 620">
+  <rect width="1320" height="620" fill="#2D3142"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" font-weight="700" fill="#C9963A" x="80" y="98" letter-spacing="4" opacity="0.85">THE FAMILY KIT</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#FAF9F6" x="80" y="190" letter-spacing="-2">One QR code.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#FAF9F6" x="80" y="280">Everything they need.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#FAF9F6" opacity="0.58" x="80" y="352">No account. No password.</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#FAF9F6" opacity="0.58" x="80" y="392">No technical knowledge required.</text>
+  <!-- QR illustration -->
+  <rect x="780" y="60" width="460" height="500" rx="30" fill="#FAF9F6" opacity="0.05"/>
+  <rect x="880" y="140" width="260" height="260" rx="16" fill="#FAF9F6" opacity="0.1"/>
+  <rect x="880" y="140" width="260" height="260" rx="16" fill="none" stroke="#FAF9F6" stroke-width="2.5" opacity="0.3"/>
+  <!-- QR code blocks -->
+  <rect x="900" y="160" width="70" height="70" rx="7" fill="#C9963A" opacity="0.85"/>
+  <rect x="984" y="160" width="70" height="70" rx="7" fill="#C9963A" opacity="0.55"/>
+  <rect x="1068" y="160" width="32" height="32" rx="4" fill="#C9963A" opacity="0.65"/>
+  <rect x="900" y="244" width="32" height="32" rx="4" fill="#C9963A" opacity="0.65"/>
+  <rect x="946" y="244" width="108" height="32" rx="4" fill="#C9963A" opacity="0.42"/>
+  <rect x="900" y="290" width="108" height="32" rx="4" fill="#C9963A" opacity="0.52"/>
+  <rect x="1022" y="290" width="78" height="32" rx="4" fill="#C9963A" opacity="0.68"/>
+  <rect x="900" y="336" width="50" height="50" rx="6" fill="#C9963A" opacity="0.75"/>
+  <rect x="964" y="336" width="156" height="50" rx="6" fill="#C9963A" opacity="0.38"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#FAF9F6" opacity="0.45" x="1010" y="458" text-anchor="middle">Scan to open family vault</text>
+  <line x1="880" y1="478" x2="1140" y2="478" stroke="#C9963A" stroke-width="2" opacity="0.35"/>
+</svg>

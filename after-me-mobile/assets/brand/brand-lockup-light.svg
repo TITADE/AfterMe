@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="180" viewBox="0 0 1200 180">
+  <rect width="1200" height="180" rx="20" fill="#FAF9F6"/>
+  <rect width="1200" height="180" rx="20" fill="none" stroke="#E8E4DC" stroke-width="1.5"/>
+  <!-- Icon -->
+  <rect x="40" y="22" width="136" height="136" rx="30" fill="#2D3142"/>
+  <rect x="68" y="55" width="80" height="56" rx="7" fill="none" stroke="#FAF9F6" stroke-width="4"/>
+  <path d="M68 67 L108 90 L148 67" fill="none" stroke="#FAF9F6" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="138" cy="98" r="20" fill="#C9963A"/>
+  <circle cx="138" cy="98" r="10" fill="none" stroke="#2D3142" stroke-width="3"/>
+  <line x1="138" y1="103" x2="138" y2="113" stroke="#2D3142" stroke-width="3" stroke-linecap="round"/>
+  <line x1="138" y1="109" x2="144" y2="109" stroke="#2D3142" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Wordmark -->
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="700" fill="#2D3142" x="196" y="110" letter-spacing="-2">after</text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="700" fill="#C9963A" x="390" y="110" letter-spacing="-2">me</text>
+  <!-- Tagline -->
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="15" fill="#2D3142" opacity="0.38" x="196" y="138" letter-spacing="2">YOUR LEGACY. THEIR PEACE OF MIND.</text>
+</svg>
