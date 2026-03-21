@@ -11,8 +11,16 @@ android {
   defaultConfig {
     versionCode 1
     versionName "0.1.0"
+    minSdk 24
   }
   lintOptions {
     abortOnError false
   }
+}
+
+dependencies {
+  // Google Play Billing — handles in-app purchases and subscriptions on Android
+  implementation 'com.android.billingclient:billing:7.1.1'
+  // Kotlin coroutines for async billing operations
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 }

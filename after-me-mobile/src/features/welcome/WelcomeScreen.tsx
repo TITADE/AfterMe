@@ -6,9 +6,10 @@ import { colors } from '../../theme/colors';
 interface WelcomeScreenProps {
   onPlanningLegacy: () => void;
   onHaveKit: () => void;
+  onRestoreVault?: () => void;
 }
 
-export function WelcomeScreen({ onPlanningLegacy, onHaveKit }: WelcomeScreenProps) {
+export function WelcomeScreen({ onPlanningLegacy, onHaveKit, onRestoreVault }: WelcomeScreenProps) {
   return (
     <View style={styles.container}>
       <View style={styles.radialCircle} />
@@ -22,8 +23,10 @@ export function WelcomeScreen({ onPlanningLegacy, onHaveKit }: WelcomeScreenProp
           style={styles.primaryButton}
           onPress={onPlanningLegacy}
           activeOpacity={0.9}
+          accessibilityRole="button"
+          accessibilityLabel="I'm Planning My Legacy — Create your secure vault"
         >
-          <Text style={styles.primaryButtonText}>I'm Planning My Legacy</Text>
+          <Text style={styles.primaryButtonText}>I&apos;m Planning My Legacy</Text>
           <Text style={styles.primaryButtonHint}>Create your secure vault</Text>
         </TouchableOpacity>
 
@@ -31,10 +34,25 @@ export function WelcomeScreen({ onPlanningLegacy, onHaveKit }: WelcomeScreenProp
           style={styles.secondaryButton}
           onPress={onHaveKit}
           activeOpacity={0.9}
+          accessibilityRole="button"
+          accessibilityLabel="I Have a Legacy Kit — Open a shared vault with QR code"
         >
           <Text style={styles.secondaryButtonText}>I Have a Legacy Kit</Text>
           <Text style={styles.secondaryButtonHint}>Open a shared vault with QR code</Text>
         </TouchableOpacity>
+
+        {onRestoreVault && (
+          <TouchableOpacity
+            style={styles.restoreButton}
+            onPress={onRestoreVault}
+            activeOpacity={0.9}
+            accessibilityRole="button"
+            accessibilityLabel="Restore My Vault — Recover from a Personal Recovery Kit"
+          >
+            <Text style={styles.restoreButtonText}>Restore My Vault</Text>
+            <Text style={styles.restoreButtonHint}>Recover from a Personal Recovery Kit</Text>
+          </TouchableOpacity>
+        )}
 
         <Text style={styles.footer}>Your documents never leave this device</Text>
       </View>
@@ -112,6 +130,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(250,249,246,0.7)',
     marginTop: 4,
+  },
+  restoreButton: {
+    backgroundColor: 'transparent',
+    padding: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(250,249,246,0.2)',
+  },
+  restoreButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: colors.amWhite,
+    opacity: 0.7,
+  },
+  restoreButtonHint: {
+    fontSize: 13,
+    color: 'rgba(250,249,246,0.4)',
+    marginTop: 3,
   },
   footer: {
     fontSize: 11,

@@ -19,7 +19,7 @@ export const colors = {
   surfaceMuted: '#252840',
   text: '#FAF9F6',
   textMuted: 'rgba(250,249,246,0.6)',
-  textSecondary: 'rgba(250,249,246,0.48)',
+  textSecondary: 'rgba(250,249,246,0.55)',
   border: 'rgba(250,249,246,0.18)',
   borderAccent: 'rgba(201,150,58,0.4)',
   success: '#34C759',

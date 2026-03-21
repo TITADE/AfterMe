@@ -1,19 +1,20 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 
-export type OnLoadEventPayload = {
-  url: string;
+export type Product = {
+  id: string;
+  displayName: string;
+  description: string;
+  displayPrice: string;
+  price: number;
 };
 
-export type StorekitModuleEvents = {
-  onChange: (params: ChangeEventPayload) => void;
+export type PurchaseResult = {
+  status: 'success' | 'cancelled' | 'pending' | 'unknown';
+  transactionId?: string;
 };
 
-export type ChangeEventPayload = {
-  value: string;
-};
+export type StorekitModuleEvents = Record<string, never>;
 
 export type StorekitViewProps = {
-  url: string;
-  onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void;
   style?: StyleProp<ViewStyle>;
 };

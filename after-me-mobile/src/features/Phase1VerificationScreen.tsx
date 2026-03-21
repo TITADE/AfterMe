@@ -161,6 +161,7 @@ export function Phase1VerificationScreen({ onBack }: Phase1VerificationScreenPro
 
   useEffect(() => {
     runTests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

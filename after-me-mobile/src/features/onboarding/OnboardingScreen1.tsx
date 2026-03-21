@@ -10,12 +10,15 @@ import {
   Pressable,
   useWindowDimensions,
   Animated,
+  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { onboardingStyles } from './shared/onboardingStyles';
 
 interface OnboardingScreen1Props {
   onContinue: () => void;
+  onBack?: () => void;
 }
 
 export function OnboardingScreen1({ onContinue }: OnboardingScreen1Props) {
@@ -110,10 +113,11 @@ export function OnboardingScreen1({ onContinue }: OnboardingScreen1Props) {
       Animated.delay(100),
       dotsAnim,
     ]).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+    <View style={[onboardingStyles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       {/* Top section — illustration area (upper 45%) */}
       <View style={[styles.illustrationSection, { height: '45%' }]}>
         <Animated.View
@@ -163,7 +167,7 @@ export function OnboardingScreen1({ onContinue }: OnboardingScreen1Props) {
         <View style={styles.headlineSpacer} />
         <Animated.View style={{ opacity: bodyOpacity, transform: [{ translateY: bodyY }] }}>
           <Text style={styles.bodyCopy} maxFontSizeMultiplier={1.5}>
-            "If something happened to you today, could your{'\n'}family find everything they needed?"
+            &ldquo;If something happened to you today, could your{'\n'}family find everything they needed?&rdquo;
           </Text>
         </Animated.View>
       </View>
@@ -176,15 +180,15 @@ export function OnboardingScreen1({ onContinue }: OnboardingScreen1Props) {
         <Pressable
           onPress={onContinue}
           style={({ pressed }) => [
-            styles.ctaButton,
-            pressed && styles.ctaButtonPressed,
+            onboardingStyles.ctaButton,
+            pressed && onboardingStyles.ctaButtonPressed,
           ]}
           accessible
           accessibilityLabel="Begin setup, takes approximately 20 minutes"
           accessibilityRole="button"
         >
           <Text style={styles.ctaLine1} maxFontSizeMultiplier={1.5}>
-            Let's fix that
+            Let&apos;s fix that
           </Text>
           <Text style={styles.ctaLine2} maxFontSizeMultiplier={1.5}>
             It takes 20 minutes
@@ -192,15 +196,17 @@ export function OnboardingScreen1({ onContinue }: OnboardingScreen1Props) {
         </Pressable>
       </Animated.View>
 
-      {/* Progress dots */}
+      {/* Progress dots — position 1 of 8 */}
       <Animated.View style={[styles.dotsSection, { opacity: dotsOpacity }]}>
-        <View style={styles.dotsRow}>
-          <View style={[styles.dot, styles.dotActive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
+        <View style={onboardingStyles.dotsRow}>
+          <View style={[onboardingStyles.dot, onboardingStyles.dotActive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
         </View>
       </Animated.View>
     </View>
@@ -208,13 +214,6 @@ export function OnboardingScreen1({ onContinue }: OnboardingScreen1Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2D3142',
-    paddingHorizontal: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   illustrationSection: {
     width: '100%',
     alignItems: 'center',
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headlineLine1: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 28,
     fontWeight: '700',
     color: '#FAF9F6',
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
     lineHeight: 34,
   },
   headlineLine2: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 28,
     fontWeight: '700',
     color: '#C9963A',
@@ -270,19 +269,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingBottom: 8,
   },
-  ctaButton: {
-    width: '100%',
-    height: 58,
-    borderRadius: 14,
-    backgroundColor: '#C9963A',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ctaButtonPressed: {
-    opacity: 0.9,
-  },
   ctaLine1: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 18,
     fontWeight: '700',
     color: '#2D3142',
@@ -296,21 +284,17 @@ const styles = StyleSheet.create({
   dotsSection: {
     paddingBottom: 20,
   },
-  dotsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
+  backButton: {
+    position: 'absolute',
+    top: 12,
+    left: 16,
+    padding: 12,
+    zIndex: 9999,
+    minHeight: 44,
   },
-  dot: {
-    height: 8,
-    borderRadius: 4,
-  },
-  dotActive: {
-    width: 20,
-    backgroundColor: '#C9963A',
-  },
-  dotInactive: {
-    width: 8,
-    backgroundColor: 'rgba(250,249,246,0.22)',
+  backText: {
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#C9963A',
   },
 });

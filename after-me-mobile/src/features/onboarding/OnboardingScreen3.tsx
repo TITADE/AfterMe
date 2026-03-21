@@ -10,8 +10,10 @@ import {
   Pressable,
   useWindowDimensions,
   Animated,
+  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { onboardingStyles } from './shared/onboardingStyles';
 
 const CATEGORIES = [
   'Will',
@@ -26,9 +28,10 @@ const CATEGORIES = [
 
 interface OnboardingScreen3Props {
   onContinue: () => void;
+  onBack?: () => void;
 }
 
-export function OnboardingScreen3({ onContinue }: OnboardingScreen3Props) {
+export function OnboardingScreen3({ onContinue, onBack }: OnboardingScreen3Props) {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const circleSize = width * 0.8;
@@ -110,6 +113,7 @@ export function OnboardingScreen3({ onContinue }: OnboardingScreen3Props) {
       Animated.delay(100),
       dotsAnim,
     ]).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderCard = (label: string, index: number) => {
@@ -144,7 +148,18 @@ export function OnboardingScreen3({ onContinue }: OnboardingScreen3Props) {
   };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+    <View style={[onboardingStyles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+      {onBack && (
+        <Pressable
+          style={styles.backButton}
+          onPress={onBack}
+          hitSlop={16}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
+          <Text style={styles.backText}>← Back</Text>
+        </Pressable>
+      )}
       {/* Top section — illustration */}
       <View style={[styles.illustrationSection, { height: '45%' }]}>
         <Animated.View
@@ -231,7 +246,7 @@ export function OnboardingScreen3({ onContinue }: OnboardingScreen3Props) {
       <Animated.View style={[styles.buttonSection, { opacity: buttonOpacity, transform: [{ translateY: buttonY }] }]}>
         <Pressable
           onPress={onContinue}
-          style={({ pressed }) => [styles.ctaButton, pressed && styles.ctaButtonPressed]}
+          style={({ pressed }) => [onboardingStyles.ctaButton, pressed && onboardingStyles.ctaButtonPressed]}
           accessible
           accessibilityLabel="Makes sense. I'll start scanning when I'm ready"
           accessibilityRole="button"
@@ -240,20 +255,22 @@ export function OnboardingScreen3({ onContinue }: OnboardingScreen3Props) {
             Makes sense
           </Text>
           <Text style={styles.ctaLine2} maxFontSizeMultiplier={1.5}>
-            I'll start scanning when I'm ready
+            I&apos;ll start scanning when I&apos;m ready
           </Text>
         </Pressable>
       </Animated.View>
 
-      {/* Progress dots — position 3 active */}
+      {/* Progress dots — position 3 of 8 */}
       <Animated.View style={[styles.dotsSection, { opacity: dotsOpacity }]}>
-        <View style={styles.dotsRow}>
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotActive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
+        <View style={onboardingStyles.dotsRow}>
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotActive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
         </View>
       </Animated.View>
     </View>
@@ -261,13 +278,6 @@ export function OnboardingScreen3({ onContinue }: OnboardingScreen3Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2D3142',
-    paddingHorizontal: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   illustrationSection: {
     width: '100%',
     alignItems: 'center',
@@ -337,7 +347,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headlineLine1: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 26,
     fontWeight: '700',
     color: '#FAF9F6',
@@ -345,7 +355,7 @@ const styles = StyleSheet.create({
     lineHeight: 32,
   },
   headlineLine2: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 26,
     fontWeight: '700',
     color: '#C9963A',
@@ -377,19 +387,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingBottom: 8,
   },
-  ctaButton: {
-    width: '100%',
-    height: 58,
-    borderRadius: 14,
-    backgroundColor: '#C9963A',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ctaButtonPressed: {
-    opacity: 0.9,
-  },
   ctaLine1: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 18,
     fontWeight: '700',
     color: '#2D3142',
@@ -403,21 +402,17 @@ const styles = StyleSheet.create({
   dotsSection: {
     paddingBottom: 20,
   },
-  dotsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
+  backButton: {
+    position: 'absolute',
+    top: 12,
+    left: 16,
+    padding: 12,
+    zIndex: 9999,
+    minHeight: 44,
   },
-  dot: {
-    height: 8,
-    borderRadius: 4,
-  },
-  dotActive: {
-    width: 20,
-    backgroundColor: '#C9963A',
-  },
-  dotInactive: {
-    width: 8,
-    backgroundColor: 'rgba(250,249,246,0.22)',
+  backText: {
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#C9963A',
   },
 });

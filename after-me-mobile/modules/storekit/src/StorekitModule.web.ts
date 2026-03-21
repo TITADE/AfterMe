@@ -1,15 +1,18 @@
 import { registerWebModule, NativeModule } from 'expo';
 
-import { StorekitModuleEvents } from './Storekit.types';
+import { StorekitModuleEvents, Product, PurchaseResult } from './Storekit.types';
 
 class StorekitModule extends NativeModule<StorekitModuleEvents> {
-  PI = Math.PI;
-  async setValueAsync(value: string): Promise<void> {
-    this.emit('onChange', { value });
+  async getProducts(_productIds: string[]): Promise<Product[]> {
+    return [];
   }
-  hello() {
-    return 'Hello world! 👋';
+  async purchase(_productId: string): Promise<PurchaseResult> {
+    return { status: 'unknown' };
   }
+  async getPurchasedProducts(): Promise<string[]> {
+    return [];
+  }
+  async restore(): Promise<void> {}
 }
 
 export default registerWebModule(StorekitModule, 'StorekitModule');

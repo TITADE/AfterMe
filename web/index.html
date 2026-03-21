@@ -1,13 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>After Me — Your legacy. Their peace of mind.</title>
-<meta name="description" content="After Me is a secure, local-first digital vault for end-of-life planning. Your documents never leave your phone. One QR code gives your family instant access. Pay once, yours forever.">
-<meta property="og:title" content="After Me — Your legacy. Their peace of mind.">
-<meta property="og:description" content="Your documents never leave your phone. One QR code gives your family instant access after you're gone.">
-<meta property="og:type" content="website">
+
+<!-- Primary SEO -->
+<title>After Me — Encrypted Digital Vault for End-of-Life Planning</title>
+<meta name="description" content="After Me is a secure, local-first digital vault for end-of-life planning. AES-256 encrypted. Documents never leave your phone. One QR code gives your family instant access. Pay once, yours forever.">
+<meta name="keywords" content="end-of-life planning app, digital vault, estate planning, encrypted document storage, family kit, legacy planning, secure document organiser, after death planning, will storage app, UK estate planning">
+<meta name="author" content="After Me Ltd">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://myafterme.co.uk/">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://myafterme.co.uk/">
+<meta property="og:site_name"   content="After Me">
+<meta property="og:locale"      content="en_GB">
+<meta property="og:title"       content="After Me — Encrypted Digital Vault for End-of-Life Planning">
+<meta property="og:description" content="Your documents are encrypted on your device. Nobody else can access them — not even us. One QR code gives your family everything they need. Pay once, yours forever.">
+<meta property="og:image"       content="https://myafterme.co.uk/og-image.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"    content="After Me — secure digital vault for end-of-life planning">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="After Me — Encrypted Digital Vault for End-of-Life Planning">
+<meta name="twitter:description" content="Your documents never leave your phone. AES-256 encrypted. One QR code gives your family instant access. Pay once, yours forever.">
+<meta name="twitter:image"       content="https://myafterme.co.uk/og-image.png">
+<meta name="twitter:image:alt"   content="After Me — secure digital vault">
+
+<!-- Theme & PWA -->
+<meta name="theme-color" content="#2D3142">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Structured Data — Organisation -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://myafterme.co.uk/#organization",
+  "name": "After Me",
+  "url": "https://myafterme.co.uk",
+  "logo": "https://myafterme.co.uk/og-image.png",
+  "description": "After Me Ltd operates a secure, local-first digital vault for end-of-life planning.",
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "email": "support@myafterme.co.uk",
+      "contactType": "customer support",
+      "areaServed": "GB",
+      "availableLanguage": "English"
+    },
+    {
+      "@type": "ContactPoint",
+      "email": "privacy@myafterme.co.uk",
+      "contactType": "privacy enquiries"
+    }
+  ],
+  "sameAs": []
+}
+</script>
+
+<!-- Structured Data — WebSite (enables Sitelinks search box potential) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://myafterme.co.uk/#website",
+  "url": "https://myafterme.co.uk",
+  "name": "After Me",
+  "description": "Encrypted digital vault for end-of-life planning. AES-256 encryption. Documents never leave your device.",
+  "publisher": { "@id": "https://myafterme.co.uk/#organization" },
+  "inLanguage": "en-GB"
+}
+</script>
+
+<!-- Structured Data — iOS App -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "After Me",
+  "operatingSystem": "iOS",
+  "applicationCategory": "LifestyleApplication",
+  "applicationSubCategory": "Estate Planning",
+  "description": "After Me is a secure, local-first digital vault for end-of-life planning. Documents are encrypted on-device with AES-256-GCM. Keys are held in Apple's Secure Enclave. One QR code gives your family instant access — no account, no password.",
+  "url": "https://myafterme.co.uk",
+  "publisher": { "@id": "https://myafterme.co.uk/#organization" },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "GBP",
+    "description": "Free tier: up to 5 documents. Lifetime £79.99 one-time (recommended). Annual £34.99/year."
+  },
+  "featureList": [
+    "AES-256-GCM encryption",
+    "Local-first zero-knowledge architecture",
+    "Family Kit QR code sharing",
+    "Document scanner with edge detection",
+    "iCloud encrypted backup",
+    "Personal Recovery Kit",
+    "Open .afterme file format"
+  ]
+}
+</script>
+
+<!-- Fonts -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -831,44 +932,53 @@
 <section id="pricing">
   <div class="container">
     <p class="section-eyebrow reveal">Pricing</p>
-    <h2 class="section-headline reveal">No monthly fees.<br>No <em>renewal</em> surprises.</h2>
-    <p class="section-body reveal">Pay once. Use it forever. Your family can access your vault even if you stop paying — because there's nothing to stop paying.</p>
+    <h2 class="section-headline reveal">Pay once.<br>Then <em>never again.</em></h2>
+    <p class="section-body reveal">Lifetime is our recommended option. One payment. Every future feature included. No renewal for you — and no renewal for your family to manage after you're gone.</p>
 
     <div class="pricing-grid reveal">
+      <!-- LIFETIME HERO — shown first, as recommended -->
       <div class="pricing-card featured">
-        <p class="pricing-name">Personal</p>
-        <div class="pricing-price"><sup>£</sup>79</div>
-        <p class="pricing-period">one-time payment · no subscription</p>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <p class="pricing-name" style="margin:0;">Lifetime</p>
+          <span style="background:var(--amber); color:var(--deep); font-size:10px; font-weight:800; padding:4px 8px; border-radius:5px; letter-spacing:0.5px;">RECOMMENDED</span>
+        </div>
+        <div class="pricing-price"><sup>£</sup>79<span style="font-size:20px;">.99</span></div>
+        <p class="pricing-period">one-time · then never again</p>
+        <p style="font-size:12px; color:rgba(201,150,58,0.8); margin: -8px 0 16px; font-style:italic;">Annual × 3 years = £104.97 · break even in under 2.5 years</p>
         <ul class="pricing-features">
-          <li>Unlimited documents</li>
-          <li>Unlimited Family Kit updates</li>
-          <li>All 8 document categories</li>
-          <li>Personal messages</li>
-          <li>AES-256 encrypted vault</li>
-          <li>iCloud encrypted backup</li>
+          <li>Unlimited documents — forever</li>
+          <li>Family Kit creation &amp; unlimited updates</li>
+          <li>All future features — no upgrade fees, ever</li>
+          <li>No renewal risk at death — your family inherits access, not the invoice</li>
+          <li>Encrypted iCloud backup</li>
+          <li>Priority support</li>
+          <li>Open format guarantee — your data is yours permanently</li>
         </ul>
         <a href="#waitlist" class="btn-primary" style="width:100%; justify-content:center; font-size:15px;">Get early access</a>
-        <p class="pricing-no-sub">No subscription. Ever.</p>
+        <p class="pricing-no-sub">No subscription. Ever. That's the point.</p>
       </div>
+
+      <!-- ANNUAL — secondary, entry point -->
       <div class="pricing-card">
-        <p class="pricing-name">Family</p>
-        <div class="pricing-price"><sup>£</sup>149</div>
-        <p class="pricing-period">one-time payment · covers up to 5 vaults</p>
+        <p class="pricing-name">Annual</p>
+        <div class="pricing-price"><sup>£</sup>34<span style="font-size:20px;">.99</span></div>
+        <p class="pricing-period">per year · renews automatically · cancel any time</p>
         <ul class="pricing-features">
-          <li>Everything in Personal</li>
-          <li>Up to 5 separate vaults</li>
-          <li>Set it up for your parents too</li>
-          <li>Shared Family Kit management</li>
-          <li>Priority support</li>
-          <li>Future features included</li>
+          <li>Unlimited document storage</li>
+          <li>Family Kit creation &amp; updates</li>
+          <li>All 8 document categories</li>
+          <li>Personal messages</li>
+          <li>Encrypted iCloud backup</li>
+          <li>Cancel any time — data always exportable</li>
         </ul>
         <a href="#waitlist" class="btn-secondary" style="width:100%; justify-content:center; font-size:15px;">Get early access</a>
-        <p class="pricing-no-sub">One payment covers your whole family.</p>
+        <p class="pricing-no-sub" style="color:var(--muted);">Upgrade to lifetime any time from Settings.</p>
       </div>
     </div>
 
     <div style="text-align:center; margin-top:40px; padding: 28px; background:var(--card); border-radius:16px;">
-      <p style="font-size:14px; color:var(--muted);">7-day free trial with full access · Read-only free tier forever · Your data is always yours to export</p>
+      <p style="font-size:14px; color:var(--muted); margin-bottom:8px;"><strong style="color:var(--white);">Free tier:</strong> Up to 5 documents, read-only after 7-day full trial · Your data is always yours to export</p>
+      <p style="font-size:13px; color:rgba(250,249,246,0.35);">Family plan coming soon · Built for individuals at launch</p>
     </div>
   </div>
 </section>
@@ -894,10 +1004,12 @@
   <div class="footer-inner">
     <a href="#" class="footer-logo">after<span>me</span></a>
     <ul class="footer-links">
-      <li><a href="#">Privacy Policy</a></li>
-      <li><a href="#">Support</a></li>
-      <li><a href="#">Open Format Spec</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="/how-it-works">How It Works</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/format-spec">Open Format Spec</a></li>
+      <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
     </ul>
     <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>
   </div>

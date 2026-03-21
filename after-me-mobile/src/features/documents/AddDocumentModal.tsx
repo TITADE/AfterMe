@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import DocumentScanner from 'react-native-document-scanner-plugin';
 import * as DocumentPicker from 'expo-document-picker';
@@ -16,14 +17,19 @@ import { DocumentService } from '../../services/DocumentService';
 import {
   DOCUMENT_CATEGORIES,
   CATEGORY_LABELS,
+  CATEGORY_DESCRIPTIONS,
+  CATEGORY_ICONS,
   type DocumentCategory,
 } from '../../models/DocumentCategory';
+import { usePurchase } from '../../context/PurchaseContext';
+import { FREE_TIER_DOCUMENT_LIMIT } from '../../constants/products';
 import { colors } from '../../theme/colors';
 
 interface AddDocumentModalProps {
   visible: boolean;
   onClose: () => void;
   onDocumentAdded: () => void;
+  onShowPaywall?: () => void;
 }
 
 type Step = 'source' | 'category';
@@ -32,17 +38,23 @@ export function AddDocumentModal({
   visible,
   onClose,
   onDocumentAdded,
+  onShowPaywall,
 }: AddDocumentModalProps) {
+  const { canAddDocument, documentsRemaining, isPremium } = usePurchase();
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<DocumentCategory | null>(null);
   const [step, setStep] = useState<Step>('source');
   const [pendingSource, setPendingSource] = useState<'scan' | 'files' | 'photos' | null>(null);
+  const [scanTitle, setScanTitle] = useState('');
+  const [categorySearch, setCategorySearch] = useState('');
 
   const reset = () => {
     setLoading(false);
     setSelectedCategory(null);
     setStep('source');
     setPendingSource(null);
+    setScanTitle('');
+    setCategorySearch('');
   };
 
   const handleClose = () => {
@@ -51,6 +63,11 @@ export function AddDocumentModal({
   };
 
   const showCategoryPicker = (source: 'scan' | 'files' | 'photos') => {
+    if (!canAddDocument) {
+      onShowPaywall?.();
+      handleClose();
+      return;
+    }
     setPendingSource(source);
     setStep('category');
   };
@@ -77,20 +94,35 @@ export function AddDocumentModal({
           return;
         }
 
+        const baseName = scanTitle.trim() || 'Scanned Document';
+        const isMultiPage = result.scannedImages.length > 1;
+
         for (let i = 0; i < result.scannedImages.length; i++) {
           const img = result.scannedImages[i];
-          const isBase64 = typeof img === 'string' && !img.startsWith('file') && !img.startsWith('/');
-          const title = result.scannedImages.length > 1 ? `Scan ${i + 1}` : 'Scanned Document';
+          const isFileUri =
+            typeof img === 'string' &&
+            (img.startsWith('file://') ||
+              img.startsWith('/') ||
+              img.startsWith('content://') ||
+              img.startsWith('ph://'));
+          const isBase64 = typeof img === 'string' && !isFileUri;
+          const title = isMultiPage
+            ? `${baseName} — Page ${i + 1} of ${result.scannedImages.length}`
+            : baseName;
 
           if (isBase64) {
             await DocumentService.importFromBase64(img, selectedCategory, title);
           } else {
-            await DocumentService.importFromFilePath(img as string, selectedCategory, title);
+            await DocumentService.importFromFilePath(
+              img as string,
+              selectedCategory,
+              title,
+            );
           }
         }
       } else if (pendingSource === 'files') {
         const result = await DocumentPicker.getDocumentAsync({
-          type: ['image/*', 'application/pdf'],
+          type: ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'],
           copyToCacheDirectory: true,
         });
 
@@ -104,7 +136,13 @@ export function AddDocumentModal({
           file.uri,
           selectedCategory,
           file.name || 'Imported Document',
-          { format: file.mimeType?.includes('pdf') ? 'pdf' : 'jpeg' }
+          {
+            format: file.mimeType?.includes('pdf')
+              ? 'pdf'
+              : file.mimeType?.includes('png')
+                ? 'png'
+                : 'jpeg',
+          },
         );
       } else if (pendingSource === 'photos') {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -122,7 +160,7 @@ export function AddDocumentModal({
         await DocumentService.importFromFilePath(
           asset.uri,
           selectedCategory,
-          'Photo from Library'
+          'Photo from Library',
         );
       }
 
@@ -130,7 +168,10 @@ export function AddDocumentModal({
       handleClose();
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Import failed';
-      Alert.alert('Error', msg);
+      Alert.alert('Import Error', msg, [
+        { text: 'Cancel', style: 'cancel', onPress: handleClose },
+        { text: 'Retry', onPress: () => setLoading(false) },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -155,8 +196,39 @@ export function AddDocumentModal({
                 ? 'Select category for scanned document'
                 : 'Select category for imported document'}
             </Text>
+
+            {pendingSource === 'scan' && (
+              <TextInput
+                style={styles.titleInput}
+                placeholder="Document title (optional)"
+                placeholderTextColor={colors.textMuted}
+                value={scanTitle}
+                onChangeText={setScanTitle}
+                maxLength={120}
+                accessibilityLabel="Document title"
+              />
+            )}
+
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search categories…"
+              placeholderTextColor={colors.textMuted}
+              value={categorySearch}
+              onChangeText={setCategorySearch}
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              accessibilityLabel="Search categories"
+            />
+
             <ScrollView style={styles.categoryList}>
-              {DOCUMENT_CATEGORIES.map((cat) => (
+              {DOCUMENT_CATEGORIES.filter((cat) => {
+                if (!categorySearch.trim()) return true;
+                const q = categorySearch.toLowerCase();
+                return (
+                  CATEGORY_LABELS[cat].toLowerCase().includes(q) ||
+                  CATEGORY_DESCRIPTIONS[cat].toLowerCase().includes(q)
+                );
+              }).map((cat) => (
                 <TouchableOpacity
                   key={cat}
                   style={[
@@ -164,31 +236,50 @@ export function AddDocumentModal({
                     selectedCategory === cat && styles.categoryButtonSelected,
                   ]}
                   onPress={() => setSelectedCategory(cat)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${CATEGORY_LABELS[cat]}: ${CATEGORY_DESCRIPTIONS[cat]}`}
+                  accessibilityState={{ selected: selectedCategory === cat }}
                 >
-                  <Text
-                    style={[
-                      styles.categoryLabel,
-                      selectedCategory === cat && styles.categoryLabelSelected,
-                    ]}
-                  >
-                    {CATEGORY_LABELS[cat]}
-                  </Text>
+                  <View style={styles.categoryRow}>
+                    <Text style={styles.categoryIcon}>{CATEGORY_ICONS[cat]}</Text>
+                    <View style={styles.categoryTextCol}>
+                      <Text
+                        style={[
+                          styles.categoryLabel,
+                          selectedCategory === cat && styles.categoryLabelSelected,
+                        ]}
+                        maxFontSizeMultiplier={1.4}
+                      >
+                        {CATEGORY_LABELS[cat]}
+                      </Text>
+                      <Text style={styles.categoryDescription} numberOfLines={1} maxFontSizeMultiplier={1.4}>
+                        {CATEGORY_DESCRIPTIONS[cat]}
+                      </Text>
+                    </View>
+                  </View>
                 </TouchableOpacity>
               ))}
             </ScrollView>
             <View style={styles.row}>
-              <TouchableOpacity style={styles.secondaryButton} onPress={handleClose}>
-                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              <TouchableOpacity
+                style={styles.secondaryButton}
+                onPress={handleClose}
+                accessibilityRole="button"
+                accessibilityLabel="Cancel"
+              >
+                <Text style={styles.secondaryButtonText} maxFontSizeMultiplier={1.4}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.primaryButton, !selectedCategory && styles.primaryButtonDisabled]}
                 onPress={handleCategoryConfirm}
                 disabled={!selectedCategory || loading}
+                accessibilityRole="button"
+                accessibilityLabel={pendingSource === 'scan' ? 'Scan Document' : 'Import document'}
               >
                 {loading ? (
                   <ActivityIndicator color={colors.amBackground} />
                 ) : (
-                  <Text style={styles.primaryButtonText}>
+                  <Text style={styles.primaryButtonText} maxFontSizeMultiplier={1.4}>
                     {pendingSource === 'scan' ? 'Scan Document' : 'Import'}
                   </Text>
                 )}
@@ -207,15 +298,28 @@ export function AddDocumentModal({
           <Text style={styles.title}>Add Document</Text>
           <Text style={styles.subtitle}>Choose how to add your document</Text>
 
+          {!isPremium && (
+            <View style={styles.freeTierBanner}>
+              <Text style={styles.freeTierText} maxFontSizeMultiplier={1.4}>
+                {canAddDocument
+                  ? `${documentsRemaining} of ${FREE_TIER_DOCUMENT_LIMIT} free documents remaining`
+                  : `Free limit reached (${FREE_TIER_DOCUMENT_LIMIT} documents). Upgrade to add more.`}
+              </Text>
+            </View>
+          )}
+
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => showCategoryPicker('scan')}
             disabled={loading}
+            accessibilityRole="button"
+            accessibilityLabel="Scan with Camera"
+            accessibilityHint="Opens camera with auto edge-detect, crop, and enhance"
           >
             <Text style={styles.optionIcon}>📷</Text>
             <View style={styles.optionText}>
-              <Text style={styles.optionLabel}>Scan with Camera</Text>
-              <Text style={styles.optionHint}>Use VisionKit to scan documents</Text>
+              <Text style={styles.optionLabel} maxFontSizeMultiplier={1.4}>Scan with Camera</Text>
+              <Text style={styles.optionHint} maxFontSizeMultiplier={1.4}>Auto edge-detect, crop, and enhance</Text>
             </View>
           </TouchableOpacity>
 
@@ -223,11 +327,14 @@ export function AddDocumentModal({
             style={styles.optionButton}
             onPress={() => showCategoryPicker('files')}
             disabled={loading}
+            accessibilityRole="button"
+            accessibilityLabel="Pick from Files"
+            accessibilityHint="Import PDF, JPEG, or PNG from Files or cloud storage"
           >
             <Text style={styles.optionIcon}>📁</Text>
             <View style={styles.optionText}>
-              <Text style={styles.optionLabel}>Pick from Files</Text>
-              <Text style={styles.optionHint}>Import from Files app or cloud storage</Text>
+              <Text style={styles.optionLabel} maxFontSizeMultiplier={1.4}>Pick from Files</Text>
+              <Text style={styles.optionHint} maxFontSizeMultiplier={1.4}>PDF, JPEG, or PNG from Files or cloud</Text>
             </View>
           </TouchableOpacity>
 
@@ -235,16 +342,24 @@ export function AddDocumentModal({
             style={styles.optionButton}
             onPress={() => showCategoryPicker('photos')}
             disabled={loading}
+            accessibilityRole="button"
+            accessibilityLabel="Pick from Photos"
+            accessibilityHint="Import image from Photo Library"
           >
             <Text style={styles.optionIcon}>🖼️</Text>
             <View style={styles.optionText}>
-              <Text style={styles.optionLabel}>Pick from Photos</Text>
-              <Text style={styles.optionHint}>Import from Photo Library</Text>
+              <Text style={styles.optionLabel} maxFontSizeMultiplier={1.4}>Pick from Photos</Text>
+              <Text style={styles.optionHint} maxFontSizeMultiplier={1.4}>Import from Photo Library</Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
-            <Text style={styles.cancelButtonText}>Cancel</Text>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={handleClose}
+            accessibilityRole="button"
+            accessibilityLabel="Cancel"
+          >
+            <Text style={styles.cancelButtonText} maxFontSizeMultiplier={1.4}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -276,6 +391,26 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     marginBottom: 24,
   },
+  titleInput: {
+    backgroundColor: colors.amCard,
+    borderRadius: 10,
+    padding: 14,
+    fontSize: 16,
+    color: colors.amWhite,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  searchInput: {
+    backgroundColor: colors.amCard,
+    borderRadius: 10,
+    padding: 12,
+    fontSize: 15,
+    color: colors.amWhite,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -283,6 +418,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.amCard,
     borderRadius: 12,
     marginBottom: 12,
+    minHeight: 60,
   },
   optionIcon: {
     fontSize: 28,
@@ -302,7 +438,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   categoryList: {
-    maxHeight: 280,
+    maxHeight: 240,
     marginBottom: 16,
   },
   categoryButton: {
@@ -310,11 +446,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 8,
     backgroundColor: colors.amCard,
+    minHeight: 52,
+    justifyContent: 'center',
   },
   categoryButtonSelected: {
     backgroundColor: colors.amCard,
     borderWidth: 2,
     borderColor: colors.amAmber,
+  },
+  categoryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  categoryIcon: {
+    fontSize: 24,
+  },
+  categoryTextCol: {
+    flex: 1,
   },
   categoryLabel: {
     fontSize: 16,
@@ -323,6 +472,11 @@ const styles = StyleSheet.create({
   categoryLabelSelected: {
     fontWeight: '600',
     color: colors.amWhite,
+  },
+  categoryDescription: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginTop: 2,
   },
   row: {
     flexDirection: 'row',
@@ -359,11 +513,27 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     marginTop: 16,
-    padding: 12,
+    padding: 14,
     alignItems: 'center',
+    minHeight: 48,
+    justifyContent: 'center',
   },
   cancelButtonText: {
     color: colors.textMuted,
     fontSize: 16,
+  },
+  freeTierBanner: {
+    backgroundColor: 'rgba(201,150,58,0.15)',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(201,150,58,0.3)',
+  },
+  freeTierText: {
+    fontSize: 13,
+    color: colors.amAmber,
+    textAlign: 'center',
+    fontWeight: '500',
   },
 });

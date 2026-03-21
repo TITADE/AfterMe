@@ -2,7 +2,7 @@
  * Onboarding Screen 6: "The Safety Net"
  * Final screen after biometric setup. Three choices: iCloud backup, create kit, or defer.
  */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -10,21 +10,25 @@ import {
   Pressable,
   Animated,
   ScrollView,
+  Alert,
+  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
-import { Animated as RNAnimated } from 'react-native';
-
-const AnimatedCircle = RNAnimated.createAnimatedComponent(Circle);
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { BackupService } from '../../services/BackupService';
 import { OnboardingStorage } from '../../services/OnboardingStorage';
+import { KeyManager } from '../../core/auth/KeyManager';
+import { onboardingStyles } from './shared/onboardingStyles';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 type SafetyNetChoice = 'icloud' | 'kit' | 'defer';
 
 interface OnboardingScreen6Props {
   onComplete: (choice: SafetyNetChoice) => Promise<void>;
+  onBack?: () => void;
 }
 
 const RING_SIZE = 80;
@@ -32,9 +36,10 @@ const RING_STROKE = 2.5;
 const RING_R = (RING_SIZE - RING_STROKE) / 2;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_R;
 
-export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
+export function OnboardingScreen6({ onComplete, onBack }: OnboardingScreen6Props) {
   const insets = useSafeAreaInsets();
   const horizPad = 32;
+  const [processing, setProcessing] = useState(false);
 
   const ringTrim = useRef(new Animated.Value(0)).current;
   const checkmarkOpacity = useRef(new Animated.Value(0)).current;
@@ -59,57 +64,59 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
       useNativeDriver: false,
     });
 
+    // ringTrim animates SVG strokeDashoffset (non-native); keep the whole sequence
+    // on useNativeDriver: false to avoid mixing drivers (see OnboardingScreen5).
     const checkmarkAnim = Animated.parallel([
       Animated.timing(checkmarkOpacity, {
         toValue: 1,
         duration: 300,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
       Animated.spring(checkmarkScale, {
         toValue: 1,
-        useNativeDriver: true,
+        useNativeDriver: false,
         speed: 2,
         bounciness: 4,
       }),
     ]);
 
     const headlineAnim = Animated.parallel([
-      Animated.timing(headlineOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-      Animated.timing(headlineY, { toValue: 0, duration: 400, useNativeDriver: true }),
+      Animated.timing(headlineOpacity, { toValue: 1, duration: 400, useNativeDriver: false }),
+      Animated.timing(headlineY, { toValue: 0, duration: 400, useNativeDriver: false }),
     ]);
     const subheadAnim = Animated.parallel([
-      Animated.timing(subheadOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-      Animated.timing(subheadY, { toValue: 0, duration: 400, useNativeDriver: true }),
+      Animated.timing(subheadOpacity, { toValue: 1, duration: 400, useNativeDriver: false }),
+      Animated.timing(subheadY, { toValue: 0, duration: 400, useNativeDriver: false }),
     ]);
     const bodyAnim = Animated.parallel([
-      Animated.timing(bodyOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-      Animated.timing(bodyY, { toValue: 0, duration: 400, useNativeDriver: true }),
+      Animated.timing(bodyOpacity, { toValue: 1, duration: 400, useNativeDriver: false }),
+      Animated.timing(bodyY, { toValue: 0, duration: 400, useNativeDriver: false }),
     ]);
 
     const card1YSpring = Animated.spring(card1Y, {
       toValue: 0,
-      useNativeDriver: true,
+      useNativeDriver: false,
       speed: 0.5,
       bounciness: 0.8,
     });
     const card1Anim = Animated.parallel([
       Animated.sequence([
         Animated.delay(700),
-        Animated.timing(card1Opacity, { toValue: 1, duration: 450, useNativeDriver: true }),
+        Animated.timing(card1Opacity, { toValue: 1, duration: 450, useNativeDriver: false }),
       ]),
       Animated.sequence([Animated.delay(700), card1YSpring]),
     ]);
 
     const card2YSpring = Animated.spring(card2Y, {
       toValue: 0,
-      useNativeDriver: true,
+      useNativeDriver: false,
       speed: 0.5,
       bounciness: 0.8,
     });
     const card2Anim = Animated.parallel([
       Animated.sequence([
         Animated.delay(800),
-        Animated.timing(card2Opacity, { toValue: 1, duration: 450, useNativeDriver: true }),
+        Animated.timing(card2Opacity, { toValue: 1, duration: 450, useNativeDriver: false }),
       ]),
       Animated.sequence([Animated.delay(800), card2YSpring]),
     ]);
@@ -117,13 +124,13 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
     const deferAnim = Animated.timing(deferOpacity, {
       toValue: 1,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     });
 
     const dotsAnim = Animated.timing(dotsOpacity, {
       toValue: 1,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     });
 
     const hapticTimer = setTimeout(() => {
@@ -151,6 +158,7 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
     ]).start();
 
     return () => clearTimeout(hapticTimer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ringStrokeOffset = ringTrim.interpolate({
@@ -158,22 +166,65 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
     outputRange: [RING_CIRCUMFERENCE, 0],
   });
 
-  const handleChoice = async (choice: SafetyNetChoice) => {
-    if (choice === 'icloud') {
-      await BackupService.enableIcloudBackup();
-    } else if (choice === 'defer') {
-      await OnboardingStorage.setSafetyNetDeferred(true);
-      await OnboardingStorage.setSafetyNetDeferredDate(new Date().toISOString());
-    } else if (choice === 'kit') {
-      await OnboardingStorage.setShowFamilyKitCreationImmediately(true);
-    }
+  const completeOnboarding = async (choice: SafetyNetChoice) => {
+    setProcessing(true);
+    try {
+      const hasKeys = await KeyManager.isInitialized();
+      if (!hasKeys) {
+        await KeyManager.initializeKeys();
+      }
 
-    await OnboardingStorage.setHasCompletedOnboarding(true);
-    await onComplete(choice);
+      if (choice === 'icloud') {
+        await OnboardingStorage.setIcloudBackupEnabled(true);
+        await BackupService.enableIcloudBackup();
+      } else if (choice === 'defer') {
+        await OnboardingStorage.setSafetyNetDeferred(true);
+        await OnboardingStorage.setSafetyNetDeferredDate(new Date().toISOString());
+      } else if (choice === 'kit') {
+        await OnboardingStorage.setShowFamilyKitCreationImmediately(true);
+      }
+
+      await OnboardingStorage.setHasCompletedOnboarding(true);
+      await onComplete(choice);
+    } catch (e) {
+      console.error('Failed to complete onboarding choice:', e);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleChoice = async (choice: SafetyNetChoice) => {
+    if (choice === 'defer') {
+      Alert.alert(
+        'Are you sure?',
+        'Without a safety net, your vault contents could be permanently lost if this device is lost, stolen, or damaged.\n\nYou can set one up later in Settings.',
+        [
+          { text: 'Go Back', style: 'cancel' },
+          {
+            text: 'Continue without safety net',
+            style: 'destructive',
+            onPress: () => completeOnboarding('defer'),
+          },
+        ],
+      );
+      return;
+    }
+    await completeOnboarding(choice);
   };
 
   return (
     <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+      {onBack && (
+        <Pressable
+          style={styles.backButton}
+          onPress={onBack}
+          hitSlop={16}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
+          <Text style={styles.backText}>← Back</Text>
+        </Pressable>
+      )}
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -211,12 +262,14 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
 
           <View style={styles.headlineGap} />
           <Animated.View style={{ opacity: headlineOpacity, transform: [{ translateY: headlineY }] }}>
-            <Text style={styles.headline}>You're protected.</Text>
+            <Text style={styles.headline}>One last step.</Text>
           </Animated.View>
           <View style={styles.subheadGap} />
-          <Animated.View style={{ opacity: subheadOpacity, transform: [{ translateY: subheadY }] }}>
-            <Text style={styles.subhead}>Now choose your safety net.</Text>
-          </Animated.View>
+          {Platform.OS === 'ios' && (
+            <Animated.View style={{ opacity: subheadOpacity, transform: [{ translateY: subheadY }] }}>
+              <Text style={styles.subhead}>Two very different things.</Text>
+            </Animated.View>
+          )}
           <View style={styles.bodyGap} />
           <Animated.View
             style={[
@@ -225,14 +278,19 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
             ]}
           >
             <Text style={styles.bodyCopy}>
-              What happens to your vault if this{'\n'}phone is lost or destroyed?
+              A Family Kit gives your loved ones access.{'\n'}
+              {Platform.OS === 'ios'
+                ? 'iCloud Backup protects you if you lose this device.'
+                : 'Create your kit now, or set it up once you have added documents.'}
+              {'\n'}
+              {Platform.OS === 'ios' ? 'They are not the same thing.' : ''}
             </Text>
           </Animated.View>
         </View>
 
         {/* Choice cards */}
         <View style={[styles.cardsSection, { paddingHorizontal: horizPad }]}>
-          {/* Card 1 — iCloud backup */}
+          {/* Card 1 — Family Kit (ESSENTIAL for family access) */}
           <Animated.View
             style={{
               opacity: card1Opacity,
@@ -240,60 +298,76 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
             }}
           >
             <Pressable
-              onPress={() => handleChoice('icloud')}
+              onPress={() => handleChoice('kit')}
+              disabled={processing}
               style={({ pressed }) => [
                 styles.card,
                 styles.cardRecommended,
+                { opacity: processing ? 0.5 : 1 },
                 pressed && styles.cardPressed,
               ]}
               accessible
-              accessibilityLabel="Enable iCloud backup. Recommended. Encrypted — Apple cannot read it"
+              accessibilityLabel="Create a Family Kit. Essential. The only way your family can access this vault."
               accessibilityRole="button"
             >
               <View style={styles.cardAccentBar} />
               <View style={styles.cardBadge}>
-                <Text style={styles.cardBadgeText}>Recommended</Text>
+                <Text style={styles.cardBadgeText}>For your family</Text>
               </View>
               <View style={styles.cardContent}>
-                <Text style={styles.cardPrimary}>Enable iCloud backup</Text>
-                <Text style={styles.cardSecondary}>Encrypted — Apple cannot read it</Text>
+                <Text style={styles.cardPrimary}>Create a Family Kit</Text>
+                <Text style={styles.cardSecondary}>
+                  The only way your loved ones can access{'\n'}this vault. Add documents first, then generate your kit.
+                </Text>
               </View>
             </Pressable>
           </Animated.View>
 
-          <View style={styles.cardGap} />
+          {Platform.OS === 'ios' && (
+            <>
+              <View style={styles.cardGap} />
 
-          {/* Card 2 — Create kit first */}
-          <Animated.View
-            style={{
-              opacity: card2Opacity,
-              transform: [{ translateY: card2Y }],
-            }}
-          >
-            <Pressable
-              onPress={() => handleChoice('kit')}
-              style={({ pressed }) => [
-                styles.card,
-                styles.cardKit,
-                pressed && styles.cardPressedKit,
-              ]}
-              accessible
-              accessibilityLabel="Create my kit first. Print or share before leaving setup"
-              accessibilityRole="button"
-            >
-              <View style={styles.cardContentKit}>
-                <Text style={styles.cardPrimary}>Create my kit first</Text>
-                <Text style={styles.cardSecondary}>Print or share before leaving setup</Text>
-              </View>
-            </Pressable>
-          </Animated.View>
+              {/* Card 2 — iCloud (iOS only — for personal device recovery) */}
+              <Animated.View
+                style={{
+                  opacity: card2Opacity,
+                  transform: [{ translateY: card2Y }],
+                }}
+              >
+                <Pressable
+                  onPress={() => handleChoice('icloud')}
+                  disabled={processing}
+                  style={({ pressed }) => [
+                    styles.card,
+                    styles.cardKit,
+                    { opacity: processing ? 0.5 : 1 },
+                    pressed && styles.cardPressedKit,
+                  ]}
+                  accessible
+                  accessibilityLabel="Enable iCloud Backup. For you only. Does not give your family access to this vault."
+                  accessibilityRole="button"
+                >
+                  <View style={styles.cardBadgeSecondary}>
+                    <Text style={styles.cardBadgeSecondaryText}>For you only</Text>
+                  </View>
+                  <View style={styles.cardContentKit}>
+                    <Text style={styles.cardPrimary}>Enable iCloud Backup</Text>
+                    <Text style={styles.cardSecondary}>
+                      If YOU lose this device. Does not give{'\n'}your family access to the vault.
+                    </Text>
+                  </View>
+                </Pressable>
+              </Animated.View>
+            </>
+          )}
         </View>
 
         {/* Defer option */}
         <Animated.View style={[styles.deferSection, { opacity: deferOpacity }]}>
           <Pressable
             onPress={() => handleChoice('defer')}
-            style={styles.deferTouchable}
+            disabled={processing}
+            style={[styles.deferTouchable, { opacity: processing ? 0.5 : 1 }]}
             accessible
             accessibilityLabel="Living dangerously — remind me later"
             accessibilityRole="button"
@@ -303,15 +377,17 @@ export function OnboardingScreen6({ onComplete }: OnboardingScreen6Props) {
         </Animated.View>
       </ScrollView>
 
-      {/* Progress dots — position 6 active */}
+      {/* Progress dots — position 8 of 8 */}
       <View style={[styles.dotsSection, { paddingBottom: insets.bottom + 20 }]}>
-        <View style={styles.dotsRow}>
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotInactive]} />
-          <View style={[styles.dot, styles.dotActive]} />
+        <View style={onboardingStyles.dotsRow}>
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotInactive]} />
+          <View style={[onboardingStyles.dot, onboardingStyles.dotActive]} />
         </View>
       </View>
     </View>
@@ -350,7 +426,7 @@ const styles = StyleSheet.create({
   },
   headlineGap: { height: 16 },
   headline: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 22,
     fontWeight: '700',
     color: '#FAF9F6',
@@ -358,7 +434,7 @@ const styles = StyleSheet.create({
   },
   subheadGap: { height: 8 },
   subhead: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 22,
     fontWeight: '700',
     color: '#C9963A',
@@ -381,12 +457,13 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   card: {
-    height: 76,
+    minHeight: 76,
     borderRadius: 14,
     backgroundColor: '#1E2235',
     overflow: 'hidden',
     justifyContent: 'center',
     paddingLeft: 16,
+    paddingVertical: 14,
   },
   cardRecommended: {
     borderWidth: 1.5,
@@ -427,11 +504,27 @@ const styles = StyleSheet.create({
     color: '#C9963A',
   },
   cardContent: {
-    paddingRight: 80,
+    paddingRight: 92,
   },
-  cardContentKit: {},
+  cardContentKit: {
+    paddingRight: 72,
+  },
+  cardBadgeSecondary: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    backgroundColor: 'rgba(250,249,246,0.08)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  cardBadgeSecondaryText: {
+    fontFamily: 'System',
+    fontSize: 10,
+    color: 'rgba(250,249,246,0.4)',
+  },
   cardPrimary: {
-    fontFamily: 'Georgia',
+    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
     fontSize: 16,
     fontWeight: '700',
     color: '#FAF9F6',
@@ -460,21 +553,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingTop: 12,
   },
-  dotsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
+  backButton: {
+    position: 'absolute',
+    top: 12,
+    left: 16,
+    padding: 12,
+    zIndex: 9999,
+    minHeight: 44,
   },
-  dot: {
-    height: 8,
-    borderRadius: 4,
-  },
-  dotActive: {
-    width: 20,
-    backgroundColor: '#C9963A',
-  },
-  dotInactive: {
-    width: 8,
-    backgroundColor: 'rgba(250,249,246,0.22)',
+  backText: {
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#C9963A',
   },
 });

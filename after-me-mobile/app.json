@@ -1,33 +1,51 @@
 {
   "expo": {
-    "name": "after-me-mobile",
+    "name": "After Me",
     "slug": "after-me-mobile",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2D3142"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.elufadeju.after-me-mobile"
+      "bundleIdentifier": "com.afterme.app",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "After Me uses Face ID to securely access your encrypted vault.",
+        "ITSAppUsesNonExemptEncryption": true
+      },
+      "entitlements": {
+        "com.apple.developer.icloud-services": [
+          "CloudDocuments"
+        ],
+        "com.apple.developer.icloud-container-identifiers": [
+          "iCloud.com.afterme.app"
+        ],
+        "com.apple.developer.ubiquity-container-identifiers": [
+          "iCloud.com.afterme.app"
+        ]
+      }
     },
     "android": {
+      "package": "com.afterme.app",
+      "versionCode": 2,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#2D3142",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
       "permissions": [
-        "android.permission.RECORD_AUDIO",
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.elufadeju.aftermemobile"
+        "android.permission.CAMERA",
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT",
+        "com.android.vending.BILLING"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -46,7 +64,26 @@
           "cameraPermission": "Allow After Me to access your camera to take photos of documents."
         }
       ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "After Me uses Face ID to securely access your encrypted vault."
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "elufadeju",
+          "project": "after-me-mobile"
+        }
+      ],
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "30a5546b-67d9-4727-b921-f204bff3b298"
+      }
+    },
+    "owner": "elufadeju"
   }
 }

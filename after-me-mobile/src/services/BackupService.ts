@@ -1,20 +1,43 @@
 /**
  * Backup service — iCloud / CloudKit encrypted backup.
- * Phase 1: Sets persisted flag. Full CloudKit integration TBD.
+ * Bridges onboarding preferences with the actual CloudBackupService.
  */
 import { OnboardingStorage } from './OnboardingStorage';
+import { CloudBackupService } from './CloudBackupService';
 
 export const BackupService = {
-  /**
-   * Enable encrypted iCloud backup.
-   * TODO: Wire to CloudKit setup (encrypted vault key sync).
-   */
   async enableIcloudBackup(): Promise<void> {
     await OnboardingStorage.setIcloudBackupEnabled(true);
-    // Placeholder for future: CloudKit encrypted record creation
+    await CloudBackupService.setAutoBackupEnabled(true);
+
+    const available = await CloudBackupService.isAvailable();
+    if (available) {
+      CloudBackupService.backupNow().catch(() => {});
+    }
+  },
+
+  async disableIcloudBackup(): Promise<void> {
+    await OnboardingStorage.setIcloudBackupEnabled(false);
+    await CloudBackupService.setAutoBackupEnabled(false);
   },
 
   async isIcloudBackupEnabled(): Promise<boolean> {
     return OnboardingStorage.isIcloudBackupEnabled();
+  },
+
+  async isIcloudAvailable(): Promise<boolean> {
+    return CloudBackupService.isAvailable();
+  },
+
+  async backupNow(): Promise<boolean> {
+    return CloudBackupService.backupNow();
+  },
+
+  async getLastBackupDate(): Promise<string | null> {
+    return CloudBackupService.getLastBackupDate();
+  },
+
+  async getBackupInfo(): Promise<{ documentCount: number; createdAt: string } | null> {
+    return CloudBackupService.getBackupInfo();
   },
 };

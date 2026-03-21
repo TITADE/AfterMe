@@ -1,12 +1,25 @@
 import { NativeModule, requireNativeModule } from 'expo';
 
-import { StorekitModuleEvents } from './Storekit.types';
+export type Product = {
+  id: string;
+  displayName: string;
+  description: string;
+  displayPrice: string;
+  price: number;
+};
+
+export type PurchaseResult = {
+  status: 'success' | 'cancelled' | 'pending' | 'unknown';
+  transactionId?: string;
+};
+
+export type StorekitModuleEvents = Record<string, never>;
 
 declare class StorekitModule extends NativeModule<StorekitModuleEvents> {
-  PI: number;
-  hello(): string;
-  setValueAsync(value: string): Promise<void>;
+  getProducts(productIds: string[]): Promise<Product[]>;
+  purchase(productId: string): Promise<PurchaseResult>;
+  getPurchasedProducts(): Promise<string[]>;
+  restore(): Promise<void>;
 }
 
-// This call loads the native module object from the JSI.
 export default requireNativeModule<StorekitModule>('Storekit');

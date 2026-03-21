@@ -5,7 +5,8 @@ import { Phase1VerificationScreen } from '../features/Phase1VerificationScreen';
 import { KeyManager } from '../core/auth/KeyManager';
 import { OnboardingStorage } from '../services/OnboardingStorage';
 import { BackupService } from '../services/BackupService';
-import type { Document } from '../models/Document';
+import { KitHistoryService } from '../services/KitHistoryService';
+import { migrateDatesToPlaintext } from '../db/DocumentRepository';
 import type { DocumentCategory } from '../models/DocumentCategory';
 
 type AppState = {
@@ -57,10 +58,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       const now = new Date();
       const threshold = new Date(now.getTime() + EXPIRY_DAYS_THRESHOLD * 24 * 60 * 60 * 1000);
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const lowerBound = thirtyDaysAgo.toISOString().split('T')[0];
       const expiringSoon = docs.filter((d) => {
         if (!d.expiryDate) return false;
         const exp = new Date(d.expiryDate);
-        return exp <= threshold;
+        const expDayStr = d.expiryDate.split('T')[0];
+        return exp <= threshold && expDayStr >= lowerBound;
       }).length;
 
       const total = docs.length;
@@ -83,16 +88,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const refreshInit = useCallback(async () => {
     try {
-      const [hasKeys, storageCompleted, icloudEnabled, safetyNetDeferred, showFamilyKit] =
+      await KeyManager.recoverFromInterruptedRotation();
+
+      const [hasKeys, storageCompleted, icloudEnabled, safetyNetDeferred, showFamilyKit, kitFreshness] =
         await Promise.all([
           KeyManager.isInitialized(),
           OnboardingStorage.hasCompletedOnboarding(),
           BackupService.isIcloudBackupEnabled(),
           OnboardingStorage.isSafetyNetDeferred(),
           OnboardingStorage.getShowFamilyKitCreationImmediately(),
+          KitHistoryService.getFreshnessScore().catch(() => null),
         ]);
       const hasCompletedOnboarding = hasKeys || storageCompleted;
-      const hasSafetyNet = icloudEnabled && !safetyNetDeferred;
+      const hasKitBeenCreated = kitFreshness !== null && kitFreshness.kitVersion !== null;
+      const hasSafetyNet = icloudEnabled || hasKitBeenCreated;
       setState((prev) => ({
         ...prev,
         isInitialized: hasKeys,
@@ -102,6 +111,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         showFamilyKitCreationImmediately: showFamilyKit,
       }));
       if (hasKeys) {
+        await migrateDatesToPlaintext();
         await refreshDocuments();
       }
     } catch {

@@ -2,31 +2,34 @@ import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Pressable, Platform } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-
-type MainTabParamList = {
-  Dashboard: undefined;
-  Documents: undefined;
-  Settings: undefined;
-};
 import { useApp } from '../context/AppContext';
 import { WelcomeScreen } from '../features/welcome/WelcomeScreen';
 import { VaultDashboardScreen } from '../features/dashboard/VaultDashboardScreen';
 import { DocumentLibraryScreen } from '../features/documents/DocumentLibraryScreen';
 import { SettingsScreen } from '../features/settings/SettingsScreen';
+import { FamilyKitTab } from '../features/familykit/FamilyKitTab';
 import { SurvivorImportScreen } from '../features/survivor/SurvivorImportScreen';
 import { OnboardingScreen1 } from '../features/onboarding/OnboardingScreen1';
 import { OnboardingScreen2 } from '../features/onboarding/OnboardingScreen2';
 import { OnboardingScreen3 } from '../features/onboarding/OnboardingScreen3';
 import { OnboardingScreen4 } from '../features/onboarding/OnboardingScreen4';
+import { OnboardingHowItWorksScreen } from '../features/onboarding/OnboardingHowItWorksScreen';
+import { LegalDisclaimerScreen } from '../features/onboarding/LegalDisclaimerScreen';
 import { OnboardingScreen5 } from '../features/onboarding/OnboardingScreen5';
 import { OnboardingScreen6 } from '../features/onboarding/OnboardingScreen6';
-import { KeyManager } from '../core/auth/KeyManager';
 import type { DocumentCategory } from '../models/DocumentCategory';
 import { colors } from '../theme/colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+type MainTabParamList = {
+  Dashboard: undefined;
+  Documents: undefined;
+  Kit: undefined;
+  Settings: undefined;
+};
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,6 +38,7 @@ function TabIcon({ label, focused }: { label: string; focused: boolean }) {
   const icons: Record<string, string> = {
     Dashboard: '📋',
     Documents: '📁',
+    Kit: '📦',
     Settings: '⚙️',
   };
   return (
@@ -64,6 +68,11 @@ function MainTabs() {
       >
         {() => <DocumentLibraryScreen />}
       </Tab.Screen>
+      <Tab.Screen
+        name="Kit"
+        component={FamilyKitTab}
+        options={{ title: 'Family Kit' }}
+      />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
@@ -95,37 +104,25 @@ function VaultDashboardWithNav() {
   );
 }
 
-type OnboardingStep = 'welcome' | 'onboarding1' | 'onboarding2' | 'onboarding3' | 'onboarding4' | 'onboarding5' | 'onboarding6' | 'keys';
+type OnboardingStep = 'welcome' | 'onboarding1' | 'onboarding2' | 'onboarding3' | 'onboarding4' | 'howItWorks' | 'legalDisclaimer' | 'onboarding5' | 'onboarding6';
 
 export function AppNavigator() {
   const insets = useSafeAreaInsets();
   const { isInitialized, hasCompletedOnboarding, refreshInit, setShowPhase1 } = useApp();
   const [showSurvivorFlow, setShowSurvivorFlow] = useState(false);
+  const [survivorFlowMode, setSurvivorFlowMode] = useState<'kit' | 'restore'>('kit');
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep>('welcome');
-  const [settingUp, setSettingUp] = useState(false);
-
-  const startKeySetup = async () => {
-    setOnboardingStep('keys');
-    setSettingUp(true);
-    try {
-      const hasKeys = await KeyManager.isInitialized();
-      if (!hasKeys) {
-        await KeyManager.initializeKeys();
-      }
-      setShowSurvivorFlow(false);
-      await refreshInit();
-    } catch (e) {
-      console.error('Setup failed:', e);
-    } finally {
-      setSettingUp(false);
-    }
-  };
-
   const handlePlanningLegacy = () => {
     setOnboardingStep('onboarding1');
   };
 
   const handleHaveKit = () => {
+    setSurvivorFlowMode('kit');
+    setShowSurvivorFlow(true);
+  };
+
+  const handleRestoreVault = () => {
+    setSurvivorFlowMode('restore');
     setShowSurvivorFlow(true);
   };
 
@@ -138,70 +135,58 @@ export function AppNavigator() {
     );
   }
 
-  if (!hasCompletedOnboarding || settingUp) {
-    const isDarkScreen = onboardingStep === 'welcome' || onboardingStep === 'onboarding1' || onboardingStep === 'onboarding2' || onboardingStep === 'onboarding3' || onboardingStep === 'onboarding4' || onboardingStep === 'onboarding5' || onboardingStep === 'onboarding6' || showSurvivorFlow;
+  if (!hasCompletedOnboarding) {
+    const isDarkScreen = onboardingStep === 'welcome' || onboardingStep === 'onboarding1' || onboardingStep === 'onboarding2' || onboardingStep === 'onboarding3' || onboardingStep === 'onboarding4' || onboardingStep === 'howItWorks' || onboardingStep === 'legalDisclaimer' || onboardingStep === 'onboarding5' || onboardingStep === 'onboarding6' || showSurvivorFlow;
     return (
       <View style={[styles.container, isDarkScreen && styles.welcomeContainer]}>
         <StatusBar style={isDarkScreen ? 'light' : 'dark'} />
-        <Pressable
-          style={[styles.devButton, { bottom: insets.bottom + 24 }]}
-          onPress={() => setShowPhase1(true)}
-          hitSlop={20}
-          collapsable={false}
-        >
-          <Text style={styles.devButtonText}>Reset</Text>
-        </Pressable>
-        {settingUp ? (
-          <View style={styles.loading}>
-            <ActivityIndicator size="large" color={colors.accent} />
-            <Text style={styles.loadingText}>Setting up your vault...</Text>
-            <Text style={styles.loadingHint}>Complete Face ID / Touch ID to continue</Text>
-          </View>
-        ) : showSurvivorFlow ? (
-          <SurvivorImportScreen onBack={() => setShowSurvivorFlow(false)} />
+        {__DEV__ && (
+          <Pressable
+            style={[styles.devButton, { top: insets.top + 8 }]}
+            onPress={() => setShowPhase1(true)}
+            hitSlop={20}
+            collapsable={false}
+          >
+            <Text style={styles.devButtonText}>Reset</Text>
+          </Pressable>
+        )}
+        {showSurvivorFlow ? (
+          <SurvivorImportScreen
+            mode={survivorFlowMode}
+            onBack={() => setShowSurvivorFlow(false)}
+            onImportComplete={async () => {
+              await refreshInit();
+            }}
+          />
         ) : onboardingStep === 'onboarding1' ? (
-          <OnboardingScreen1 onContinue={() => setOnboardingStep('onboarding2')} />
+          <OnboardingScreen1 onContinue={() => setOnboardingStep('onboarding2')} onBack={() => setOnboardingStep('welcome')} />
         ) : onboardingStep === 'onboarding2' ? (
-          <OnboardingScreen2 onContinue={() => setOnboardingStep('onboarding3')} />
+          <OnboardingScreen2 onContinue={() => setOnboardingStep('onboarding3')} onBack={() => setOnboardingStep('onboarding1')} />
         ) : onboardingStep === 'onboarding3' ? (
-          <OnboardingScreen3 onContinue={() => setOnboardingStep('onboarding4')} />
+          <OnboardingScreen3 onContinue={() => setOnboardingStep('onboarding4')} onBack={() => setOnboardingStep('onboarding2')} />
         ) : onboardingStep === 'onboarding4' ? (
-          <OnboardingScreen4 onContinue={() => setOnboardingStep('onboarding5')} />
+          <OnboardingScreen4 onContinue={() => setOnboardingStep('howItWorks')} onBack={() => setOnboardingStep('onboarding3')} />
+        ) : onboardingStep === 'howItWorks' ? (
+          <OnboardingHowItWorksScreen onContinue={() => setOnboardingStep('legalDisclaimer')} onBack={() => setOnboardingStep('onboarding4')} />
+        ) : onboardingStep === 'legalDisclaimer' ? (
+          <LegalDisclaimerScreen onContinue={() => setOnboardingStep('onboarding5')} onBack={() => setOnboardingStep('howItWorks')} />
         ) : onboardingStep === 'onboarding5' ? (
           <OnboardingScreen5
-            onContinue={async () => {
-              setSettingUp(true);
-              try {
-                const hasKeys = await KeyManager.isInitialized();
-                if (!hasKeys) {
-                  try {
-                    await KeyManager.initializeKeys();
-                  } catch (e) {
-                    // Simulator or device without biometrics — proceed to Screen 6 for dev
-                    const msg = e instanceof Error ? e.message : String(e);
-                    if (msg.includes('Biometric')) {
-                      console.warn('Biometric not available, proceeding to safety net (dev/simulator)');
-                    } else {
-                      throw e;
-                    }
-                  }
-                }
-              } finally {
-                setSettingUp(false);
-              }
-              setOnboardingStep('onboarding6');
-            }}
+            onContinue={() => setOnboardingStep('onboarding6')}
+            onBack={() => setOnboardingStep('legalDisclaimer')}
           />
         ) : onboardingStep === 'onboarding6' ? (
           <OnboardingScreen6
             onComplete={async () => {
               await refreshInit();
             }}
+            onBack={() => setOnboardingStep('onboarding5')}
           />
         ) : (
           <WelcomeScreen
             onPlanningLegacy={handlePlanningLegacy}
             onHaveKit={handleHaveKit}
+            onRestoreVault={handleRestoreVault}
           />
         )}
       </View>
@@ -216,7 +201,12 @@ export function AppNavigator() {
           screenOptions={{
             headerStyle: { backgroundColor: colors.amBackground },
             headerTintColor: colors.amWhite,
-            headerTitleStyle: { fontWeight: '600', fontSize: 17, color: colors.amWhite },
+            headerTitleStyle: {
+            fontWeight: '600',
+            fontSize: 17,
+            color: colors.amWhite,
+            fontFamily: Platform.OS === 'ios' ? 'NewYork-Semibold' : 'serif',
+          },
           }}
         >
           <Stack.Screen name="Main" options={{ headerShown: false }}>
@@ -268,9 +258,9 @@ const styles = StyleSheet.create({
   },
   devButton: {
     position: 'absolute',
-    left: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    right: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     backgroundColor: 'rgba(201,150,58,0.4)',
     borderRadius: 8,
     zIndex: 9999,

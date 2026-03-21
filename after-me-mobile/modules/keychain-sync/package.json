@@ -1,0 +1,24 @@
+{
+  "name": "keychain-sync",
+  "version": "0.1.0",
+  "description": "iCloud Keychain sync for vault key backup (device migration)",
+  "author": "After Me",
+  "license": "MIT",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "expo-module": "expo-module"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "expo-module-scripts": "^55.0.2",
+    "expo": "^55.0.5",
+    "react-native": "0.82.1"
+  }
+}

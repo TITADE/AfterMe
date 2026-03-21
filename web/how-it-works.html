@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary SEO -->
+<title>How Family Access Works — After Me | End-of-Life Vault</title>
+<meta name="description" content="Understand exactly how your loved ones will access your After Me vault. Three access paths explained — Family Kit, iCloud Backup, and what happens if nothing is prepared.">
+<meta name="author" content="After Me Ltd">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<link rel="canonical" href="https://myafterme.co.uk/how-it-works">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="article">
+<meta property="og:url"         content="https://myafterme.co.uk/how-it-works">
+<meta property="og:site_name"   content="After Me">
+<meta property="og:locale"      content="en_GB">
+<meta property="og:title"       content="How Family Access Works — After Me">
+<meta property="og:description" content="Exactly how your loved ones access your vault after you're gone. Three paths — only one works without your phone, password, or Apple ID.">
+<meta property="og:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="How Family Access Works — After Me">
+<meta name="twitter:description" content="Exactly how your loved ones access your vault. Only one path works without your phone, password, or Apple ID.">
+<meta name="twitter:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Theme -->
+<meta name="theme-color" content="#2D3142">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": "https://myafterme.co.uk/how-it-works",
+  "url": "https://myafterme.co.uk/how-it-works",
+  "headline": "How family access works — After Me",
+  "description": "Understand exactly how your loved ones will access your After Me vault after you're gone.",
+  "inLanguage": "en-GB",
+  "isPartOf": { "@id": "https://myafterme.co.uk/#website" },
+  "publisher": { "@id": "https://myafterme.co.uk/#organization" },
+  "dateModified": "2026-03-17"
+}
+</script>
+
+<!-- Fonts -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #2D3142;
+    --deep:     #252840;
+    --card:     #1E2235;
+    --amber:    #C9963A;
+    --amber-lt: #D4A84B;
+    --white:    #FAF9F6;
+    --muted:    rgba(250,249,246,0.55);
+    --faint:    rgba(250,249,246,0.22);
+    --danger:   #E24B4A;
+    --serif:    'Playfair Display', Georgia, serif;
+    --sans:     'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(45,49,66,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--faint);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .nav-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-wordmark {
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 700;
+    color: var(--white); letter-spacing: -0.5px;
+  }
+  .nav-wordmark span { color: var(--amber); }
+  .nav-back {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted); text-decoration: none;
+    font-size: 14px; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--white); }
+
+  /* ── PAGE SHELL ── */
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 120px 24px 80px;
+  }
+
+  /* ── HERO ── */
+  .page-hero {
+    margin-bottom: 56px;
+  }
+  .page-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+  }
+  .page-headline {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .page-lead {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 14px;
+  }
+  .page-lead strong { color: var(--white); font-weight: 500; }
+
+  /* ── SECTION HEADINGS ── */
+  .section-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+    margin-top: 56px;
+  }
+  .section-intro {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    max-width: 620px;
+  }
+
+  /* ── PATH CARDS ── */
+  .paths {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .path-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(250,249,246,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .path-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .path-primary::before   { background: var(--amber); }
+  .path-secondary::before { background: rgba(250,249,246,0.2); }
+  .path-danger::before    { background: var(--danger); }
+  .path-disabled::before  { background: rgba(250,249,246,0.08); }
+
+  .path-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .badge-essential   { background: rgba(201,150,58,0.18); color: var(--amber); }
+  .badge-secondary   { background: rgba(250,249,246,0.08); color: rgba(250,249,246,0.45); }
+  .badge-warning     { background: rgba(226,75,74,0.12); color: var(--danger); }
+  .badge-disabled    { background: rgba(250,249,246,0.05); color: rgba(250,249,246,0.25); }
+
+  .path-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .path-body {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .path-body:last-child { margin-bottom: 0; }
+  .path-body strong { color: var(--white); font-weight: 500; }
+
+  .path-callout {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .callout-amber {
+    background: rgba(201,150,58,0.1);
+    color: var(--amber);
+  }
+  .callout-danger {
+    background: rgba(226,75,74,0.08);
+    color: rgba(226,75,74,0.85);
+  }
+
+  /* ── STEP WALKTHROUGH ── */
+  .walkthrough {
+    margin-bottom: 56px;
+  }
+  .walkthrough-intro {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .walkthrough-col-head {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(201,150,58,0.2);
+  }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 28px;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--faint);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--amber);
+    color: var(--bg);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+  }
+  .step-body {}
+  .step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 3px;
+  }
+  .step-detail {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .step-detail strong { color: var(--white); font-weight: 500; }
+
+  .steps-divider {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 20px 0 4px;
+  }
+
+  /* ── TELL YOUR FAMILY ── */
+  .checklist-box {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(201,150,58,0.25);
+    margin-bottom: 56px;
+  }
+  .checklist-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .checklist-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .checklist-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--faint);
+  }
+  .checklist-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .checklist-icon {
+    flex-shrink: 0;
+    font-size: 16px;
+    margin-top: 2px;
+  }
+  .checklist-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .checklist-text strong { color: var(--white); font-weight: 500; }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison {
+    margin-bottom: 56px;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  thead th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--faint);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 14px;
+    border-bottom: 1px solid rgba(250,249,246,0.06);
+    color: var(--muted);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { color: var(--white); font-weight: 500; }
+  .td-yes { color: #6FCF97 !important; font-weight: 500; }
+  .td-no  { color: var(--danger) !important; }
+  .td-partial { color: var(--amber) !important; }
+
+  /* ── FAQ ── */
+  .faq-list {
+    margin-bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--faint);
+  }
+  .faq-item:first-child { border-top: 1px solid var(--faint); }
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 18px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .faq-q-icon {
+    flex-shrink: 0;
+    font-size: 20px;
+    color: var(--amber);
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  .faq-q[aria-expanded="true"] .faq-q-icon { transform: rotate(45deg); }
+  .faq-a {
+    display: none;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-bottom: 18px;
+  }
+  .faq-a.open { display: block; }
+  .faq-a strong { color: var(--white); font-weight: 500; }
+  .faq-a a { color: var(--amber); }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(40,45,65,0.8) 100%);
+    border: 1px solid rgba(201,150,58,0.25);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .cta-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .cta-body {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    max-width: 480px;
+    margin-left: auto; margin-right: auto;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--bg);
+    font-weight: 500;
+    font-size: 16px;
+    padding: 14px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--amber-lt); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    padding: 48px 24px;
+    margin-top: 80px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 20px; font-weight: 700;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--amber); }
+  .footer-links {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    justify-content: center; list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-links a[aria-current="page"] { color: var(--white); }
+  .footer-copy { font-size: 12px; color: var(--faint); }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .page-wrap { padding: 100px 20px 60px; }
+    .cta-block { padding: 28px 20px; }
+    .path-card { padding: 20px; }
+    .checklist-box { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <rect x="2" y="5" width="18" height="13" rx="3" stroke="#FAF9F6" stroke-width="1.5" fill="none"/>
+        <path d="M2 9L11 14.5L20 9" stroke="#FAF9F6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="17" cy="15" r="4" fill="#C9963A"/>
+        <circle cx="17" cy="15" r="2" stroke="#1E2235" stroke-width="1.2" fill="none"/>
+        <line x1="17" y1="16.2" x2="17" y2="18" stroke="#1E2235" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="17" y1="17.2" x2="18.2" y2="17.2" stroke="#1E2235" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">after<span>me</span></span>
+  </a>
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to home
+  </a>
+</nav>
+
+<main>
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <span class="page-eyebrow">Understanding After Me</span>
+    <h1 class="page-headline">How your loved ones<br>will access your vault</h1>
+    <p class="page-lead">
+      Most digital services lock data behind accounts, passwords, and two-factor authentication
+      that nobody else can use. <strong>After Me is built differently.</strong>
+    </p>
+    <p class="page-lead">
+      When you set up After Me, you prepare two things your family can use independently —
+      without your phone, without your password, and without accessing your Apple ID.
+      This page explains exactly how that works.
+    </p>
+  </section>
+
+  <!-- The problem -->
+  <section>
+    <h2 class="section-title">The problem we set out to solve</h2>
+    <p class="section-intro">
+      Imagine a family member passes away. Their important documents — will, insurance policies,
+      bank details, property deeds — are all stored digitally. What happens next?
+    </p>
+
+    <div class="path-card path-danger" style="margin-bottom: 28px;">
+      <p class="path-body">
+        <strong>Without After Me:</strong> documents are locked inside apps that require passwords
+        nobody knows, behind two-factor codes tied to a phone that is now inaccessible,
+        or in cloud accounts that Apple and Google refuse to grant access to without months
+        of legal process. The people who most need those documents are the last to be able
+        to access them.
+      </p>
+    </div>
+
+    <div class="path-card path-primary" style="margin-bottom: 0;">
+      <p class="path-body">
+        <strong>With After Me:</strong> you prepare a Family Kit today — a printed QR card
+        and a single encrypted file. When the time comes, your loved one scans the card,
+        selects the file, and the vault opens on their own device in under a minute.
+        No account. No password. No lawyers. No waiting.
+      </p>
+    </div>
+  </section>
+
+  <!-- The three paths -->
+  <section>
+    <h2 class="section-title">The three access paths</h2>
+    <p class="section-intro">
+      There are three scenarios, depending on what was prepared in advance.
+      Only one of them is designed specifically for family access.
+    </p>
+
+    <div class="paths">
+
+      <!-- Path 1 — Family Kit -->
+      <div class="path-card path-primary">
+        <span class="path-badge badge-essential">Recommended — For your family</span>
+        <h3 class="path-title">Path 1 — Family Kit</h3>
+        <p class="path-body">
+          The primary access mechanism. Inside After Me, you create a Family Kit.
+          The app produces two things: a <strong>printed QR Key Card</strong> and an
+          <strong>encrypted .afterme file</strong>. These two components work together —
+          neither alone is sufficient.
+        </p>
+        <p class="path-body">
+          Give the QR card to a trusted person today (a family member, solicitor, or
+          keep it with your will). Store the .afterme file somewhere accessible — a USB
+          drive in a safe, iCloud Drive, Google Drive, or emailed to yourself.
+        </p>
+        <p class="path-body">
+          When the time comes, your loved one <strong>does not need your phone</strong>,
+          <strong>does not need your password</strong>, and <strong>does not need your
+          Apple ID</strong>. They simply download After Me on their own device, scan the
+          QR card with their camera, select the .afterme file, and the vault opens —
+          protected from that point on by their own Face ID.
+        </p>
+        <div class="path-callout callout-amber">
+          Requires: printed QR Key Card + the .afterme file. Both are needed. Neither works alone.
+        </div>
+      </div>
+
+      <!-- Path 2 — Personal Recovery Kit -->
+      <div class="path-card path-secondary">
+        <span class="path-badge badge-secondary">Also usable by family</span>
+        <h3 class="path-title">Path 2 — Personal Recovery Kit</h3>
+        <p class="path-body">
+          A Personal Recovery Kit is primarily for your own use — if you lose or replace
+          this phone, you can restore your vault yourself using the encrypted .afterme file
+          and printed QR Recovery Card. It works in the same way as a Family Kit.
+        </p>
+        <p class="path-body">
+          A trusted family member or solicitor holding both components can also use them
+          to access the vault if needed. The mechanism is identical: scan the QR, select
+          the file.
+        </p>
+        <div class="path-callout callout-amber">
+          Requires: QR Recovery Card + the .afterme file.
+        </div>
+      </div>
+
+      <!-- Path 3 — iCloud (NOT for family) -->
+      <div class="path-card path-secondary">
+        <span class="path-badge badge-warning">Not for family access</span>
+        <h3 class="path-title">Path 3 — iCloud Backup</h3>
+        <p class="path-body">
+          If iCloud Backup is enabled, an encrypted copy of your vault lives in your
+          personal iCloud account. This is useful if <em>you</em> lose or replace this
+          device — you can restore your own vault on a new phone after passing Face ID.
+        </p>
+        <p class="path-body">
+          <strong>This is not a family access mechanism.</strong> For a family member to
+          access your iCloud after you pass, they would need your Apple ID credentials,
+          or to initiate Apple's Digital Legacy process — which requires a court order or
+          an advance Digital Legacy Contact designation, and can take several weeks.
+        </p>
+        <div class="path-callout callout-danger">
+          iCloud Backup protects you if you lose this device. It does not give your family
+          access to your vault. Set up a Family Kit for that.
+        </div>
+      </div>
+
+      <!-- Path 4 — Nothing -->
+      <div class="path-card path-disabled">
+        <span class="path-badge badge-disabled">No recovery possible</span>
+        <h3 class="path-title">Path 4 — No preparation</h3>
+        <p class="path-body">
+          After Me uses zero-knowledge encryption. Your vault key is generated on your
+          device and held in the Secure Enclave. No one — including After Me — holds a
+          copy of it. If no Family Kit, Personal Recovery Kit, or iCloud Backup exists,
+          and the device is lost, the vault is permanently and irreversibly inaccessible.
+        </p>
+        <p class="path-body">
+          This is not a policy. It is the fundamental architecture. There is no back door,
+          no customer support route, and no legal process that can recover it.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Step-by-step walkthrough -->
+  <section class="walkthrough">
+    <h2 class="section-title">Step by step: the Family Kit in practice</h2>
+    <p class="walkthrough-intro">
+      Here is exactly what happens — first for you as you set things up, then for your
+      loved one when they need it.
+    </p>
+
+    <p class="walkthrough-col-head">What you do today</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Add your documents to the vault</div>
+          <div class="step-detail">Scan or import your important documents — will, insurance, identity, financial accounts, property deeds, and anything else your family will need. Each one is encrypted immediately on your device. <strong>This step must come first</strong> — your Family Kit is an encrypted snapshot of whatever is in your vault at the time of creation.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Create a Family Kit</div>
+          <div class="step-detail">Once you have added documents, go to the <strong>Family Kit</strong> tab and tap Create. The app generates an encrypted .afterme file and a QR Key Card. The whole process takes about two minutes. The kit can only be created once your vault contains at least one document.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Print and store the QR card</div>
+          <div class="step-detail">Print the QR Key Card and store it somewhere meaningful — with your will, in a safe, with your solicitor, or give it directly to a trusted family member. <strong>Without this card, the .afterme file cannot be opened.</strong></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Store the .afterme file</div>
+          <div class="step-detail">Save the encrypted .afterme file somewhere your family can find it: a USB drive in a drawer, iCloud Drive, Google Drive, or email it to yourself. <strong>Without this file, the QR card is useless.</strong> Keep them in separate locations.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Tell your family what to do</div>
+          <div class="step-detail">Let at least one trusted person know that a Family Kit exists, where the QR card is kept, and where the .afterme file is stored. See the checklist below.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Update your kit when documents change</div>
+          <div class="step-detail">The app will notify you when your Family Kit is out of date. After any significant life change — new will, new policy, new property — update the kit. It takes about a minute.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="walkthrough-col-head">What your family does when they need it</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Download After Me</div>
+          <div class="step-detail">On their own iPhone, your loved one downloads After Me from the App Store. No account is needed. They tap <strong>"I'm accessing someone else's vault"</strong> on the welcome screen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Scan the QR Key Card</div>
+          <div class="step-detail">Using their camera, they scan the printed QR card you left them. The app reads the decryption key embedded in the code. No password is typed. No login is required.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Select the .afterme file</div>
+          <div class="step-detail">They locate the .afterme file — from the USB drive, iCloud Drive, Google Drive, or wherever it was stored — and select it using the app's file picker.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">The vault opens</div>
+          <div class="step-detail">The app decrypts and imports all documents to their device in seconds. From this point on, the vault is <strong>theirs</strong> — secured by their own Face ID, stored locally on their phone, never transmitted anywhere.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tell your family checklist -->
+  <section>
+    <div class="checklist-box">
+      <h2 class="checklist-title">What to tell your family right now</h2>
+      <p class="checklist-sub">Once your Family Kit is created, make sure at least one trusted person knows the following.</p>
+
+      <div class="checklist-item">
+        <span class="checklist-icon">📱</span>
+        <p class="checklist-text"><strong>Where to get the app:</strong> After Me, available free on the App Store at myafterme.co.uk. They do not need a subscription or an account to access your vault.</p>
+      </div>
+      <div class="checklist-item">
+        <span class="checklist-icon">🗂️</span>
+        <p class="checklist-text"><strong>Where the QR Key Card is:</strong> Tell them exactly — with your will, in the top drawer of the desk, in the safe at [location], with your solicitor. Be specific.</p>
+      </div>
+      <div class="checklist-item">
+        <span class="checklist-icon">💾</span>
+        <p class="checklist-text"><strong>Where the .afterme file is:</strong> USB drive in [location], or a link to the file in iCloud Drive / Google Drive / email. They need to be able to find it without your help.</p>
+      </div>
+      <div class="checklist-item">
+        <span class="checklist-icon">🔑</span>
+        <p class="checklist-text"><strong>Both are needed:</strong> Make clear that the QR card and the .afterme file must be used together. One without the other cannot open the vault.</p>
+      </div>
+      <div class="checklist-item">
+        <span class="checklist-icon">🔒</span>
+        <p class="checklist-text"><strong>Your phone is not needed:</strong> Reassure them they do not need your phone, your PIN, or your Apple ID. The vault is self-contained in those two items.</p>
+      </div>
+      <div class="checklist-item">
+        <span class="checklist-icon">📅</span>
+        <p class="checklist-text"><strong>When it was last updated:</strong> Let them know when the kit was last generated, so they know what to expect inside. If you add significant new documents, update the kit and let them know.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison table -->
+  <section>
+    <h2 class="section-title">Summary comparison</h2>
+    <p class="section-intro">
+      At a glance — which access path serves which purpose.
+    </p>
+    <div class="comparison">
+      <table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>What was prepared</th>
+            <th>Family can access?</th>
+            <th>You can restore?</th>
+            <th>Complexity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Family Kit</td>
+            <td>QR card + .afterme file</td>
+            <td class="td-yes">Yes — 3 steps</td>
+            <td class="td-yes">Yes</td>
+            <td>Simple</td>
+          </tr>
+          <tr>
+            <td>Personal Recovery Kit</td>
+            <td>QR Recovery Card + .afterme file</td>
+            <td class="td-yes">Yes — if both items held</td>
+            <td class="td-yes">Yes — 3 steps</td>
+            <td>Simple</td>
+          </tr>
+          <tr>
+            <td>iCloud Backup</td>
+            <td>iCloud Backup enabled</td>
+            <td class="td-no">No — requires your Apple ID</td>
+            <td class="td-yes">Yes — new device + Face ID</td>
+            <td>Personal recovery only</td>
+          </tr>
+          <tr>
+            <td>No preparation</td>
+            <td>Nothing</td>
+            <td class="td-no">No</td>
+            <td class="td-no">No</td>
+            <td>Permanently inaccessible</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <h2 class="section-title">Common questions</h2>
+    <div class="faq-list" id="faq">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          Does my family need to buy After Me?
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-a">
+          No. Accessing a Family Kit is completely free. Your loved one downloads After Me at no
+          cost, scans the QR card, and opens the vault. No subscription is required to receive
+          or view a vault created by someone else.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          What if the QR card is lost or damaged?
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-a">
+          If the QR card is lost, the .afterme file cannot be decrypted and the vault cannot
+          be opened via that kit. This is why we recommend keeping the card in a secure but
+          findable location — with your will or with your solicitor. If you are still alive,
+          you can generate a new Family Kit from inside the app, which produces a new QR card
+          and updated .afterme file. Consider making a second printed copy of the QR card.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          What if the .afterme file is lost?
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Without the .afterme file, the QR card alone cannot open anything. Store the file
+          in at least two places — for example, a USB drive and iCloud Drive. If you are still
+          alive, you can regenerate a new Family Kit from inside the app, which produces a
+          fresh .afterme file. The QR card from the previous kit will not work with the new
+          file; always keep them as a matched pair.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          Does my family need to use After Me forever to see the documents?
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-a">
+          No. The .afterme format is an <a href="/format-spec">open, documented standard</a>.
+          It is a ZIP file containing an encrypted vault with step-by-step recovery instructions
+          and a published open-source decoder. Even if After Me as a company no longer existed,
+          your loved ones could still open the vault using the specification and freely available tools.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          Can I have multiple Family Kits for different people?
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Yes. Premium users can regenerate their Family Kit at any time and distribute the
+          QR card to multiple trusted people — a spouse and a sibling, for example, or a
+          family member and a solicitor. Each time you generate a new kit, a new matched
+          QR card and .afterme file are produced. Keep previous copies up to date.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <h2 class="cta-title">Ready to prepare your vault?</h2>
+    <p class="cta-body">
+      After Me is free to start. Add up to five documents, then decide if premium is right for you.
+    </p>
+    <a href="https://apps.apple.com/app/after-me" class="btn-primary">Download on the App Store</a>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">after<span>me</span></a>
+    <ul class="footer-links">
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/how-it-works" aria-current="page">How It Works</a></li>
+      <li><a href="/format-spec">Open Format Spec</a></li>
+      <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>
+  </div>
+  <div style="max-width:1100px; margin: 28px auto 0; padding-top: 24px; border-top: 1px solid var(--faint);">
+    <p style="font-size:12px; color:var(--faint);">After Me is not a substitute for professional legal or financial advice. Documents are encrypted locally on your device. After Me Ltd cannot access your vault contents.</p>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b => b.setAttribute('aria-expanded', 'false'));
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+</script>
+</body>
+</html>

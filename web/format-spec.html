@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>.afterme Format Specification — After Me</title>
+<meta name="description" content="The open, documented .afterme file format for secure document vaults. Your family can always open your vault — even without our app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #2D3142; --deep: #252840; --card: #1E2235;
+    --amber: #C9963A; --white: #FAF9F6; --muted: rgba(250,249,246,0.55);
+    --faint: rgba(250,249,246,0.22); --serif: 'Playfair Display', serif;
+    --sans: 'DM Sans', sans-serif; --mono: 'JetBrains Mono', monospace;
+  }
+  body { background: var(--bg); color: var(--white); font-family: var(--sans); line-height: 1.75; }
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px; border-bottom: 1px solid var(--faint);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+  .nav-back { color: var(--muted); text-decoration: none; font-size: 14px; }
+  .nav-back:hover { color: var(--white); }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { font-family: var(--serif); font-size: 36px; margin-bottom: 12px; }
+  .subtitle { color: var(--muted); font-size: 16px; margin-bottom: 40px; }
+  h2 { font-size: 20px; font-weight: 600; margin: 40px 0 16px; padding-top: 24px; border-top: 1px solid var(--faint); }
+  h2:first-of-type { margin-top: 0; padding-top: 0; border: none; }
+  h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; }
+  h4 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; color: var(--amber); }
+  p { margin-bottom: 16px; }
+  pre, code { font-family: var(--mono); font-size: 13px; background: var(--card); padding: 2px 6px; border-radius: 4px; }
+  pre { display: block; padding: 16px; overflow-x: auto; margin: 16px 0; }
+  ul, ol { margin: 16px 0; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  .version { font-size: 12px; color: var(--muted); }
+  a { color: var(--amber); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .decoder-link { display: inline-block; background: var(--amber); color: var(--bg); padding: 12px 24px; border-radius: 8px; font-weight: 600; margin: 24px 0; }
+  .decoder-link:hover { opacity: 0.9; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 12px; border: 1px solid var(--faint); }
+  th { background: var(--card); font-weight: 600; }
+  .note { background: var(--card); border-left: 3px solid var(--amber); padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; font-size: 14px; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">After <span>Me</span></a>
+  <a href="/" class="nav-back">← Back to home</a>
+</nav>
+<main>
+  <h1>.afterme Open Container Format</h1>
+  <p class="subtitle">Specification v1.0 · AES-256-GCM · PBKDF2 · Open format</p>
+
+  <h2>Overview</h2>
+  <p>The <code>.afterme</code> file format is an open, documented container format designed for long-term archival and secure storage of sensitive personal documents. It prioritizes user ownership, platform independence, and future-proof access. Even if the After Me application or company ceases to exist, users with the correct credentials can always access their data using standard open-source tools.</p>
+  <p>This specification is public and stable. Any changes to the format will be versioned and documented.</p>
+
+  <h2>File Structure</h2>
+  <p>An <code>.afterme</code> file is a standard ZIP archive containing:</p>
+  <pre>.afterme (ZIP Archive)
+├── README.txt           # Human-readable instructions for manual recovery
+├── manifest.json        # Metadata about the vault contents (unencrypted)
+├── vault.enc            # The core encrypted data payload (AES-256-GCM)
+└── key.enc              # Content encryption key, wrapped with access credential</pre>
+
+  <h3>manifest.json</h3>
+  <p>Non-sensitive metadata. Schema:</p>
+  <pre>{
+  "version": "1.0",
+  "created_at": "2023-10-27T10:00:00Z",
+  "vault_id": "uuid-string",
+  "owner_name": "John Doe",
+  "document_count": 15,
+  "categories": ["Identity", "Finance", "Legal"],
+  "encryption_algo": "AES-256-GCM",
+  "kdf_algo": "PBKDF2-HMAC-SHA256"
+}</pre>
+
+  <h4>Privacy Note</h4>
+  <p>The <code>owner_name</code> field is stored <strong>unencrypted</strong> intentionally. It exists so that survivors who receive an <code>.afterme</code> file can identify whose vault it is before attempting decryption. This is important for scenarios where a family member may possess multiple <code>.afterme</code> files from different relatives.</p>
+  <p>The <code>owner_name</code> field is <strong>optional</strong>. If the user omits it, the field should be absent from the JSON or set to <code>null</code>. Implementations must not require this field to be present.</p>
+
+  <h3>vault.enc</h3>
+  <p>Encrypted payload. Algorithm: AES-256-GCM. Key: 32 bytes. Nonce/IV: 12 bytes. Auth tag: 16 bytes.</p>
+  <p><strong>Wire format (byte-level layout):</strong></p>
+  <pre>[IV (12 bytes)][Auth Tag (16 bytes)][Ciphertext]</pre>
+  <table>
+    <tr><th>Offset</th><th>Length</th><th>Field</th></tr>
+    <tr><td>0</td><td>12</td><td>IV (nonce)</td></tr>
+    <tr><td>12</td><td>16</td><td>GCM authentication tag</td></tr>
+    <tr><td>28</td><td>variable</td><td>Ciphertext (encrypted JSON payload)</td></tr>
+  </table>
+  <div class="note"><strong>Note:</strong> The authentication tag appears <strong>before</strong> the ciphertext. This differs from many library conventions where the tag is appended after the ciphertext. See <a href="#implementation-notes">Implementation Notes</a> for guidance.</div>
+
+  <h3>key.enc</h3>
+  <p>Content Encryption Key (CEK) wrapped with the user's access credential (e.g., QR code key). Wrapping: AES-256-GCM. Key derivation: PBKDF2-HMAC-SHA256 with 600,000 iterations, 32-byte salt.</p>
+  <p><strong>Binary format (byte-level layout):</strong></p>
+  <pre>[Salt (32 bytes)][IV (12 bytes)][Auth Tag (16 bytes)][Encrypted CEK (32 bytes)]</pre>
+  <table>
+    <tr><th>Offset</th><th>Length</th><th>Field</th></tr>
+    <tr><td>0</td><td>32</td><td>PBKDF2 salt</td></tr>
+    <tr><td>32</td><td>12</td><td>IV (nonce) for AES-256-GCM key wrap</td></tr>
+    <tr><td>44</td><td>16</td><td>GCM authentication tag</td></tr>
+    <tr><td>60</td><td>32</td><td>Encrypted Content Encryption Key</td></tr>
+  </table>
+  <p>Total file size: <strong>92 bytes</strong> (fixed).</p>
+  <div class="note"><strong>Note:</strong> As with <code>vault.enc</code>, the authentication tag precedes the ciphertext (the encrypted CEK). See <a href="#implementation-notes">Implementation Notes</a> for library-specific guidance.</div>
+
+  <h2>QR Code Access Key</h2>
+  <p>The Access Key is the secret credential used to derive the Key Encryption Key (KEK) via PBKDF2. It is delivered to the user as a QR code.</p>
+  <ul>
+    <li><strong>Format:</strong> A high-entropy random string, minimum 32 characters, composed of alphanumeric characters and symbols (printable ASCII, excluding whitespace control characters).</li>
+    <li><strong>Encoding:</strong> The QR code payload is the Access Key encoded as a plain UTF-8 string. No additional framing, URL scheme, or binary encoding is applied.</li>
+    <li><strong>Error Correction:</strong> QR codes must use <strong>error correction level H</strong> (High), which tolerates up to ~30% damage. This is critical because the QR code may be printed on paper and stored for years or decades before use.</li>
+    <li><strong>Display:</strong> The Access Key is never displayed as raw text in the app UI. Users interact with it exclusively through the QR code.</li>
+  </ul>
+
+  <h2>Encryption Details</h2>
+  <p><strong>KDF:</strong> PBKDF2, HMAC-SHA256, 600,000 iterations, 32-byte random salt.</p>
+  <p><strong>Content Encryption:</strong> AES-256-GCM, 32-byte key, 12-byte nonce, 16-byte tag.</p>
+
+  <h2>Recovery Process</h2>
+  <ol>
+    <li>Unzip the <code>.afterme</code> file.</li>
+    <li>Read <code>README.txt</code> for instructions.</li>
+    <li>Locate the decoder tool or write one based on this spec.</li>
+    <li>Provide the QR code string (Access Key).</li>
+    <li>Decoder reads the salt (first 32 bytes) from <code>key.enc</code>.</li>
+    <li>Decoder derives KEK from Access Key via PBKDF2-HMAC-SHA256 (600,000 iterations).</li>
+    <li>Decoder reads IV, Auth Tag, and Encrypted CEK from <code>key.enc</code>; decrypts to obtain CEK.</li>
+    <li>Decoder reads IV and Auth Tag from the start of <code>vault.enc</code>; decrypts remaining ciphertext using CEK.</li>
+    <li>Parses the resulting JSON and extracts the documents.</li>
+  </ol>
+
+  <h2 id="implementation-notes">Implementation Notes</h2>
+  <h3>Tag-Before-Ciphertext Convention</h3>
+  <p>The <code>.afterme</code> v1.0 wire format places the GCM authentication tag <strong>before</strong> the ciphertext in both <code>vault.enc</code> and <code>key.enc</code>. This is a deliberate design choice baked into the reference implementation and all existing encrypted files.</p>
+  <p>Many cryptographic libraries expect the tag <strong>appended after</strong> the ciphertext (e.g., Python's <code>cryptography</code> AESGCM, Go's <code>crypto/cipher</code>, WebCrypto). When working with such libraries, implementors must rearrange the bytes:</p>
+
+  <h4>Reading (decryption)</h4>
+  <ol>
+    <li>Parse the wire format: <code>[IV][Tag][Ciphertext]</code></li>
+    <li>Rearrange for the library: pass <code>[Ciphertext][Tag]</code> (concatenated) as the "ciphertext" input, with the IV/nonce separately.</li>
+  </ol>
+
+  <h4>Writing (encryption)</h4>
+  <ol>
+    <li>The library returns <code>[Ciphertext][Tag]</code> (concatenated) or separate values.</li>
+    <li>Rearrange to the wire format: write <code>[IV][Tag][Ciphertext]</code> to the file.</li>
+  </ol>
+
+  <h4>Example: Python (<code>cryptography</code> library)</h4>
+  <pre># Decrypting vault.enc:
+data = open("vault.enc", "rb").read()
+iv = data[:12]
+tag = data[12:28]
+ciphertext = data[28:]
+# AESGCM.decrypt() expects ciphertext+tag appended:
+plaintext = AESGCM(cek).decrypt(iv, ciphertext + tag, None)
+
+# Decrypting key.enc:
+data = open("key.enc", "rb").read()
+salt = data[:32]
+iv = data[32:44]
+tag = data[44:60]
+encrypted_cek = data[60:92]
+cek = AESGCM(kek).decrypt(iv, encrypted_cek + tag, None)</pre>
+
+  <h4>Example: Node.js (<code>crypto</code> module)</h4>
+  <pre>// Decrypting vault.enc:
+const data = fs.readFileSync('vault.enc');
+const iv = data.subarray(0, 12);
+const tag = data.subarray(12, 28);
+const ciphertext = data.subarray(28);
+const decipher = crypto.createDecipheriv('aes-256-gcm', cek, iv);
+decipher.setAuthTag(tag);
+const plaintext = Buffer.concat([
+  decipher.update(ciphertext), decipher.final()
+]);</pre>
+  <div class="note"><strong>Note:</strong> Node.js <code>crypto.createDecipheriv</code> for GCM accepts the tag separately via <code>setAuthTag()</code>, so no rearrangement is needed — simply slice the tag and ciphertext from the wire format and pass them independently.</div>
+
+  <h2>Open-Source Decoder</h2>
+  <p>We publish a reference decoder so your family can open your vault without our app. Download from our GitHub repository or implement your own using this specification.</p>
+  <a href="https://github.com/afterme/decoder" class="decoder-link">Download Open-Source Decoder →</a>
+  <p><em>Decoder repository: github.com/afterme/decoder</em></p>
+
+  <h2>Future Compatibility</h2>
+  <ul>
+    <li>The <code>version</code> field in <code>manifest.json</code> determines the parsing logic, including the encryption algorithm, KDF parameters, and the wire format byte layout convention.</li>
+    <li>New encryption algorithms will be added as new version identifiers.</li>
+    <li>Future versions may adopt a different tag placement convention; implementations should always check the version field before assuming a wire format.</li>
+    <li>The <code>README.txt</code> will always be present and backward-compatible (plain text).</li>
+  </ul>
+
+  <p class="version">Last updated: March 2026. This specification is maintained at https://afterme.app/format-spec</p>
+</main>
+</body>
+</html>

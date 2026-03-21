@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["KeychainSyncModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.keychainsync.KeychainSyncModule"]
+  }
+}

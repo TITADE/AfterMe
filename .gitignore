@@ -35,3 +35,16 @@ yarn-error.*
 
 # TypeScript
 *.tsbuildinfo
+
+# Build artifacts
+*.aab
+*.apk
+*.ipa
+*.keystore
+**/android/build/
+
+# Test coverage
+coverage/
+
+# Sentry
+sentry.properties

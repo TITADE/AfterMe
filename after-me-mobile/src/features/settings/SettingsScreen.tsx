@@ -1,22 +1,267 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Switch,
   Alert,
+  Modal,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { cacheDirectory, writeAsStringAsync, deleteAsync, EncodingType } from 'expo-file-system/legacy';
 import { KeyManager } from '../../core/auth/KeyManager';
 import { OnboardingStorage } from '../../services/OnboardingStorage';
+import { DocumentService } from '../../services/DocumentService';
+import { BackupService } from '../../services/BackupService';
+import { CloudBackupService } from '../../services/CloudBackupService';
+import { KitHistoryService, type FreshnessLevel } from '../../services/KitHistoryService';
+import { KitCreationWizard } from '../familykit/KitCreationWizard';
+import { KitHistoryScreen } from '../familykit/KitHistoryScreen';
+import { PaywallScreen, type PaywallTrigger } from '../paywall/PaywallScreen';
+import { PersonalRecoveryWizard } from '../recovery/PersonalRecoveryWizard';
+import { VaultSwitcherScreen } from '../vault/VaultSwitcherScreen';
+import { HelpScreen } from '../help/HelpScreen';
 import { useApp } from '../../context/AppContext';
+import { usePurchase } from '../../context/PurchaseContext';
 import { colors } from '../../theme/colors';
 
+import { SecuritySection } from './sections/SecuritySection';
+import { SubscriptionSection } from './sections/SubscriptionSection';
+import { BackupSection } from './sections/BackupSection';
+import { FamilyKitSection } from './sections/FamilyKitSection';
+import { VaultSection } from './sections/VaultSection';
+import { HelpSection } from './sections/HelpSection';
+import { DeveloperSection } from './sections/DeveloperSection';
+import { settingsStyles as styles } from './settingsStyles';
+
+const BIOMETRIC_PREF_KEY = 'afterme_biometric_enabled';
+
 export function SettingsScreen() {
-  const { refreshInit, setShowPhase1 } = useApp();
+  const { refreshInit, setShowPhase1, totalDocuments } = useApp();
+  const { isPremium, isAnnual, isLifetime, restorePurchases: restorePurchasesFn } = usePurchase();
   const [biometricEnabled, setBiometricEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [vaultSizeBytes, setVaultSizeBytes] = useState<number>(0);
+  const [integrityLoading, setIntegrityLoading] = useState(false);
+  const [corruptedIds, setCorruptedIds] = useState<string[] | null>(null);
+  const [showKitWizard, setShowKitWizard] = useState(false);
+  const [showKitHistory, setShowKitHistory] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [paywallTrigger, setPaywallTrigger] = useState<PaywallTrigger>('settings');
+
+  const openPaywall = (trigger: PaywallTrigger = 'settings') => {
+    setPaywallTrigger(trigger);
+    setShowPaywall(true);
+  };
+  const [kitFreshness, setKitFreshness] = useState<FreshnessLevel | null>(null);
+  const [kitWarning, setKitWarning] = useState<string | null>(null);
+  const [icloudEnabled, setIcloudEnabled] = useState(false);
+  const [icloudAvailable, setIcloudAvailable] = useState(false);
+  const [lastBackupDate, setLastBackupDate] = useState<string | null>(null);
+  const [backingUp, setBackingUp] = useState(false);
+  const [restoringBackup, setRestoringBackup] = useState(false);
+  const [restoringPurchases, setRestoringPurchases] = useState(false);
+  const [showRecoveryWizard, setShowRecoveryWizard] = useState(false);
+  const [showVaultSwitcher, setShowVaultSwitcher] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem(BIOMETRIC_PREF_KEY).then((val) => {
+      if (val !== null) setBiometricEnabled(val === 'true');
+    });
+  }, []);
+
+  const handleBiometricToggle = async (value: boolean) => {
+    try {
+      await KeyManager.setBiometricProtection(value);
+      setBiometricEnabled(value);
+    } catch {
+      Alert.alert('Error', 'Could not change biometric setting. Please try again.');
+    }
+  };
+
+  const refreshVaultSize = useCallback(async () => {
+    try {
+      const size = await DocumentService.getVaultSizeBytes();
+      setVaultSizeBytes(size);
+    } catch {
+      setVaultSizeBytes(0);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshVaultSize();
+  }, [refreshVaultSize, totalDocuments]);
+
+  const refreshKitStatus = useCallback(async () => {
+    try {
+      const [freshness, warning] = await Promise.all([
+        KitHistoryService.getFreshnessScore(),
+        KitHistoryService.getStaleKitWarning(),
+      ]);
+      setKitFreshness(freshness.level);
+      setKitWarning(warning);
+    } catch {
+      // silent
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshKitStatus();
+  }, [refreshKitStatus, totalDocuments]);
+
+  const refreshBackupStatus = useCallback(async () => {
+    try {
+      const [enabled, available, lastDate] = await Promise.all([
+        BackupService.isIcloudBackupEnabled(),
+        BackupService.isIcloudAvailable(),
+        BackupService.getLastBackupDate(),
+      ]);
+      setIcloudEnabled(enabled);
+      setIcloudAvailable(available);
+      setLastBackupDate(lastDate);
+    } catch {
+      // silent
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshBackupStatus();
+  }, [refreshBackupStatus]);
+
+  const handleIcloudToggle = async (value: boolean) => {
+    const previous = icloudEnabled;
+    setIcloudEnabled(value);
+    try {
+      if (value) {
+        await BackupService.enableIcloudBackup();
+      } else {
+        await BackupService.disableIcloudBackup();
+      }
+    } catch (e) {
+      setIcloudEnabled(previous);
+      Alert.alert(
+        'Error',
+        (e as Error).message ?? 'Could not update iCloud backup. Please try again.',
+      );
+    }
+  };
+
+  const handleBackupNow = async () => {
+    setBackingUp(true);
+    try {
+      const success = await BackupService.backupNow();
+      if (success) {
+        Alert.alert('Backup Complete', 'Your vault has been backed up to iCloud.');
+        await refreshBackupStatus();
+      } else {
+        Alert.alert('Backup Failed', 'Could not back up to iCloud. Make sure you\'re signed in to iCloud.');
+      }
+    } catch (e) {
+      Alert.alert('Error', (e as Error).message);
+    } finally {
+      setBackingUp(false);
+    }
+  };
+
+  const handleRestoreFromBackup = () => {
+    Alert.alert(
+      'Restore from iCloud',
+      'This will restore documents from your latest iCloud backup. Existing documents will not be deleted.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Restore',
+          onPress: async () => {
+            setRestoringBackup(true);
+            try {
+              const result = await CloudBackupService.restore();
+              if (result.success) {
+                Alert.alert('Restored', `Successfully restored ${result.documentCount} document(s) from iCloud.`);
+                refreshInit();
+              } else {
+                Alert.alert('Restore Failed', 'Could not restore from iCloud. No backup found or decryption failed.');
+              }
+            } catch (e) {
+              Alert.alert('Error', (e as Error).message);
+            } finally {
+              setRestoringBackup(false);
+            }
+          },
+        },
+      ],
+    );
+  };
+
+  const handleRestorePurchases = async () => {
+    setRestoringPurchases(true);
+    try {
+      const restored = await restorePurchasesFn();
+      if (restored) {
+        Alert.alert('Restored', 'Your premium access has been restored.');
+      } else {
+        Alert.alert('No Purchases Found', "We couldn't find any previous purchases for this account.");
+      }
+    } catch {
+      Alert.alert('Error', 'Could not restore purchases. Please try again.');
+    } finally {
+      setRestoringPurchases(false);
+    }
+  };
+
+  const handleCheckIntegrity = async () => {
+    setIntegrityLoading(true);
+    setCorruptedIds(null);
+    try {
+      const ids = await DocumentService.findCorruptedDocuments();
+      setCorruptedIds(ids);
+      if (ids.length === 0) {
+        Alert.alert('Integrity Check', 'All documents are intact.');
+      } else {
+        Alert.alert(
+          'Integrity Check',
+          `Found ${ids.length} corrupted document(s):\n\n${ids.join('\n')}`,
+        );
+      }
+    } catch (e) {
+      Alert.alert('Error', (e as Error).message);
+    } finally {
+      setIntegrityLoading(false);
+    }
+  };
+
+  const PLACEHOLDER_PNG =
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwADhQGAWjR9awAAAABJRU5ErkJggg==';
+
+  const handleSeedTestDocuments = async () => {
+    setLoading(true);
+    try {
+      const tmpPath = `${cacheDirectory}afterme_seed_doc.png`;
+      await writeAsStringAsync(tmpPath, PLACEHOLDER_PNG, {
+        encoding: EncodingType.Base64,
+      });
+
+      const testDocs: { category: 'identity' | 'legal' | 'finance' | 'medical' | 'property' | 'insurance'; title: string }[] = [
+        { category: 'identity', title: 'Passport (Test)' },
+        { category: 'legal', title: 'Last Will & Testament (Test)' },
+        { category: 'finance', title: 'Bank Statement (Test)' },
+        { category: 'medical', title: 'Medical Records (Test)' },
+        { category: 'property', title: 'Title Deed (Test)' },
+        { category: 'insurance', title: 'Life Insurance Policy (Test)' },
+      ];
+
+      for (const doc of testDocs) {
+        await DocumentService.importFromFilePath(tmpPath, doc.category, doc.title, { format: 'png' });
+      }
+
+      await deleteAsync(tmpPath, { idempotent: true });
+      Alert.alert('Done', `${testDocs.length} test documents added to the vault.`);
+    } catch (e) {
+      Alert.alert('Seed Failed', (e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleResetVault = () => {
     Alert.alert(
@@ -33,7 +278,6 @@ export function SettingsScreen() {
               await OnboardingStorage.resetOnboarding();
               await KeyManager.resetKeys();
               await refreshInit();
-              // refreshInit sets hasCompletedOnboarding=false → AppNavigator shows onboarding
             } catch (e) {
               Alert.alert('Error', (e as Error).message);
             } finally {
@@ -47,145 +291,127 @@ export function SettingsScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Security</Text>
+      <SecuritySection
+        biometricEnabled={biometricEnabled}
+        onBiometricToggle={handleBiometricToggle}
+      />
 
-        <View style={styles.row}>
-          <Text style={styles.rowLabel}>Biometric Lock</Text>
-          <Switch
-            value={biometricEnabled}
-            onValueChange={setBiometricEnabled}
-            trackColor={{ false: colors.border, true: colors.amAmber }}
-            thumbColor={biometricEnabled ? colors.amBackground : colors.textMuted}
-          />
-        </View>
+      <SubscriptionSection
+        isPremium={isPremium}
+        isAnnual={isAnnual}
+        isLifetime={isLifetime}
+        restoringPurchases={restoringPurchases}
+        onUpgrade={() => openPaywall('settings')}
+        onLifetimeUpgrade={() => openPaywall('upgrade')}
+        onRestorePurchases={handleRestorePurchases}
+      />
 
-        <Text style={styles.rowHint}>
-          Face ID / Touch ID required to access your vault
-        </Text>
-      </View>
+      <BackupSection
+        icloudEnabled={icloudEnabled}
+        icloudAvailable={icloudAvailable}
+        lastBackupDate={lastBackupDate}
+        backingUp={backingUp}
+        restoringBackup={restoringBackup}
+        onIcloudToggle={handleIcloudToggle}
+        onBackupNow={handleBackupNow}
+        onRestoreFromBackup={handleRestoreFromBackup}
+      />
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Encryption</Text>
-        <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>AES-256-GCM</Text>
-          <Text style={styles.infoText}>
-            All documents are encrypted with keys stored in device secure storage
-          </Text>
-        </View>
-      </View>
+      <VaultSection
+        vaultSizeBytes={vaultSizeBytes}
+        totalDocuments={totalDocuments}
+        integrityLoading={integrityLoading}
+        corruptedIds={corruptedIds}
+        onCheckIntegrity={handleCheckIntegrity}
+        onOpenVaultSwitcher={() => setShowVaultSwitcher(true)}
+        onOpenRecoveryWizard={() => setShowRecoveryWizard(true)}
+      />
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Developer</Text>
-        <TouchableOpacity
-          style={styles.devRow}
-          onPress={() => setShowPhase1(true)}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.devRowText}>Phase 1 Verification</Text>
-          <Text style={styles.devRowHint}>Run core systems check</Text>
-        </TouchableOpacity>
-      </View>
+      <FamilyKitSection
+        isPremium={isPremium}
+        kitFreshness={kitFreshness}
+        kitWarning={kitWarning}
+        onCreateKit={() => setShowKitWizard(true)}
+        onViewHistory={() => setShowKitHistory(true)}
+        onShowPaywall={() => openPaywall('family_kit')}
+      />
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Danger Zone</Text>
-        <TouchableOpacity
-          style={styles.dangerButton}
-          onPress={handleResetVault}
-          disabled={loading}
-        >
-          <Text style={styles.dangerButtonText}>Reset Vault & Onboarding</Text>
-          <Text style={styles.dangerButtonHint}>Shows full onboarding flow again</Text>
-        </TouchableOpacity>
-      </View>
+      <HelpSection onShowHelp={() => setShowHelp(true)} />
+
+      <DeveloperSection
+        loading={loading}
+        onShowPhase1={() => setShowPhase1(true)}
+        onSeedTestDocuments={handleSeedTestDocuments}
+        onResetVault={handleResetVault}
+      />
+
+      {/* Modals */}
+      <KitCreationWizard
+        visible={showKitWizard}
+        onDismiss={() => {
+          setShowKitWizard(false);
+          refreshKitStatus();
+        }}
+      />
+
+      {showKitHistory && (
+        <Modal animationType="slide" presentationStyle="pageSheet">
+          <View style={{ flex: 1, backgroundColor: colors.amBackground }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+              <Text style={{ fontSize: 18, fontWeight: '700', color: colors.amWhite }}>Kit History</Text>
+              <TouchableOpacity onPress={() => setShowKitHistory(false)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                <Text style={{ fontSize: 16, color: colors.amAmber }}>Done</Text>
+              </TouchableOpacity>
+            </View>
+            <KitHistoryScreen
+              onCreateKit={() => {
+                setShowKitHistory(false);
+                setShowKitWizard(true);
+              }}
+              onBack={() => setShowKitHistory(false)}
+            />
+          </View>
+        </Modal>
+      )}
+
+      <PaywallScreen
+        visible={showPaywall}
+        onDismiss={() => setShowPaywall(false)}
+        trigger={paywallTrigger}
+      />
+
+      <PersonalRecoveryWizard
+        visible={showRecoveryWizard}
+        onDismiss={() => setShowRecoveryWizard(false)}
+      />
+
+      {showVaultSwitcher && (
+        <Modal animationType="slide" presentationStyle="pageSheet">
+          <View style={{ flex: 1, backgroundColor: colors.amBackground }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+              <Text style={{ fontSize: 18, fontWeight: '700', color: colors.amWhite }}>Vault Manager</Text>
+              <TouchableOpacity onPress={() => setShowVaultSwitcher(false)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                <Text style={{ fontSize: 16, color: colors.amAmber }}>Done</Text>
+              </TouchableOpacity>
+            </View>
+            <VaultSwitcherScreen />
+          </View>
+        </Modal>
+      )}
+
+      {showHelp && (
+        <Modal animationType="slide" presentationStyle="pageSheet">
+          <View style={{ flex: 1, backgroundColor: colors.amBackground }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+              <Text style={{ fontSize: 18, fontWeight: '700', color: colors.amWhite }}>Help & FAQ</Text>
+              <TouchableOpacity onPress={() => setShowHelp(false)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                <Text style={{ fontSize: 16, color: colors.amAmber }}>Done</Text>
+              </TouchableOpacity>
+            </View>
+            <HelpScreen />
+          </View>
+        </Modal>
+      )}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.amBackground,
-  },
-  content: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  section: {
-    marginBottom: 28,
-  },
-  sectionTitle: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: colors.textMuted,
-    marginBottom: 12,
-    textTransform: 'uppercase',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.amCard,
-    padding: 16,
-    borderRadius: 12,
-  },
-  rowLabel: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.amWhite,
-  },
-  rowHint: {
-    fontSize: 13,
-    color: colors.textMuted,
-    marginTop: 8,
-    marginLeft: 4,
-  },
-  infoCard: {
-    backgroundColor: colors.amCard,
-    padding: 16,
-    borderRadius: 12,
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.amWhite,
-  },
-  infoText: {
-    fontSize: 14,
-    color: colors.textMuted,
-    marginTop: 8,
-  },
-  dangerButton: {
-    backgroundColor: colors.amCard,
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.amDanger,
-  },
-  dangerButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.amDanger,
-  },
-  dangerButtonHint: {
-    fontSize: 13,
-    color: colors.textMuted,
-    marginTop: 4,
-  },
-  devRow: {
-    backgroundColor: colors.amCard,
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  devRowText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.amWhite,
-  },
-  devRowHint: {
-    fontSize: 13,
-    color: colors.textMuted,
-    marginTop: 4,
-  },
-});

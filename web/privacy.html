@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary SEO -->
+<title>Privacy Policy — After Me | Zero-Knowledge Data Protection</title>
+<meta name="description" content="After Me is built on zero-knowledge architecture. Your documents are encrypted on your device — we never see them. Full privacy policy covering UK GDPR and the Data (Use and Access) Act 2025.">
+<meta name="author" content="After Me Ltd">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://myafterme.co.uk/privacy">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://myafterme.co.uk/privacy">
+<meta property="og:site_name"   content="After Me">
+<meta property="og:locale"      content="en_GB">
+<meta property="og:title"       content="Privacy Policy — After Me">
+<meta property="og:description" content="After Me is built on zero-knowledge architecture. Your documents are encrypted on your device — we never see them.">
+<meta property="og:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary">
+<meta name="twitter:title"       content="Privacy Policy — After Me">
+<meta name="twitter:description" content="Zero-knowledge architecture. Your documents never leave your device. Full UK GDPR privacy policy.">
+<meta name="twitter:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Theme -->
+<meta name="theme-color" content="#2D3142">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://myafterme.co.uk/privacy",
+  "url": "https://myafterme.co.uk/privacy",
+  "name": "Privacy Policy — After Me",
+  "description": "Privacy policy for After Me, a zero-knowledge encrypted digital vault for end-of-life planning. Governed by UK GDPR and the Data (Use and Access) Act 2025.",
+  "inLanguage": "en-GB",
+  "isPartOf": { "@id": "https://myafterme.co.uk/#website" },
+  "publisher": { "@id": "https://myafterme.co.uk/#organization" },
+  "dateModified": "2026-03-18"
+}
+</script>
+
+<!-- Fonts -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #2D3142;
+    --deep:     #252840;
+    --card:     #1E2235;
+    --amber:    #C9963A;
+    --amber-lt: #D4A84B;
+    --white:    #FAF9F6;
+    --muted:    rgba(250,249,246,0.55);
+    --faint:    rgba(250,249,246,0.22);
+    --serif:    'Playfair Display', Georgia, serif;
+    --sans:     'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.8;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(45,49,66,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--faint);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .nav-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-wordmark {
+    font-family: var(--serif); font-size: 22px; font-weight: 700;
+    color: var(--white); letter-spacing: -0.5px;
+  }
+  .nav-wordmark span { color: var(--amber); }
+  .nav-back {
+    font-size: 14px; color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--white); }
+
+  /* ── PAGE SHELL ── */
+  .wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 120px 32px 120px;
+  }
+
+  /* ── DOCUMENT HEADER ── */
+  .doc-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 3px;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .doc-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -1.5px; margin-bottom: 28px;
+  }
+  .doc-title em { font-style: italic; color: var(--amber); }
+  .doc-meta {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    padding: 20px 24px; background: var(--card);
+    border-radius: 12px; margin-bottom: 8px;
+    border: 1px solid var(--faint);
+  }
+  .doc-meta-item { font-size: 13px; color: var(--muted); }
+  .doc-meta-item strong {
+    display: block; color: var(--white);
+    font-weight: 500; font-size: 11px;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  /* ── PLAIN ENGLISH SUMMARY ── */
+  .summary-box {
+    background: rgba(201,150,58,0.07);
+    border: 1px solid rgba(201,150,58,0.3);
+    border-radius: 16px; padding: 32px;
+    margin: 40px 0;
+    position: relative;
+  }
+  .summary-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--amber); border-radius: 16px 16px 0 0;
+  }
+  .summary-title {
+    font-family: var(--serif); font-size: 20px; font-weight: 700;
+    color: var(--white); margin-bottom: 8px;
+  }
+  .summary-intro {
+    font-size: 14px; color: var(--muted); margin-bottom: 16px;
+  }
+  .summary-list { list-style: none; }
+  .summary-list li {
+    font-size: 14px; color: var(--muted);
+    padding: 9px 0 9px 20px; position: relative;
+    border-bottom: 1px solid var(--faint); line-height: 1.65;
+  }
+  .summary-list li:last-child { border-bottom: none; }
+  .summary-list li::before {
+    content: ''; position: absolute; left: 0; top: 17px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--amber);
+  }
+
+  /* ── TABLE OF CONTENTS ── */
+  .toc {
+    background: var(--card); border-radius: 12px;
+    padding: 28px 32px; margin: 40px 0;
+    border: 1px solid var(--faint);
+  }
+  .toc-label {
+    font-size: 11px; font-weight: 500; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
+  }
+  .toc-list { list-style: none; }
+  .toc-list li { padding: 4px 0; }
+  .toc-list a {
+    font-size: 14px; color: var(--muted); text-decoration: none;
+    transition: color 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .toc-list a:hover { color: var(--amber); }
+  .toc-num { font-size: 12px; color: var(--faint); min-width: 24px; }
+
+  /* ── POLICY SECTIONS ── */
+  .policy-section {
+    margin: 56px 0; padding-top: 8px;
+    border-top: 1px solid var(--faint);
+  }
+  .policy-section:first-of-type { border-top: none; margin-top: 8px; }
+
+  h2 {
+    font-family: var(--serif); font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700; color: var(--white);
+    letter-spacing: -0.5px; margin-bottom: 20px; line-height: 1.2;
+  }
+  h3 {
+    font-size: 15px; font-weight: 500; color: var(--white);
+    margin: 28px 0 10px;
+  }
+  p {
+    font-size: 15px; color: var(--muted);
+    margin-bottom: 16px; line-height: 1.8;
+  }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--white); font-weight: 500; }
+  a { color: var(--amber); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── LISTS ── */
+  ul, ol {
+    margin: 12px 0 16px 0;
+    padding-left: 0; list-style: none;
+  }
+  ul li, ol li {
+    font-size: 15px; color: var(--muted);
+    padding: 6px 0 6px 20px; position: relative;
+    line-height: 1.7;
+  }
+  ul li::before {
+    content: ''; position: absolute; left: 0; top: 14px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--amber); opacity: 0.7;
+  }
+  ol { counter-reset: item; }
+  ol li { counter-increment: item; }
+  ol li::before {
+    content: counter(item) ".";
+    position: absolute; left: 0; top: 6px;
+    font-size: 13px; color: var(--amber); font-weight: 500;
+  }
+
+  /* ── INFO BOXES ── */
+  .info-box {
+    background: var(--card); border-radius: 10px;
+    padding: 18px 22px; margin: 20px 0;
+    border: 1px solid var(--faint);
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+  }
+  .info-box.amber {
+    border-color: rgba(201,150,58,0.3);
+    background: rgba(201,150,58,0.06);
+  }
+  .info-box p { font-size: 14px; margin: 0; }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    margin: 20px 0; font-size: 14px;
+  }
+  .data-table th {
+    text-align: left; padding: 12px 16px;
+    background: var(--deep); color: var(--muted);
+    font-weight: 500; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid var(--faint);
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child  { border-radius: 0 8px 0 0; }
+  .data-table td {
+    padding: 13px 16px; color: var(--muted);
+    border-bottom: 1px solid rgba(250,249,246,0.07);
+    vertical-align: top; line-height: 1.65;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  /* ── RIGHTS GRID ── */
+  .rights-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin: 20px 0;
+  }
+  .right-card {
+    background: var(--card); border-radius: 10px;
+    padding: 18px; border: 1px solid var(--faint);
+  }
+  .right-name {
+    font-size: 13px; font-weight: 500; color: var(--white);
+    margin-bottom: 6px;
+  }
+  .right-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  /* ── CONTACT CARD ── */
+  .contact-card {
+    background: var(--card); border-radius: 16px;
+    padding: 28px 32px; margin: 24px 0;
+    border: 1px solid var(--faint);
+  }
+  .contact-card h3 { margin-top: 0; margin-bottom: 16px; }
+  .contact-row {
+    display: flex; gap: 12px; margin: 8px 0; font-size: 14px;
+    align-items: baseline;
+  }
+  .contact-label { color: var(--faint); min-width: 90px; flex-shrink: 0; }
+  .contact-value { color: var(--white); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    padding: 48px 24px;
+    margin-top: 80px;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 20px; text-align: center;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-size: 20px; font-weight: 700;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--amber); }
+  .footer-links {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    justify-content: center; list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-links a[aria-current="page"] { color: var(--white); }
+  .footer-copy { font-size: 12px; color: var(--faint); }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .wrapper { padding: 90px 20px 80px; }
+    .doc-title { font-size: 36px; }
+    .rights-grid { grid-template-columns: 1fr; }
+    .data-table { font-size: 13px; display: block; overflow-x: auto; }
+    .data-table th, .data-table td { padding: 10px 12px; }
+    .contact-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <rect x="2" y="5" width="18" height="13" rx="3" stroke="#FAF9F6" stroke-width="1.5" fill="none"/>
+        <path d="M2 9L11 14.5L20 9" stroke="#FAF9F6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="17" cy="15" r="4" fill="#C9963A"/>
+        <circle cx="17" cy="15" r="2" stroke="#1E2235" stroke-width="1.2" fill="none"/>
+        <line x1="17" y1="16.2" x2="17" y2="18" stroke="#1E2235" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="17" y1="17.2" x2="18.2" y2="17.2" stroke="#1E2235" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">after<span>me</span></span>
+  </a>
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to home
+  </a>
+</nav>
+
+<main>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <p class="doc-eyebrow">Legal</p>
+  <h1 class="doc-title">Privacy <em>Policy</em></h1>
+
+  <div class="doc-meta">
+    <div class="doc-meta-item"><strong>Effective date</strong>18 March 2026</div>
+    <div class="doc-meta-item"><strong>Last updated</strong>18 March 2026</div>
+    <div class="doc-meta-item"><strong>Applies to</strong>After Me iOS app &amp; myafterme.co.uk</div>
+    <div class="doc-meta-item"><strong>Governing law</strong>UK GDPR · Data (Use and Access) Act 2025</div>
+  </div>
+
+  <!-- PLAIN ENGLISH SUMMARY -->
+  <div class="summary-box">
+    <div class="summary-title">Plain English summary</div>
+    <p class="summary-intro">This is the full legal document. Here is what it says in plain English:</p>
+    <ul class="summary-list">
+      <li><strong>Your documents never leave your phone.</strong> We cannot see them. We do not store them. They are encrypted on your device using AES-256 GCM and we have no access to the keys.</li>
+      <li><strong>We collect very little about you.</strong> When you download the app, we do not create an account for you. The only personal data we may collect is your email address if you join our waitlist, and anonymous crash reports if you opt in.</li>
+      <li><strong>We do not sell your data.</strong> Ever. To anyone. We do not use your data for advertising.</li>
+      <li><strong>We do not use third-party analytics inside the app.</strong> No Google Analytics, no Facebook Pixel, no tracking SDKs inside After Me.</li>
+      <li><strong>The website uses minimal cookies</strong> for basic functionality only. No tracking cookies without your consent.</li>
+      <li><strong>You have full rights</strong> over any personal data we hold — access, correction, deletion, portability. Contact us any time.</li>
+      <li><strong>If you use iCloud backup</strong> (optional), your vault is encrypted before it leaves your device. Apple cannot read it. We cannot read it.</li>
+    </ul>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-label">Contents</div>
+    <ol class="toc-list">
+      <li><a href="#who-we-are"><span class="toc-num">1.</span> Who we are</a></li>
+      <li><a href="#scope"><span class="toc-num">2.</span> Scope of this policy</a></li>
+      <li><a href="#what-we-collect"><span class="toc-num">3.</span> What personal data we collect and why</a></li>
+      <li><a href="#document-data"><span class="toc-num">4.</span> Your documents and vault contents</a></li>
+      <li><a href="#legal-basis"><span class="toc-num">5.</span> Our legal basis for processing</a></li>
+      <li><a href="#third-parties"><span class="toc-num">6.</span> Third parties and data sharing</a></li>
+      <li><a href="#icloud"><span class="toc-num">7.</span> iCloud backup</a></li>
+      <li><a href="#cookies"><span class="toc-num">8.</span> Cookies and website tracking</a></li>
+      <li><a href="#retention"><span class="toc-num">9.</span> How long we keep your data</a></li>
+      <li><a href="#security"><span class="toc-num">10.</span> Security</a></li>
+      <li><a href="#your-rights"><span class="toc-num">11.</span> Your rights</a></li>
+      <li><a href="#ccpa"><span class="toc-num">12.</span> California residents (CCPA / CPRA)</a></li>
+      <li><a href="#children"><span class="toc-num">13.</span> Children</a></li>
+      <li><a href="#transfers"><span class="toc-num">14.</span> International data transfers</a></li>
+      <li><a href="#complaints"><span class="toc-num">15.</span> Complaints</a></li>
+      <li><a href="#changes"><span class="toc-num">16.</span> Changes to this policy</a></li>
+      <li><a href="#contact"><span class="toc-num">17.</span> Contact us</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. WHO WE ARE -->
+  <div class="policy-section" id="who-we-are">
+    <h2>1. Who we are</h2>
+    <p>After Me is operated by <strong>After Me Ltd</strong>, a company registered in England and Wales (company number: <strong>[TO BE ADDED ON INCORPORATION]</strong>), with a registered address at <strong>[REGISTERED ADDRESS]</strong>.</p>
+    <p>For the purposes of UK data protection law — including the UK General Data Protection Regulation (UK GDPR), the Data Protection Act 2018, and the Data (Use and Access) Act 2025 — we are the <strong>data controller</strong> of any personal data we collect from you.</p>
+    <p>Our ICO registration number is: <strong>[TO BE ADDED — see ico.org.uk/registration]</strong>. You can verify our registration at <a href="https://ico.org.uk/ESDWebPages/Search" target="_blank" rel="noopener">ico.org.uk</a>.</p>
+    <p>We can be reached at <a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a> for all privacy-related enquiries.</p>
+  </div>
+
+  <!-- 2. SCOPE -->
+  <div class="policy-section" id="scope">
+    <h2>2. Scope of this policy</h2>
+    <p>This privacy policy applies to:</p>
+    <ul>
+      <li>The <strong>After Me iOS application</strong> (the "App")</li>
+      <li>The <strong>After Me website</strong> at myafterme.co.uk (the "Website")</li>
+      <li>Any communications between you and us, including email and support requests</li>
+    </ul>
+    <p>This policy does not apply to third-party websites or services that we may link to. We encourage you to review the privacy policies of any third-party services you use.</p>
+    <p>This policy should be read alongside our <a href="/terms">Terms of Service</a>.</p>
+  </div>
+
+  <!-- 3. WHAT WE COLLECT -->
+  <div class="policy-section" id="what-we-collect">
+    <h2>3. What personal data we collect and why</h2>
+    <p>After Me is designed around a principle of <strong>minimal data collection</strong>. The App's core function — storing and encrypting your documents — requires no personal data to reach us at all. Below is a complete account of everything we do and do not collect.</p>
+
+    <h3>3.1 Data we collect when you use the App</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Data type</th>
+          <th>Why we collect it</th>
+          <th>Where it is stored</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>In-app purchase receipt</strong><br>Confirmation of your payment</td>
+          <td>To unlock premium features. Handled entirely by Apple's StoreKit — we receive only a confirmation token, not your payment details.</td>
+          <td>Apple's servers and your device. We hold only an anonymised purchase confirmation.</td>
+        </tr>
+        <tr>
+          <td><strong>Crash reports</strong> (opt-in only)<br>Anonymous technical error data</td>
+          <td>To fix bugs and improve stability. Contains device type, iOS version, and error stack trace. PII is scrubbed before transmission. Never contains document content, names, or identifying information.</td>
+          <td>Sentry (see Section 6). Retained for 90 days then deleted automatically.</td>
+        </tr>
+        <tr>
+          <td><strong>iCloud vault backup</strong> (opt-in only)<br>Your encrypted vault file</td>
+          <td>To protect your vault if your device is lost or damaged. The vault is encrypted on your device before upload. See Section 7.</td>
+          <td>Your personal iCloud account. We have no access to it.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box amber">
+      <p><strong>Important:</strong> The App does not collect your name, email address, location, contacts, or any biometric data. Face ID and Touch ID authentication is handled entirely by Apple's LocalAuthentication framework on your device. We never receive or store any biometric data.</p>
+    </div>
+
+    <h3>3.2 Data we collect on the Website</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Data type</th>
+          <th>Why we collect it</th>
+          <th>Retention</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Email address</strong><br>Provided voluntarily via waitlist form</td>
+          <td>To notify you when After Me launches and send you early access information. We will only send you what you signed up for.</td>
+          <td>Until you unsubscribe, or 24 months from collection, whichever is sooner.</td>
+        </tr>
+        <tr>
+          <td><strong>Support enquiries</strong><br>Email content and address when you contact us</td>
+          <td>To respond to your question or complaint and maintain a record of support interactions.</td>
+          <td>3 years from last contact, then deleted.</td>
+        </tr>
+        <tr>
+          <td><strong>Server logs</strong><br>IP address, browser type, pages visited, timestamp</td>
+          <td>Standard web server logs for security monitoring and diagnosing technical issues.</td>
+          <td>30 days, then automatically deleted.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.3 Data we do NOT collect</h3>
+    <p>For complete clarity, we do not collect, process, or have access to:</p>
+    <ul>
+      <li>The documents, images, or files you store in your vault</li>
+      <li>Your vault encryption keys</li>
+      <li>Your biometric data (Face ID or Touch ID)</li>
+      <li>Your contacts, calendar, or location</li>
+      <li>Your browsing history or behaviour within the App</li>
+      <li>Any data for advertising or profiling purposes</li>
+      <li>Data from your Family Kit QR code or the documents it contains</li>
+    </ul>
+  </div>
+
+  <!-- 4. DOCUMENT DATA -->
+  <div class="policy-section" id="document-data">
+    <h2>4. Your documents and vault contents</h2>
+    <p>This section is important. Please read it carefully.</p>
+    <p>All documents, images, personal messages, and metadata you store within the After Me vault are <strong>encrypted on your device</strong> using AES-256 GCM encryption before they are stored. The encryption keys are generated on your device and held in Apple's Secure Enclave. We do not hold, transmit, receive, or have any means of accessing your encryption keys.</p>
+    <p>This means:</p>
+    <ul>
+      <li>We cannot read your documents under any circumstances</li>
+      <li>We cannot comply with a request to provide your documents to third parties, because we do not have them</li>
+      <li>If you are locked out of your vault, we cannot recover your data — this is a deliberate feature of the zero-knowledge architecture</li>
+      <li>If your device is destroyed and you have not created a Family Kit or enabled iCloud backup, your vault data cannot be recovered by anyone</li>
+    </ul>
+    <p>The .afterme file format is an open, documented standard. The specification and a reference decoder are published at <a href="/format-spec">myafterme.co.uk/format-spec</a>. This means your family can access your vault documents using any compatible tool, not just our App.</p>
+    <p>Because your vault contents never reach our systems, we are not a data controller or data processor in relation to the documents you store. You are the sole controller of your vault contents.</p>
+  </div>
+
+  <!-- 5. LEGAL BASIS -->
+  <div class="policy-section" id="legal-basis">
+    <h2>5. Our legal basis for processing</h2>
+    <p>Under UK GDPR and the Data (Use and Access) Act 2025, we must have a valid legal basis for each processing activity. Our legal bases are as follows:</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Processing activity</th>
+          <th>Legal basis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Processing your in-app purchase and providing premium features</td>
+          <td><strong>Contract</strong> — necessary to fulfil our agreement with you when you purchase the App.</td>
+        </tr>
+        <tr>
+          <td>Sending you waitlist emails and launch notifications</td>
+          <td><strong>Consent</strong> — you provided your email address and agreed to receive these communications. You can withdraw consent at any time by unsubscribing.</td>
+        </tr>
+        <tr>
+          <td>Responding to support requests</td>
+          <td><strong>Legitimate interests</strong> — we have a legitimate interest in resolving your queries and maintaining a record of support interactions. This does not override your rights.</td>
+        </tr>
+        <tr>
+          <td>Processing anonymous crash reports (if you opt in)</td>
+          <td><strong>Consent</strong> — you choose whether to share crash data when first using the App. You can change this in Settings at any time.</td>
+        </tr>
+        <tr>
+          <td>Website server security logs</td>
+          <td><strong>Legitimate interests</strong> — we have a legitimate interest in maintaining the security and integrity of our website infrastructure.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. THIRD PARTIES -->
+  <div class="policy-section" id="third-parties">
+    <h2>6. Third parties and data sharing</h2>
+    <p>We do not sell, rent, or trade your personal data to any third party.</p>
+    <p>We may share limited personal data with the following categories of third party, only to the extent necessary:</p>
+
+    <h3>6.1 Apple Inc.</h3>
+    <p>The App is distributed through the Apple App Store. Apple processes transaction data when you make a purchase and may collect device identifiers and usage data in accordance with <a href="https://www.apple.com/uk/legal/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a>. We receive only a purchase confirmation token — not your payment card details.</p>
+
+    <h3>6.2 Sentry (Functional Software, Inc.)</h3>
+    <p>If you opt in to crash reporting, anonymous technical error data (device model, iOS version, stack traces) is processed by Sentry, our crash reporting service. Personally identifiable information and all document content are excluded via SDK-level PII scrubbing before transmission. Data may be processed in the EU or US. See <a href="https://sentry.io/privacy/" target="_blank" rel="noopener">Sentry's Privacy Policy</a>.</p>
+
+    <h3>6.3 Vercel Inc. (web hosting)</h3>
+    <p>Our website is hosted by Vercel. Standard server log data (see Section 3.2) is processed on Vercel's infrastructure. We have a data processing agreement in place. See <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Vercel's Privacy Policy</a>.</p>
+
+    <h3>6.4 Email service provider</h3>
+    <p>We use a third-party email service to manage our waitlist and send launch notifications. Your email address is stored on their servers solely for the purpose of sending emails on our behalf. We have a data processing agreement in place with this provider prohibiting any other use of your data.</p>
+
+    <h3>6.5 Legal requirements</h3>
+    <p>We may disclose personal data if required to do so by law, court order, or at the request of a regulatory authority. We will notify you of any such requirement where we are legally permitted to do so.</p>
+
+    <h3>6.6 Business transfer</h3>
+    <p>If After Me is acquired by or merged with another company, your personal data may be transferred to the new owners. We will notify you before your data is transferred and becomes subject to a different privacy policy.</p>
+
+    <div class="info-box">
+      <p><strong>What we will never do:</strong> Share your data with advertisers, sell your data to data brokers, use your data to build advertising profiles, or provide your data to social media platforms for targeting purposes.</p>
+    </div>
+  </div>
+
+  <!-- 7. ICLOUD -->
+  <div class="policy-section" id="icloud">
+    <h2>7. iCloud backup</h2>
+    <p>After Me offers an entirely optional encrypted iCloud backup feature. It can be enabled or disabled in Settings at any time.</p>
+    <p>When iCloud backup is enabled:</p>
+    <ul>
+      <li>Your vault is encrypted on your device using AES-256 GCM <strong>before</strong> being uploaded to iCloud</li>
+      <li>The encryption key remains in your device's Secure Enclave — it is not uploaded to iCloud</li>
+      <li>Apple cannot read the contents of your backed-up vault</li>
+      <li>We cannot read the contents of your backed-up vault</li>
+      <li>The backup is stored in your personal iCloud account, subject to <a href="https://www.apple.com/uk/legal/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a> and your iCloud storage limits</li>
+    </ul>
+    <p>iCloud backup is governed by Apple's terms. We have no contractual relationship with Apple in relation to your iCloud storage — this is a service between you and Apple.</p>
+  </div>
+
+  <!-- 8. COOKIES -->
+  <div class="policy-section" id="cookies">
+    <h2>8. Cookies and website tracking</h2>
+    <p>The After Me <strong>App</strong> does not use cookies.</p>
+    <p>The After Me <strong>Website</strong> (myafterme.co.uk) uses a small number of cookies. Under UK GDPR and PECR as amended by the Data (Use and Access) Act 2025, we are required to obtain your consent before placing non-essential cookies on your device.</p>
+
+    <h3>8.1 Strictly necessary cookies</h3>
+    <p>These cookies are required for the website to function and cannot be disabled. They do not collect personal data for marketing purposes.</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Cookie name</th><th>Purpose</th><th>Duration</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>session</td><td>Maintains your session state</td><td>Session</td></tr>
+        <tr><td>csrf_token</td><td>Security: prevents cross-site request forgery</td><td>Session</td></tr>
+      </tbody>
+    </table>
+
+    <h3>8.2 Analytics cookies</h3>
+    <p>We do not currently use analytics cookies. If we introduce them in future, we will request your consent via a cookie banner before placing them.</p>
+
+    <h3>8.3 Managing cookies</h3>
+    <p>You can control and delete cookies through your browser settings:
+      <a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Chrome</a> ·
+      <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471" target="_blank" rel="noopener">Safari</a> ·
+      <a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" target="_blank" rel="noopener">Firefox</a>
+    </p>
+  </div>
+
+  <!-- 9. RETENTION -->
+  <div class="policy-section" id="retention">
+    <h2>9. How long we keep your data</h2>
+    <p>We keep personal data only for as long as necessary for the purpose it was collected, and no longer than required by law.</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Data type</th><th>Retention period</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Your vault contents</td><td>Not held by us — stored locally on your device only</td></tr>
+        <tr><td>Waitlist email address</td><td>Until you unsubscribe, or 24 months from collection, whichever is sooner</td></tr>
+        <tr><td>Purchase confirmation</td><td>7 years (required for VAT and tax purposes under UK law)</td></tr>
+        <tr><td>Support correspondence</td><td>3 years from last contact</td></tr>
+        <tr><td>Crash reports</td><td>90 days, then automatically deleted</td></tr>
+        <tr><td>Website server logs</td><td>30 days, then automatically deleted</td></tr>
+      </tbody>
+    </table>
+    <p>When retention periods expire, data is permanently deleted or anonymised so it can no longer be associated with you.</p>
+  </div>
+
+  <!-- 10. SECURITY -->
+  <div class="policy-section" id="security">
+    <h2>10. Security</h2>
+    <p>We implement appropriate technical and organisational measures to protect personal data against unauthorised access, alteration, disclosure, or destruction.</p>
+    <ul>
+      <li><strong>App-level:</strong> AES-256 GCM encryption of all vault contents; keys stored in Apple's Secure Enclave; biometric authentication required for vault access; zero-knowledge architecture</li>
+      <li><strong>Website-level:</strong> HTTPS enforced across all pages; minimal data collection to reduce attack surface</li>
+      <li><strong>Organisational:</strong> Access to personal data is restricted to team members who require it. All team members are trained in data protection obligations.</li>
+    </ul>
+    <p>In the unlikely event of a personal data breach that is likely to result in a risk to your rights and freedoms, we will notify the ICO within 72 hours and notify you without undue delay as required by UK GDPR Articles 33 and 34.</p>
+    <p>The security of your vault also depends on keeping your device passcode and Family Kit QR card secure. We recommend storing your Family Kit in a physically secure location.</p>
+  </div>
+
+  <!-- 11. YOUR RIGHTS -->
+  <div class="policy-section" id="your-rights">
+    <h2>11. Your rights</h2>
+    <p>Under UK GDPR and the Data (Use and Access) Act 2025, you have the following rights in relation to the personal data we hold about you. These rights apply to data we hold — they do not apply to your vault contents, which we cannot access.</p>
+
+    <div class="rights-grid">
+      <div class="right-card">
+        <div class="right-name">Right of access</div>
+        <p class="right-desc">Request a copy of the personal data we hold about you (a Subject Access Request). We must respond within one month.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Right to rectification</div>
+        <p class="right-desc">Ask us to correct inaccurate or incomplete personal data we hold about you.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Right to erasure</div>
+        <p class="right-desc">Ask us to delete your personal data ("the right to be forgotten"). Some exceptions apply where we are required to keep records by law.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Right to restrict processing</div>
+        <p class="right-desc">Ask us to pause processing your personal data in certain circumstances, for example while you contest its accuracy.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Right to data portability</div>
+        <p class="right-desc">Receive a copy of your personal data in a structured, machine-readable format, and transfer it to another organisation.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Right to object</div>
+        <p class="right-desc">Object to processing based on legitimate interests. We must stop unless we can demonstrate compelling legitimate grounds.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Right to withdraw consent</div>
+        <p class="right-desc">Where processing is based on your consent, you can withdraw it at any time without affecting the lawfulness of prior processing.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-name">Automated decisions</div>
+        <p class="right-desc">We do not make automated decisions about you with legal or similarly significant effects. This right is not currently applicable.</p>
+      </div>
+    </div>
+
+    <p>To exercise any of these rights, contact us at <a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a>. We will respond within one month. We may need to verify your identity before processing your request. Exercising your rights is free of charge.</p>
+  </div>
+
+  <!-- 12. CCPA -->
+  <div class="policy-section" id="ccpa">
+    <h2>12. California residents (CCPA / CPRA)</h2>
+    <p>If you are a California resident, you have rights under the California Consumer Privacy Act and California Privacy Rights Act.</p>
+    <p><strong>We do not sell your personal information.</strong> We have never sold personal information and have no intention of doing so. Because we do not sell or share personal information for cross-context behavioural advertising, there is no sale to opt out of.</p>
+    <p><strong>Right to Know:</strong> The only personal data we process is anonymised crash metadata (device model, OS version, stack traces). We do not collect your name, email, location, or any identifying information within the App.</p>
+    <p><strong>Right to Delete:</strong> Delete your data at any time by removing documents in-app or deleting the app entirely. To request deletion of any data held on our servers, email <a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a>.</p>
+    <p><strong>Non-Discrimination:</strong> We will not discriminate against you for exercising any of your CCPA rights.</p>
+  </div>
+
+  <!-- 13. CHILDREN -->
+  <div class="policy-section" id="children">
+    <h2>13. Children</h2>
+    <p>After Me is not directed at children under the age of 18. We do not knowingly collect personal data from anyone under 18. The App's subject matter — end-of-life planning and estate management — is intended for adults only.</p>
+    <p>If you believe we have inadvertently collected personal data from a child under 18, please contact us at <a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a> and we will delete it promptly.</p>
+    <p>In accordance with our obligations under the Data (Use and Access) Act 2025 regarding children's higher protection matters, we have implemented age-appropriate design measures appropriate to the nature of our service.</p>
+  </div>
+
+  <!-- 14. INTERNATIONAL TRANSFERS -->
+  <div class="policy-section" id="transfers">
+    <h2>14. International data transfers</h2>
+    <p>Your documents never leave your device, so there are no international transfers of vault content.</p>
+    <p>Some of our third-party service providers may process data on servers located outside the UK or EEA. Where this occurs, we ensure appropriate safeguards are in place, including:</p>
+    <ul>
+      <li>Adequacy decisions made by the UK Secretary of State</li>
+      <li>International data transfer agreements (IDTAs) incorporating the ICO's standard contractual clauses</li>
+    </ul>
+    <p>Specifically, Sentry may process anonymised crash data on infrastructure in the EU or United States under applicable data transfer frameworks. No document content is ever transferred.</p>
+    <p>You can obtain more information about any international transfers by contacting us at <a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a>.</p>
+  </div>
+
+  <!-- 15. COMPLAINTS -->
+  <div class="policy-section" id="complaints">
+    <h2>15. Complaints</h2>
+    <p>If you have a concern about how we handle your personal data, please:</p>
+    <ol>
+      <li><strong>Contact us first</strong> at <a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a>. We will acknowledge your complaint within 5 working days and aim to resolve it within 28 days.</li>
+      <li>If you are not satisfied with our response, you have the right to <strong>complain to the Information Commissioner's Office (ICO)</strong>, the UK supervisory authority for data protection matters.</li>
+    </ol>
+    <div class="contact-card">
+      <h3>Information Commissioner's Office</h3>
+      <div class="contact-row"><span class="contact-label">Website</span><span class="contact-value"><a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a></span></div>
+      <div class="contact-row"><span class="contact-label">Helpline</span><span class="contact-value">0303 123 1113</span></div>
+      <div class="contact-row"><span class="contact-label">Address</span><span class="contact-value">Wycliffe House, Water Lane, Wilmslow, Cheshire, SK9 5AF</span></div>
+    </div>
+    <p>You also have the right to seek a judicial remedy through the courts, separate from and in addition to your right to complain to the ICO.</p>
+  </div>
+
+  <!-- 16. CHANGES -->
+  <div class="policy-section" id="changes">
+    <h2>16. Changes to this policy</h2>
+    <p>We may update this privacy policy from time to time to reflect changes in our practices, the services we offer, or legal requirements. We will notify you of significant changes by:</p>
+    <ul>
+      <li>Updating the "Last updated" date at the top of this document</li>
+      <li>Displaying a notice in the App on your next login, for material changes affecting App users</li>
+      <li>Sending an email to waitlist subscribers, for material changes affecting website users who have provided their email address</li>
+    </ul>
+    <p>Where a change requires your consent under UK GDPR, we will seek that consent before the new processing begins. Previous versions of this policy are available on request.</p>
+  </div>
+
+  <!-- 17. CONTACT -->
+  <div class="policy-section" id="contact">
+    <h2>17. Contact us</h2>
+    <p>For privacy-related questions, data subject requests, or to opt out of crash reporting, please contact us:</p>
+    <div class="contact-card">
+      <h3>After Me — Data Controller</h3>
+      <div class="contact-row"><span class="contact-label">Company</span><span class="contact-value">After Me Ltd</span></div>
+      <div class="contact-row"><span class="contact-label">Address</span><span class="contact-value">[Registered Address — to be added on incorporation]</span></div>
+      <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value"><a href="mailto:privacy@myafterme.co.uk">privacy@myafterme.co.uk</a></span></div>
+      <div class="contact-row"><span class="contact-label">Support</span><span class="contact-value"><a href="mailto:support@myafterme.co.uk">support@myafterme.co.uk</a></span></div>
+      <div class="contact-row"><span class="contact-label">ICO reg.</span><span class="contact-value">[To be added — see ico.org.uk/registration]</span></div>
+    </div>
+    <p>We aim to respond to all privacy-related enquiries within <strong>5 working days</strong> and to resolve them within <strong>one month</strong>.</p>
+  </div>
+
+  <!-- DOC FOOTER -->
+  <div style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--faint); text-align: center;">
+    <p style="font-size: 12px; color: var(--faint); margin-bottom: 6px;">After Me Privacy Policy · Version 2.0 · Effective 18 March 2026</p>
+    <p style="font-size: 12px; color: var(--faint);">Governing law: UK GDPR · Data Protection Act 2018 · Data (Use and Access) Act 2025</p>
+  </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">after<span>me</span></a>
+    <ul class="footer-links">
+      <li><a href="/how-it-works">How It Works</a></li>
+      <li><a href="/privacy" aria-current="page">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/format-spec">Open Format Spec</a></li>
+      <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>
+  </div>
+  <div style="max-width:1100px; margin: 28px auto 0; padding-top: 24px; border-top: 1px solid var(--faint);">
+    <p style="font-size:12px; color:var(--faint); text-align:center;">After Me is not a substitute for professional legal or financial advice. Documents are encrypted locally on your device. After Me Ltd cannot access your vault contents.</p>
+  </div>
+</footer>
+
+</body>
+</html>

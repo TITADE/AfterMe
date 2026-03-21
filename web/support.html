@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary SEO -->
+<title>Help & Support Centre — After Me | FAQ & Contact</title>
+<meta name="description" content="Get help with After Me. Answers to common questions about vault security, AES-256 encryption, document management, Personal Recovery Kits, Family Kit, and billing.">
+<meta name="author" content="After Me Ltd">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<link rel="canonical" href="https://myafterme.co.uk/support">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://myafterme.co.uk/support">
+<meta property="og:site_name"   content="After Me">
+<meta property="og:locale"      content="en_GB">
+<meta property="og:title"       content="Help & Support Centre — After Me">
+<meta property="og:description" content="Get help with After Me — FAQ on vault security, document management, recovery kits, Family Kit, and billing.">
+<meta property="og:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary">
+<meta name="twitter:title"       content="Help & Support Centre — After Me">
+<meta name="twitter:description" content="FAQ and contact information for After Me — the encrypted digital vault for end-of-life planning.">
+<meta name="twitter:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Theme -->
+<meta name="theme-color" content="#2D3142">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Structured Data — WebPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://myafterme.co.uk/support",
+  "url": "https://myafterme.co.uk/support",
+  "name": "Help & Support Centre — After Me",
+  "description": "FAQ and contact information for After Me, the encrypted digital vault for end-of-life planning.",
+  "inLanguage": "en-GB",
+  "isPartOf": { "@id": "https://myafterme.co.uk/#website" },
+  "publisher": { "@id": "https://myafterme.co.uk/#organization" }
+}
+</script>
+
+<!-- Structured Data — FAQPage (powers Google featured snippets) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is my data encrypted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All documents are encrypted with AES-256-GCM — the same standard used by governments and financial institutions worldwide. Your encryption key is generated on your device, stored in the iOS Secure Enclave (or Android Keystore), and protected by your biometric authentication (Face ID / Touch ID). The key never leaves your device and we have no copy of it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can After Me see my documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. After Me uses zero-knowledge architecture — your documents are encrypted with a key only you control. We have no technical ability to access, view, or decrypt your data. This is not a policy promise; it is the fundamental architecture of the system."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if I lose my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you enabled iCloud Backup, install After Me on your new device. Your vault will be restored automatically via iCloud Keychain and iCloud Documents — you just need to pass Face ID. Alternatively, use your Personal Recovery Kit: insert the USB drive containing the .afterme file and scan the printed QR Recovery Card."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a Personal Recovery Kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Personal Recovery Kit is your own backup system — an encrypted .afterme file paired with a printed QR Recovery Card. Store the .afterme file on a USB drive in a safe place, and keep the QR card separately or with a trusted person. Both are needed to restore; neither works alone. Create one in Settings → Personal Recovery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a Family Kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Family Kit is designed for your loved ones to access your vault after you pass. It contains an encrypted copy of your vault documents and a printed QR Key Card. You must have at least one document in your vault before you can create a kit — it is a snapshot of everything stored at that moment. Give the QR card to a trusted family member. When the time comes, they scan it and your vault opens — no account, no password needed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of documents can I store?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "After Me supports JPEG, PNG, and PDF files. You can scan physical documents using your device's camera with auto edge-detection and enhancement, import from your Photos library, or select files from your device's Files app."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's included in the free tier?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The free tier includes up to 5 documents, all 8 document categories, biometric vault lock, and the ability to import and scan documents. Your data is always accessible and exportable, even if you never upgrade."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I get with Premium?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Premium removes the 5-document free tier limit (up to 500 MB storage), unlocks Family Kit creation, enables multiple vaults (up to 5), and provides priority support. Choose between an annual plan (£34.99/year) or a lifetime purchase (£79.99, one-time). There is no subscription required for your documents to remain accessible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my documents be deleted if my premium lapses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Your documents are always yours. If your premium lapses, you revert to the free tier — read-only for documents beyond the 5-document limit, but nothing is deleted. You can still access, view, and export all your existing documents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if After Me shuts down?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your data will always be accessible. The .afterme format is an open, documented standard — a ZIP file containing an AES-256-GCM encrypted vault with step-by-step recovery instructions. It is designed to be opened without our app using freely available tools. We publish the full specification and an open-source decoder."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Fonts -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #2D3142;
+    --deep:     #252840;
+    --card:     #1E2235;
+    --amber:    #C9963A;
+    --amber-lt: #D4A84B;
+    --white:    #FAF9F6;
+    --muted:    rgba(250,249,246,0.55);
+    --faint:    rgba(250,249,246,0.22);
+    --serif:    'Playfair Display', Georgia, serif;
+    --sans:     'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(45,49,66,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--faint);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .nav-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-wordmark {
+    font-family: var(--serif); font-size: 22px; font-weight: 700;
+    color: var(--white); letter-spacing: -0.5px;
+  }
+  .nav-wordmark span { color: var(--amber); }
+  .nav-back {
+    font-size: 14px; color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--white); }
+
+  /* ── HERO BAND ── */
+  .hero-band {
+    padding: 120px 24px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--faint);
+    position: relative; overflow: hidden;
+  }
+  .hero-band::before {
+    content: '';
+    position: absolute; top: -20%; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(circle, rgba(201,150,58,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 3px;
+    color: var(--amber); text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -1.5px;
+    max-width: 680px; margin: 0 auto 20px;
+  }
+  .hero-headline em { font-style: italic; color: var(--amber); }
+  .hero-sub {
+    font-size: 16px; color: var(--muted);
+    max-width: 520px; margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── SEARCH (visual only) ── */
+  .search-wrap {
+    max-width: 560px; margin: 40px auto 0;
+    position: relative;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid rgba(250,249,246,0.18);
+    border-radius: 50px; padding: 16px 24px 16px 52px;
+    color: var(--white); font-size: 15px; font-family: var(--sans);
+    outline: none; transition: border-color 0.2s;
+  }
+  .search-input::placeholder { color: var(--faint); }
+  .search-input:focus { border-color: rgba(201,150,58,0.5); }
+  .search-icon {
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  /* ── QUICK LINKS ── */
+  .quick-links {
+    max-width: 1100px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 56px 24px 0;
+  }
+  .quick-card {
+    background: var(--card);
+    border: 1px solid var(--faint);
+    border-radius: 16px; padding: 28px 24px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .quick-card:hover {
+    border-color: rgba(201,150,58,0.4);
+    background: #232740;
+    transform: translateY(-2px);
+  }
+  .quick-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(201,150,58,0.1);
+    border: 1px solid rgba(201,150,58,0.2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .quick-title {
+    font-size: 15px; font-weight: 500; color: var(--white);
+    line-height: 1.3;
+  }
+  .quick-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── LAYOUT ── */
+  .page-wrap {
+    max-width: 1100px; margin: 0 auto;
+    padding: 72px 24px 120px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: sticky; top: 90px;
+  }
+  .sidebar-title {
+    font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    color: var(--faint); text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .sidebar-links { list-style: none; }
+  .sidebar-links li { margin-bottom: 4px; }
+  .sidebar-links a {
+    display: block; padding: 8px 12px;
+    font-size: 14px; color: var(--muted);
+    text-decoration: none; border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .sidebar-links a:hover { color: var(--white); background: rgba(250,249,246,0.05); }
+  .sidebar-links a.active { color: var(--amber); background: rgba(201,150,58,0.08); }
+  .sidebar-divider {
+    height: 1px; background: var(--faint);
+    margin: 20px 0;
+  }
+  .sidebar-contact {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; border: 1px solid var(--faint);
+    margin-top: 24px;
+  }
+  .sidebar-contact-title {
+    font-size: 13px; font-weight: 500; color: var(--white);
+    margin-bottom: 8px;
+  }
+  .sidebar-contact-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+  .sidebar-contact-link {
+    display: block; font-size: 13px; color: var(--amber);
+    text-decoration: underline; text-decoration-color: rgba(201,150,58,0.4);
+  }
+
+  /* ── CONTENT ── */
+  .faq-section { margin-bottom: 64px; }
+  .faq-section:last-child { margin-bottom: 0; }
+  .faq-section-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 3px;
+    color: var(--amber); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .faq-section-title {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.5vw, 28px);
+    font-weight: 700; letter-spacing: -0.5px;
+    line-height: 1.2; margin-bottom: 24px;
+    border-bottom: 1px solid var(--faint);
+    padding-bottom: 20px;
+  }
+
+  /* ── ACCORDION ── */
+  .accordion-item {
+    border-bottom: 1px solid rgba(250,249,246,0.08);
+  }
+  .accordion-item:last-child { border-bottom: none; }
+  .accordion-btn {
+    width: 100%; text-align: left;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0;
+    background: none; border: none; cursor: pointer;
+    color: var(--white); font-family: var(--sans);
+    font-size: 16px; font-weight: 400;
+    line-height: 1.4;
+    gap: 16px;
+  }
+  .accordion-btn:hover .accordion-q { color: var(--amber-lt); }
+  .accordion-q { flex: 1; transition: color 0.2s; }
+  .accordion-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(201,150,58,0.1);
+    border: 1px solid rgba(201,150,58,0.25);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px; color: var(--amber);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .accordion-item.open .accordion-icon {
+    background: rgba(201,150,58,0.2);
+    transform: rotate(45deg);
+  }
+  .accordion-answer {
+    display: none;
+    padding: 0 0 20px;
+    font-size: 15px; color: var(--muted); line-height: 1.75;
+  }
+  .accordion-item.open .accordion-answer { display: block; }
+  .accordion-answer a { color: var(--amber); text-decoration: underline; }
+
+  /* ── GETTING STARTED ── */
+  .getting-started {
+    background: var(--deep);
+    border-radius: 20px; padding: 36px;
+    margin-bottom: 64px;
+    border: 1px solid var(--faint);
+  }
+  .getting-started h2 {
+    font-family: var(--serif); font-size: 26px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .getting-started h2 em { font-style: italic; color: var(--amber); }
+  .getting-started .subtitle {
+    font-size: 14px; color: var(--muted); margin-bottom: 28px;
+  }
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .step-card {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; border: 1px solid var(--faint);
+  }
+  .step-number {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(201,150,58,0.15);
+    border: 1px solid rgba(201,150,58,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 14px; font-weight: 700;
+    color: var(--amber); margin-bottom: 12px;
+  }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
+  .step-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── CONTACT SECTION ── */
+  .contact-section {
+    background: var(--deep);
+    border: 1px solid rgba(201,150,58,0.2);
+    border-radius: 20px; padding: 48px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .contact-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  }
+  .contact-section h2 {
+    font-family: var(--serif); font-size: 28px; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .contact-section h2 em { font-style: italic; color: var(--amber); }
+  .contact-section p {
+    font-size: 16px; color: var(--muted); max-width: 440px;
+    margin: 0 auto 32px; line-height: 1.7;
+  }
+  .contact-cards {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 16px; max-width: 560px; margin: 0 auto;
+  }
+  .contact-card {
+    background: var(--card); border-radius: 14px;
+    padding: 24px; border: 1px solid var(--faint);
+    text-align: left; text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+    display: block;
+  }
+  .contact-card:hover { border-color: rgba(201,150,58,0.4); transform: translateY(-1px); }
+  .contact-card-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(201,150,58,0.1);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+  .contact-card-title { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+  .contact-card-sub { font-size: 13px; color: var(--muted); }
+  .contact-card-value { font-size: 13px; color: var(--amber); margin-top: 8px; font-weight: 500; }
+  .response-time {
+    margin-top: 24px; font-size: 13px; color: var(--faint);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .response-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4CAF50; opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 56px 48px 40px;
+    border-top: 1px solid var(--faint);
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-size: 20px; font-weight: 700;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--amber); }
+  .footer-links { display: flex; gap: 28px; list-style: none; }
+  .footer-links a {
+    font-size: 13px; color: var(--faint);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--muted); }
+  .footer-copy { font-size: 12px; color: var(--faint); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .quick-links { grid-template-columns: repeat(2, 1fr); }
+    .page-wrap { grid-template-columns: 1fr; gap: 0; }
+    .sidebar { position: static; display: none; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .contact-cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .hero-band { padding: 100px 20px 48px; }
+    .page-wrap { padding: 40px 20px 80px; }
+    .getting-started { padding: 24px; }
+    .contact-section { padding: 32px 24px; }
+    .quick-links { padding: 40px 20px 0; }
+    footer { padding: 40px 24px 32px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <rect x="2" y="5" width="18" height="13" rx="3" stroke="#FAF9F6" stroke-width="1.5" fill="none"/>
+        <path d="M2 9L11 14.5L20 9" stroke="#FAF9F6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="17" cy="15" r="4" fill="#C9963A"/>
+        <circle cx="17" cy="15" r="2" stroke="#1E2235" stroke-width="1.2" fill="none"/>
+        <line x1="17" y1="16.2" x2="17" y2="18" stroke="#1E2235" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="17" y1="17.2" x2="18.2" y2="17.2" stroke="#1E2235" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">after<span>me</span></span>
+  </a>
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to home
+  </a>
+</nav>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <p class="hero-eyebrow">Support Centre</p>
+  <h1 class="hero-headline">How can we <em>help?</em></h1>
+  <p class="hero-sub">Find answers about vault security, document management, recovery kits, and subscriptions. Or contact us directly.</p>
+  <div class="search-wrap">
+    <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <circle cx="8.5" cy="8.5" r="5.5" stroke="rgba(250,249,246,0.35)" stroke-width="1.5"/>
+      <path d="M13 13l3.5 3.5" stroke="rgba(250,249,246,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <input type="text" class="search-input" placeholder="Search for help…" aria-label="Search help articles">
+  </div>
+</div>
+
+<!-- QUICK LINKS -->
+<div class="quick-links">
+  <a href="#security" class="quick-card">
+    <div class="quick-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M10 2L3 5.5v6c0 3.5 3 6.5 7 7 4-0.5 7-3.5 7-7v-6L10 2z" stroke="#C9963A" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+    <div class="quick-title">Security &amp; Privacy</div>
+    <div class="quick-sub">How your data is protected and who can access it</div>
+  </a>
+  <a href="#recovery" class="quick-card">
+    <div class="quick-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0z" stroke="#C9963A" stroke-width="1.5" fill="none"/>
+        <path d="M10 6v4l2.5 2.5" stroke="#C9963A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="quick-title">Recovery &amp; Backup</div>
+    <div class="quick-sub">Lost device, recovery kits, and iCloud backup</div>
+  </a>
+  <a href="#documents" class="quick-card">
+    <div class="quick-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="3" y="2" width="14" height="16" rx="2" stroke="#C9963A" stroke-width="1.5" fill="none"/>
+        <line x1="7" y1="7" x2="13" y2="7" stroke="#C9963A" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="7" y1="10" x2="13" y2="10" stroke="#C9963A" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="7" y1="13" x2="10" y2="13" stroke="#C9963A" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="quick-title">Documents &amp; Vault</div>
+    <div class="quick-sub">Scanning, importing, organising, and storage</div>
+  </a>
+  <a href="#subscription" class="quick-card">
+    <div class="quick-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="7.5" stroke="#C9963A" stroke-width="1.5" fill="none"/>
+        <path d="M10 6v1.5M10 12.5V14M7.5 10h5" stroke="#C9963A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="quick-title">Plans &amp; Billing</div>
+    <div class="quick-sub">Premium, purchases, restoring, and cancellation</div>
+  </a>
+</div>
+
+<div class="page-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <p class="sidebar-title">On this page</p>
+    <ul class="sidebar-links">
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#security">Security &amp; Privacy</a></li>
+      <li><a href="#recovery">Recovery &amp; Backup</a></li>
+      <li><a href="#documents">Documents &amp; Vault</a></li>
+      <li><a href="#subscription">Plans &amp; Billing</a></li>
+      <li><a href="#format">The .afterme Format</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-contact">
+      <p class="sidebar-contact-title">Still stuck?</p>
+      <p class="sidebar-contact-sub">Our support team usually responds within 24 hours on weekdays.</p>
+      <a href="mailto:support@myafterme.co.uk" class="sidebar-contact-link">support@myafterme.co.uk</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- GETTING STARTED -->
+    <div id="getting-started" class="getting-started">
+      <h2>Getting <em>started</em></h2>
+      <p class="subtitle">New to After Me? Here's how to set up your vault in under 20 minutes.</p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-title">Set up biometric lock</div>
+          <div class="step-body">Enable Face ID or Touch ID. This creates your vault key — stored in the Secure Enclave, never on our servers.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-title">Scan your documents</div>
+          <div class="step-body">Use the built-in scanner or import from Files / Photos. Organise into 8 categories: Identity, Financial, Legal, and more.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-title">Create your Family Kit</div>
+          <div class="step-body">Once you have documents in your vault, go to the <strong>Family Kit</strong> tab and tap Create. The kit requires at least one document — it is an encrypted copy of your vault. Print or share the QR Key Card with a trusted person. That's your legacy sorted.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div id="security" class="faq-section">
+      <p class="faq-section-eyebrow">Security &amp; Privacy</p>
+      <h2 class="faq-section-title">Keeping your data safe</h2>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">How is my data encrypted?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          All documents are encrypted with AES-256-GCM — the same standard used by governments and financial institutions worldwide. Your encryption key is generated on your device, stored in the iOS Secure Enclave (or Android Keystore), and protected by your biometric authentication (Face ID / Touch ID). The key never leaves your device and we have no copy of it.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Can After Me see my documents?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          No. After Me uses zero-knowledge architecture — your documents are encrypted with a key only you control. We have no technical ability to access, view, or decrypt your data. This is not a policy promise; it is the fundamental architecture of the system.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What data does After Me collect?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Very little. We collect anonymised crash reports (device model, OS version, and stack traces) to help fix bugs. We never collect document content, document titles, your name, your email, or your location. There is no After Me account — we do not know who you are. See our <a href="/privacy">Privacy Policy</a> for full details.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What happens to my data if I delete the app?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Deleting the app permanently removes all local data from your device. If you have an iCloud backup enabled or a Personal Recovery Kit, you can restore your vault on a new installation. Without a backup, your data is unrecoverable — by design.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Is my data sent to the cloud?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Only if you explicitly enable iCloud Backup in Settings. When enabled, an encrypted copy of your vault is stored in your personal iCloud Documents container under your own Apple ID. Your encryption key is stored separately in iCloud Keychain. After Me has no access to your iCloud account.
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOVERY -->
+    <div id="recovery" class="faq-section">
+      <p class="faq-section-eyebrow">Recovery &amp; Backup</p>
+      <h2 class="faq-section-title">Never lose access to your vault</h2>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What happens if I lose my phone?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          If you enabled iCloud Backup, install After Me on your new device. Your vault will be restored automatically via iCloud Keychain + iCloud Documents — you just need to pass Face ID. Alternatively, use your Personal Recovery Kit: insert the USB drive containing the .afterme file and scan the printed QR Recovery Card.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What is a Personal Recovery Kit?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          A Personal Recovery Kit is your own backup system — an encrypted .afterme file paired with a printed QR Recovery Card. Store the .afterme file on a USB drive in a safe place, and keep the QR card separately (or with a trusted person). Both are needed to restore; neither works alone. Create one in Settings → Personal Recovery.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What is a Family Kit?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          A Family Kit is designed for your loved ones to access your vault after you pass. It contains an encrypted copy of your vault documents and a printed QR Key Card. To create a kit, you must first have at least one document in your vault — the kit is a snapshot of everything you have stored at that moment. Give the QR card to a trusted family member. When the time comes, they scan it with any camera and your vault opens — no account, no password needed.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">How often should I update my kits?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Whenever you add, update, or remove documents from your vault. The app will show you a warning on the Dashboard when your kits become stale (out of sync with your current vault). We recommend updating them at least once a year as a minimum.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Can I have multiple backups?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Yes. You can enable iCloud Backup for automatic encrypted backups, create a Personal Recovery Kit for offline USB backup, and create a Family Kit for your loved ones — all simultaneously. We recommend having at least two: iCloud and either a Personal Recovery Kit or Family Kit.
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div id="documents" class="faq-section">
+      <p class="faq-section-eyebrow">Documents &amp; Vault</p>
+      <h2 class="faq-section-title">Managing your documents</h2>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What types of documents can I store?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          After Me supports JPEG, PNG, and PDF files. You can scan physical documents using your device's camera (with auto edge-detection and enhancement), import from your Photos library, or select files directly from your device's Files app.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">How do I scan a document?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Tap the + button in the Document Library, then choose "Scan Document". Position your document in good lighting. The scanner automatically detects edges, corrects perspective, and enhances contrast. Tap to capture or let it capture automatically. You can review and retake each page before saving.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">How are documents organised?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Documents are organised into 8 categories: Identity (passport, driving licence), Financial (bank accounts, investments), Property (deeds, mortgage), Insurance (life, health, home), Medical (advance directives, prescriptions), Legal (will, power of attorney), Digital (online accounts, passwords), and Personal (letters, photos, wishes). Each document can have a title, notes, and expiry date reminder.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Is there a storage limit?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          The free tier allows up to 5 documents. Premium users can store up to 500 MB of encrypted data. Your current storage usage is shown in Settings → Vault Information. Most vaults — even with high-quality scans of all major documents — comfortably fit within this limit.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Can I have multiple vaults?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Premium users can create up to 5 separate vaults, each with its own encryption key and storage. This is useful for managing documents for elderly parents, for example. Switch between vaults in Settings → Manage Vaults. Each vault has its own Family Kit and recovery options.
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIPTION -->
+    <div id="subscription" class="faq-section">
+      <p class="faq-section-eyebrow">Plans &amp; Billing</p>
+      <h2 class="faq-section-title">Pricing and purchases</h2>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What's included in the free tier?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          The free tier includes up to 5 documents, all 8 document categories, biometric vault lock, and the ability to import and scan documents. The free tier is read-only forever — your data is always accessible and exportable, even if you never upgrade.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What do I get with Premium?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Premium removes the 5-document free tier limit (up to 500 MB storage), unlocks Family Kit creation, enables multiple vaults (up to 5), and provides priority support. Choose between an annual plan (£34.99/year) or a lifetime purchase (£79.99, one-time — then never again). There is no subscription required for your documents to remain accessible.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">How do I restore a previous purchase?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Go to Settings → Subscription → Restore Purchases. This checks your Apple ID for any existing purchases associated with your account. Make sure you are signed in to the same Apple ID used for the original purchase. If the issue persists, contact us at <a href="mailto:support@myafterme.co.uk">support@myafterme.co.uk</a>.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">How do I cancel my subscription?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Manage your subscription through your device's App Store settings: Settings (iPhone) → Your Name → Subscriptions. You'll retain premium access until the end of your current billing period. Cancelling does not delete your documents.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Will my documents be deleted if my premium lapses?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          No. Your documents are always yours. If your premium lapses, you revert to the free tier (read-only for documents beyond the 5-document limit, but nothing is deleted). You can still access, view, and export all your existing documents.
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMAT -->
+    <div id="format" class="faq-section">
+      <p class="faq-section-eyebrow">The .afterme Format</p>
+      <h2 class="faq-section-title">Open and future-proof</h2>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What is the .afterme format?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          The .afterme format is an open, documented standard — a ZIP file containing an AES-256-GCM encrypted vault, a key file, a manifest, and a README with step-by-step recovery instructions. It is designed to be opened without our app using freely available tools. We publish the full specification and an open-source decoder. See <a href="/format-spec">the format specification</a> for technical details.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">What if After Me shuts down?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          Your documents remain fully accessible. The .afterme format is open and publicly documented. Anyone can write a decoder using the specification. The README inside every .afterme file contains step-by-step instructions for recovering documents using standard command-line tools — no After Me app required.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggle(this)">
+          <span class="accordion-q">Can someone open a .afterme file without the QR code?</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-answer">
+          No. The .afterme file is encrypted with a key derived from the access key (encoded in the QR code) using PBKDF2-HMAC-SHA256 at 600,000 iterations. Without the correct access key, the file is cryptographically unreadable — it cannot be brute-forced with current or near-future computing resources.
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contact" class="contact-section">
+      <h2>Still need <em>help?</em></h2>
+      <p>Our support team is here for you. We aim to respond to all enquiries within 24 hours on weekdays.</p>
+      <div class="contact-cards">
+        <a href="mailto:support@myafterme.co.uk" class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect x="1" y="4" width="16" height="11" rx="2" stroke="#C9963A" stroke-width="1.3" fill="none"/>
+              <path d="M1 7l8 5.5L17 7" stroke="#C9963A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="contact-card-title">Email Support</div>
+          <div class="contact-card-sub">General help, technical issues, and feedback</div>
+          <div class="contact-card-value">support@myafterme.co.uk</div>
+        </a>
+        <a href="mailto:privacy@myafterme.co.uk" class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 1.5L2 5v6c0 3.5 3 6.5 7 7 4-.5 7-3.5 7-7V5L9 1.5z" stroke="#C9963A" stroke-width="1.3" fill="none"/>
+            </svg>
+          </div>
+          <div class="contact-card-title">Privacy Enquiries</div>
+          <div class="contact-card-sub">Data requests, GDPR, CCPA, and policy questions</div>
+          <div class="contact-card-value">privacy@myafterme.co.uk</div>
+        </a>
+      </div>
+      <p class="response-time">
+        <span class="response-dot"></span>
+        Typical response time: within 24 hours on weekdays
+      </p>
+    </div>
+
+  <!-- DATA DELETION SECTION — required by Google Play Data Safety policy -->
+  <section id="delete-my-data" style="max-width:720px;margin:0 auto 64px;padding:0 24px;">
+    <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#C9963A;font-weight:600;margin-bottom:8px;">Data &amp; Privacy</p>
+    <h2 style="font-size:clamp(22px,4vw,30px);font-weight:700;margin-bottom:16px;color:#F0EDE8;">How to delete your data</h2>
+    <p style="color:#B0A99F;line-height:1.7;margin-bottom:20px;">
+      After Me stores everything <strong style="color:#F0EDE8;">exclusively on your device</strong>. No documents, keys, or personal information are held on our servers — so there is nothing on our side to delete.
+    </p>
+    <p style="color:#B0A99F;line-height:1.7;margin-bottom:20px;">
+      To permanently delete all your data, open the app and go to <strong style="color:#F0EDE8;">Settings → Developer → Delete All Data</strong>. This immediately and irreversibly wipes your encrypted vault, all stored documents, your biometric key, and every app preference from the device. The deletion cannot be undone.
+    </p>
+    <p style="color:#B0A99F;line-height:1.7;margin-bottom:20px;">
+      If you uninstall the app without first deleting your data, the encrypted vault files remain in your device storage until the operating system removes them as part of the uninstall process. On both iOS and Android, a full app uninstall removes all associated app data.
+    </p>
+    <p style="color:#B0A99F;line-height:1.7;margin-bottom:28px;">
+      The only off-device data we may hold is anonymous crash diagnostics (Sentry) — these contain no personal information, no document content, and no vault data. To request deletion of crash logs, email us at the address below.
+    </p>
+    <a href="mailto:privacy@myafterme.co.uk?subject=Data%20Deletion%20Request"
+       style="display:inline-block;background:#C9963A;color:#0F0F0F;font-weight:700;padding:14px 28px;border-radius:8px;text-decoration:none;font-size:15px;">
+      Contact us: privacy@myafterme.co.uk
+    </a>
+  </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">after<span>me</span></a>
+    <ul class="footer-links">
+      <li><a href="/how-it-works">How It Works</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/support" aria-current="page">Support</a></li>
+      <li><a href="/format-spec">Open Format Spec</a></li>
+      <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>
+  </div>
+  <div style="max-width:1100px; margin: 28px auto 0; padding-top: 24px; border-top: 1px solid var(--faint);">
+    <p style="font-size:12px; color:var(--faint);">After Me is not a substitute for professional legal or financial advice. Documents are encrypted locally on your device. After Me Ltd cannot access your vault contents.</p>
+  </div>
+</footer>
+
+<script>
+  // Accordion toggle
+  function toggle(btn) {
+    const item = btn.closest('.accordion-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.accordion-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Sidebar active state on scroll
+  const sections = document.querySelectorAll('[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 120) {
+        current = section.getAttribute('id');
+      }
+    });
+    sidebarLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
