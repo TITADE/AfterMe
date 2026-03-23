@@ -5,26 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>.afterme Format Specification — After Me</title>
 <meta name="description" content="The open, documented .afterme file format for secure document vaults. Your family can always open your vault — even without our app.">
+<meta name="keywords" content="afterme file format, open vault format, AES-256 GCM specification, open source decoder">
+<meta name="author" content="After Me Ltd">
+<meta name="robots" content="index, follow, max-snippet:-1">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="article">
+<meta property="og:url"         content="https://myafterme.co.uk/format-spec">
+<meta property="og:site_name"   content="After Me">
+<meta property="og:locale"      content="en_GB">
+<meta property="og:title"       content=".afterme Format Specification — After Me">
+<meta property="og:description" content="The open, documented .afterme file format for secure document vaults. Your family can always open your vault — even without our app.">
+<meta property="og:image"       content="https://myafterme.co.uk/og-image.png">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content=".afterme Format Specification — After Me">
+<meta name="twitter:description" content="Open, documented file format for encrypted document vaults. Always accessible, even without the app.">
+<meta name="twitter:image"       content="https://myafterme.co.uk/og-image.png">
+
+<meta name="theme-color" content="#2D3142">
+<link rel="canonical" href="https://myafterme.co.uk/format-spec">
+<link rel="alternate" hreflang="en-gb" href="https://myafterme.co.uk/format-spec">
+<link rel="alternate" hreflang="x-default" href="https://myafterme.co.uk/format-spec">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #2D3142; --deep: #252840; --card: #1E2235;
-    --amber: #C9963A; --white: #FAF9F6; --muted: rgba(250,249,246,0.55);
-    --faint: rgba(250,249,246,0.22); --serif: 'Playfair Display', serif;
-    --sans: 'DM Sans', sans-serif; --mono: 'JetBrains Mono', monospace;
-  }
-  body { background: var(--bg); color: var(--white); font-family: var(--sans); line-height: 1.75; }
-  nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px; border-bottom: 1px solid var(--faint);
-  }
-  .nav-logo { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--white); text-decoration: none; }
+  :root { --mono: 'JetBrains Mono', monospace; }
+  body { line-height: 1.75; }
+  nav { position: static; background: transparent; backdrop-filter: none; }
+  .nav-logo { display: inline; font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--white); }
   .nav-logo span { color: var(--amber); }
-  .nav-back { color: var(--muted); text-decoration: none; font-size: 14px; }
-  .nav-back:hover { color: var(--white); }
   main { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
   h1 { font-family: var(--serif); font-size: 36px; margin-bottom: 12px; }
   .subtitle { color: var(--muted); font-size: 16px; margin-bottom: 40px; }
@@ -200,5 +216,25 @@ const plaintext = Buffer.concat([
 
   <p class="version">Last updated: March 2026. This specification is maintained at https://afterme.app/format-spec</p>
 </main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">after<span>me</span></a>
+    <ul class="footer-links">
+      <li><a href="/how-it-works">How It Works</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/format-spec" aria-current="page">Open Format Spec</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>
+  </div>
+  <div style="max-width:1100px; margin: 28px auto 0; padding-top: 24px; border-top: 1px solid var(--faint);">
+    <p style="font-size:12px; color:var(--faint); text-align:center;">After Me is not a substitute for professional legal or financial advice. Documents are encrypted locally on your device. After Me Ltd cannot access your vault contents.</p>
+  </div>
+</footer>
 </body>
 </html>

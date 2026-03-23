@@ -1,0 +1,16 @@
+{
+  "name": "After Me — Encrypted Digital Vault",
+  "short_name": "After Me",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#2D3142",
+  "theme_color": "#2D3142",
+  "description": "Secure, local-first digital vault for end-of-life planning.",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

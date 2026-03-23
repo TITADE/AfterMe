@@ -7,9 +7,12 @@
 <!-- Primary SEO -->
 <title>Help & Support Centre — After Me | FAQ & Contact</title>
 <meta name="description" content="Get help with After Me. Answers to common questions about vault security, AES-256 encryption, document management, Personal Recovery Kits, Family Kit, and billing.">
+<meta name="keywords" content="after me help, vault support, encrypted document FAQ, family kit help, after me contact">
 <meta name="author" content="After Me Ltd">
 <meta name="robots" content="index, follow, max-snippet:-1">
 <link rel="canonical" href="https://myafterme.co.uk/support">
+<link rel="alternate" hreflang="en-gb" href="https://myafterme.co.uk/support">
+<link rel="alternate" hreflang="x-default" href="https://myafterme.co.uk/support">
 
 <!-- Open Graph -->
 <meta property="og:type"        content="website">
@@ -29,6 +32,8 @@
 <!-- Theme -->
 <meta name="theme-color" content="#2D3142">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
 
 <!-- Structured Data — WebPage -->
 <script type="application/ld+json">
@@ -56,7 +61,7 @@
       "name": "How is my data encrypted?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All documents are encrypted with AES-256-GCM — the same standard used by governments and financial institutions worldwide. Your encryption key is generated on your device, stored in the iOS Secure Enclave (or Android Keystore), and protected by your biometric authentication (Face ID / Touch ID). The key never leaves your device and we have no copy of it."
+        "text": "All documents are encrypted with AES-256-GCM \u2014 the same standard used by governments and financial institutions worldwide. Your encryption key is generated on your device, stored in the iOS Secure Enclave (or Android Keystore), and protected by your biometric authentication (Face ID / Touch ID). The key never leaves your device and we have no copy of it."
       }
     },
     {
@@ -64,7 +69,31 @@
       "name": "Can After Me see my documents?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. After Me uses zero-knowledge architecture — your documents are encrypted with a key only you control. We have no technical ability to access, view, or decrypt your data. This is not a policy promise; it is the fundamental architecture of the system."
+        "text": "No. After Me uses zero-knowledge architecture \u2014 your documents are encrypted with a key only you control. We have no technical ability to access, view, or decrypt your data. This is not a policy promise; it is the fundamental architecture of the system."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What data does After Me collect?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Very little. We collect anonymised crash reports (device model, OS version, and stack traces) to help fix bugs. We never collect document content, document titles, your name, your email, or your location. There is no After Me account \u2014 we do not know who you are. See our Privacy Policy for full details."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens to my data if I delete the app?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Deleting the app permanently removes all local data from your device. If you have an iCloud backup enabled or a Personal Recovery Kit, you can restore your vault on a new installation. Without a backup, your data is unrecoverable \u2014 by design."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data sent to the cloud?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only if you explicitly enable iCloud Backup in Settings. When enabled, an encrypted copy of your vault is stored in your personal iCloud Documents container under your own Apple ID. Your encryption key is stored separately in iCloud Keychain. After Me has no access to your iCloud account."
       }
     },
     {
@@ -72,7 +101,7 @@
       "name": "What happens if I lose my phone?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If you enabled iCloud Backup, install After Me on your new device. Your vault will be restored automatically via iCloud Keychain and iCloud Documents — you just need to pass Face ID. Alternatively, use your Personal Recovery Kit: insert the USB drive containing the .afterme file and scan the printed QR Recovery Card."
+        "text": "If you enabled iCloud Backup, install After Me on your new device. Your vault will be restored automatically via iCloud Keychain + iCloud Documents \u2014 you just need to pass Face ID. Alternatively, use your Personal Recovery Kit: insert the USB drive containing the .afterme file and scan the printed QR Recovery Card."
       }
     },
     {
@@ -80,7 +109,7 @@
       "name": "What is a Personal Recovery Kit?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A Personal Recovery Kit is your own backup system — an encrypted .afterme file paired with a printed QR Recovery Card. Store the .afterme file on a USB drive in a safe place, and keep the QR card separately or with a trusted person. Both are needed to restore; neither works alone. Create one in Settings → Personal Recovery."
+        "text": "A Personal Recovery Kit is your own backup system \u2014 an encrypted .afterme file paired with a printed QR Recovery Card. Store the .afterme file on a USB drive in a safe place, and keep the QR card separately (or with a trusted person). Both are needed to restore; neither works alone. Create one in Settings \u2192 Personal Recovery."
       }
     },
     {
@@ -88,7 +117,23 @@
       "name": "What is a Family Kit?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A Family Kit is designed for your loved ones to access your vault after you pass. It contains an encrypted copy of your vault documents and a printed QR Key Card. You must have at least one document in your vault before you can create a kit — it is a snapshot of everything stored at that moment. Give the QR card to a trusted family member. When the time comes, they scan it and your vault opens — no account, no password needed."
+        "text": "A Family Kit is designed for your loved ones to access your vault after you pass. It contains an encrypted copy of your vault documents and a printed QR Key Card. To create a kit, you must first have at least one document in your vault \u2014 the kit is a snapshot of everything you have stored at that moment. Give the QR card to a trusted family member. When the time comes, they scan it with any camera and your vault opens \u2014 no account, no password needed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often should I update my kits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Whenever you add, update, or remove documents from your vault. The app will show you a warning on the Dashboard when your kits become stale (out of sync with your current vault). We recommend updating them at least once a year as a minimum."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I have multiple backups?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can enable iCloud Backup for automatic encrypted backups, create a Personal Recovery Kit for offline USB backup, and create a Family Kit for your loved ones \u2014 all simultaneously. We recommend having at least two: iCloud and either a Personal Recovery Kit or Family Kit."
       }
     },
     {
@@ -96,15 +141,47 @@
       "name": "What types of documents can I store?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "After Me supports JPEG, PNG, and PDF files. You can scan physical documents using your device's camera with auto edge-detection and enhancement, import from your Photos library, or select files from your device's Files app."
+        "text": "After Me supports JPEG, PNG, and PDF files. You can scan physical documents using your device\u2019s camera (with auto edge-detection and enhancement), import from your Photos library, or select files directly from your device\u2019s Files app."
       }
     },
     {
       "@type": "Question",
-      "name": "What's included in the free tier?",
+      "name": "How do I scan a document?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The free tier includes up to 5 documents, all 8 document categories, biometric vault lock, and the ability to import and scan documents. Your data is always accessible and exportable, even if you never upgrade."
+        "text": "Tap the + button in the Document Library, then choose \u201cScan Document\u201d. Position your document in good lighting. The scanner automatically detects edges, corrects perspective, and enhances contrast. Tap to capture or let it capture automatically. You can review and retake each page before saving."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are documents organised?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Documents are organised into 8 categories: Identity (passport, driving licence), Financial (bank accounts, investments), Property (deeds, mortgage), Insurance (life, health, home), Medical (advance directives, prescriptions), Legal (will, power of attorney), Digital (online accounts, passwords), and Personal (letters, photos, wishes). Each document can have a title, notes, and expiry date reminder."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a storage limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The free tier allows up to 5 documents. Premium users can store up to 500 MB of encrypted data. Your current storage usage is shown in Settings \u2192 Vault Information. Most vaults \u2014 even with high-quality scans of all major documents \u2014 comfortably fit within this limit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I have multiple vaults?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Premium users can create up to 5 separate vaults, each with its own encryption key and storage. This is useful for managing documents for elderly parents, for example. Switch between vaults in Settings \u2192 Manage Vaults. Each vault has its own Family Kit and recovery options."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What\u2019s included in the free tier?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The free tier includes up to 5 documents, all 8 document categories, biometric vault lock, and the ability to import and scan documents. The free tier is read-only forever \u2014 your data is always accessible and exportable, even if you never upgrade."
       }
     },
     {
@@ -112,7 +189,23 @@
       "name": "What do I get with Premium?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Premium removes the 5-document free tier limit (up to 500 MB storage), unlocks Family Kit creation, enables multiple vaults (up to 5), and provides priority support. Choose between an annual plan (£34.99/year) or a lifetime purchase (£79.99, one-time). There is no subscription required for your documents to remain accessible."
+        "text": "Premium removes the 5-document free tier limit (up to 500 MB storage), unlocks Family Kit creation, enables multiple vaults (up to 5), and provides priority support. Choose between an annual plan (\u00a334.99/year) or a lifetime purchase (\u00a379.99, one-time \u2014 then never again). There is no subscription required for your documents to remain accessible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I restore a previous purchase?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Go to Settings \u2192 Subscription \u2192 Restore Purchases. This checks your Apple ID for any existing purchases associated with your account. Make sure you are signed in to the same Apple ID used for the original purchase. If the issue persists, contact us at support@myafterme.co.uk."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I cancel my subscription?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manage your subscription through your device\u2019s App Store settings: Settings (iPhone) \u2192 Your Name \u2192 Subscriptions. You\u2019ll retain premium access until the end of your current billing period. Cancelling does not delete your documents."
       }
     },
     {
@@ -120,7 +213,15 @@
       "name": "Will my documents be deleted if my premium lapses?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Your documents are always yours. If your premium lapses, you revert to the free tier — read-only for documents beyond the 5-document limit, but nothing is deleted. You can still access, view, and export all your existing documents."
+        "text": "No. Your documents are always yours. If your premium lapses, you revert to the free tier (read-only for documents beyond the 5-document limit, but nothing is deleted). You can still access, view, and export all your existing documents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the .afterme format?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The .afterme format is an open, documented standard \u2014 a ZIP file containing an AES-256-GCM encrypted vault, a key file, a manifest, and a README with step-by-step recovery instructions. It is designed to be opened without our app using freely available tools. We publish the full specification and an open-source decoder. See the format specification for technical details."
       }
     },
     {
@@ -128,7 +229,15 @@
       "name": "What if After Me shuts down?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Your data will always be accessible. The .afterme format is an open, documented standard — a ZIP file containing an AES-256-GCM encrypted vault with step-by-step recovery instructions. It is designed to be opened without our app using freely available tools. We publish the full specification and an open-source decoder."
+        "text": "Your documents remain fully accessible. The .afterme format is open and publicly documented. Anyone can write a decoder using the specification. The README inside every .afterme file contains step-by-step instructions for recovering documents using standard command-line tools \u2014 no After Me app required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can someone open a .afterme file without the QR code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The .afterme file is encrypted with a key derived from the access key (encoded in the QR code) using PBKDF2-HMAC-SHA256 at 600,000 iterations. Without the correct access key, the file is cryptographically unreadable \u2014 it cannot be brute-forced with current or near-future computing resources."
       }
     }
   ]
@@ -140,62 +249,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg:       #2D3142;
-    --deep:     #252840;
-    --card:     #1E2235;
-    --amber:    #C9963A;
-    --amber-lt: #D4A84B;
-    --white:    #FAF9F6;
-    --muted:    rgba(250,249,246,0.55);
-    --faint:    rgba(250,249,246,0.22);
-    --serif:    'Playfair Display', Georgia, serif;
-    --sans:     'DM Sans', system-ui, sans-serif;
-  }
-
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--white);
-    font-family: var(--sans);
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(45,49,66,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--faint);
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 12px;
-    text-decoration: none;
-  }
-  .nav-icon {
-    width: 36px; height: 36px; border-radius: 9px;
-    background: var(--card);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .nav-wordmark {
-    font-family: var(--serif); font-size: 22px; font-weight: 700;
-    color: var(--white); letter-spacing: -0.5px;
-  }
-  .nav-wordmark span { color: var(--amber); }
-  .nav-back {
-    font-size: 14px; color: var(--muted); text-decoration: none;
-    display: flex; align-items: center; gap: 6px;
-    transition: color 0.2s;
-  }
-  .nav-back:hover { color: var(--white); }
+  nav { background: rgba(45,49,66,0.92); }
 
   /* ── HERO BAND ── */
   .hero-band {
@@ -473,31 +529,7 @@
     background: #4CAF50; opacity: 0.7;
   }
 
-  /* ── FOOTER ── */
-  footer {
-    padding: 56px 48px 40px;
-    border-top: 1px solid var(--faint);
-  }
-  .footer-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 24px;
-  }
-  .footer-logo {
-    font-family: var(--serif); font-size: 20px; font-weight: 700;
-    color: var(--white); text-decoration: none;
-  }
-  .footer-logo span { color: var(--amber); }
-  .footer-links { display: flex; gap: 28px; list-style: none; }
-  .footer-links a {
-    font-size: 13px; color: var(--faint);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .footer-links a:hover { color: var(--muted); }
-  .footer-copy { font-size: 12px; color: var(--faint); }
-
   @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
     .quick-links { grid-template-columns: repeat(2, 1fr); }
     .page-wrap { grid-template-columns: 1fr; gap: 0; }
     .sidebar { position: static; display: none; }
@@ -510,8 +542,6 @@
     .getting-started { padding: 24px; }
     .contact-section { padding: 32px 24px; }
     .quick-links { padding: 40px 20px 0; }
-    footer { padding: 40px 24px 32px; }
-    .footer-inner { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -952,6 +982,7 @@
       <li><a href="/terms">Terms of Service</a></li>
       <li><a href="/support" aria-current="page">Support</a></li>
       <li><a href="/format-spec">Open Format Spec</a></li>
+      <li><a href="/blog/">Blog</a></li>
       <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
     </ul>
     <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>

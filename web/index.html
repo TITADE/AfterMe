@@ -11,6 +11,8 @@
 <meta name="author" content="After Me Ltd">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://myafterme.co.uk/">
+<link rel="alternate" hreflang="en-gb" href="https://myafterme.co.uk/">
+<link rel="alternate" hreflang="x-default" href="https://myafterme.co.uk/">
 
 <!-- Open Graph -->
 <meta property="og:type"        content="website">
@@ -34,6 +36,8 @@
 <!-- Theme & PWA -->
 <meta name="theme-color" content="#2D3142">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
 
 <!-- Structured Data — Organisation -->
 <script type="application/ld+json">
@@ -77,16 +81,16 @@
 }
 </script>
 
-<!-- Structured Data — iOS App -->
+<!-- Structured Data — App (iOS & Android) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "After Me",
-  "operatingSystem": "iOS",
+  "operatingSystem": "iOS, Android",
   "applicationCategory": "LifestyleApplication",
   "applicationSubCategory": "Estate Planning",
-  "description": "After Me is a secure, local-first digital vault for end-of-life planning. Documents are encrypted on-device with AES-256-GCM. Keys are held in Apple's Secure Enclave. One QR code gives your family instant access — no account, no password.",
+  "description": "After Me is a secure, local-first digital vault for end-of-life planning. Documents are encrypted on-device with AES-256-GCM. Keys are held in your device's secure hardware. One QR code gives your family instant access — no account, no password.",
   "url": "https://myafterme.co.uk",
   "publisher": { "@id": "https://myafterme.co.uk/#organization" },
   "offers": {
@@ -100,7 +104,7 @@
     "Local-first zero-knowledge architecture",
     "Family Kit QR code sharing",
     "Document scanner with edge detection",
-    "iCloud encrypted backup",
+    "Encrypted cloud backup (iCloud & Google Drive)",
     "Personal Recovery Kit",
     "Open .afterme file format"
   ]
@@ -112,59 +116,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg:       #2D3142;
-    --deep:     #252840;
-    --card:     #1E2235;
-    --amber:    #C9963A;
-    --amber-lt: #D4A84B;
-    --white:    #FAF9F6;
-    --muted:    rgba(250,249,246,0.55);
-    --faint:    rgba(250,249,246,0.22);
-    --danger:   #E24B4A;
-    --serif:    'Playfair Display', Georgia, serif;
-    --sans:     'DM Sans', system-ui, sans-serif;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--white);
-    font-family: var(--sans);
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(45,49,66,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--faint);
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 12px;
-    text-decoration: none;
-  }
-  .nav-icon {
-    width: 36px; height: 36px; border-radius: 9px;
-    background: var(--card);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .nav-wordmark {
-    font-family: var(--serif);
-    font-size: 22px; font-weight: 700;
-    color: var(--white); letter-spacing: -0.5px;
-  }
-  .nav-wordmark span { color: var(--amber); }
   .nav-links {
     display: flex; align-items: center; gap: 36px;
     list-style: none;
@@ -602,42 +555,7 @@
   .email-submit:hover { background: var(--amber-lt); transform: translateY(-1px); }
   .email-small { font-size: 12px; color: var(--faint); margin-top: 16px; }
 
-  /* ── FOOTER ── */
-  footer {
-    padding: 56px 48px 40px;
-    border-top: 1px solid var(--faint);
-  }
-  .footer-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 24px;
-  }
-  .footer-logo {
-    font-family: var(--serif); font-size: 20px; font-weight: 700;
-    color: var(--white); text-decoration: none;
-  }
-  .footer-logo span { color: var(--amber); }
-  .footer-links {
-    display: flex; gap: 28px; list-style: none;
-  }
-  .footer-links a {
-    font-size: 13px; color: var(--faint);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .footer-links a:hover { color: var(--muted); }
-  .footer-copy { font-size: 12px; color: var(--faint); }
   .footer-tagline { font-size: 12px; color: var(--faint); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .reveal {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── SVG ICONS ── */
   .icon-envelope {
@@ -646,7 +564,6 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
     .nav-links { display: none; }
     .features-grid { grid-template-columns: 1fr; }
     .qr-section { grid-template-columns: 1fr; gap: 48px; padding: 48px 32px; }
@@ -659,8 +576,6 @@
     .hero { padding: 100px 20px 60px; }
     section { padding: 72px 20px; }
     .trust-inner { gap: 24px; }
-    footer { padding: 40px 24px 32px; }
-    .footer-inner { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -670,7 +585,7 @@
 <nav>
   <a href="#" class="nav-logo">
     <div class="nav-icon">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" role="img" aria-label="After Me logo">
         <rect x="2" y="5" width="18" height="13" rx="3" stroke="#FAF9F6" stroke-width="1.5" fill="none"/>
         <path d="M2 9L11 14.5L20 9" stroke="#FAF9F6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
         <circle cx="17" cy="15" r="4" fill="#C9963A"/>
@@ -686,6 +601,7 @@
     <li><a href="#family-kit">Family Kit</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#waitlist" class="nav-cta">Get early access</a></li>
+    <li><a href="/blog/">Blog</a></li>
   </ul>
 </nav>
 
@@ -693,12 +609,12 @@
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
-  <p class="hero-eyebrow">Now available on iOS</p>
+  <p class="hero-eyebrow">Coming soon on iOS &amp; Android</p>
   <h1 class="hero-headline">The one conversation<br>you keep <em>putting off.</em></h1>
   <p class="hero-sub">After Me takes 20 minutes. Your documents stay on your phone. Your family gets a single QR code. That's it.</p>
   <div class="hero-actions">
     <a href="#waitlist" class="btn-primary">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" role="img" aria-label="Arrow">
         <path d="M3 9h12M9 3l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Get early access
@@ -716,7 +632,7 @@
       <div class="phone-screen">
         <div class="phone-circle">
           <div class="phone-icon-box">
-            <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" role="img" aria-label="After Me app icon">
               <rect x="4" y="10" width="34" height="24" rx="5" stroke="#FAF9F6" stroke-width="2" fill="none"/>
               <path d="M4 17L21 27L38 17" stroke="#FAF9F6" stroke-width="2" stroke-linejoin="round" fill="none"/>
               <circle cx="33" cy="29" r="8" fill="#C9963A"/>
@@ -755,7 +671,7 @@
   <div class="trust-inner">
     <div class="trust-item">
       <div class="trust-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" role="img" aria-label="Envelope icon">
           <rect x="1" y="3" width="14" height="10" rx="2" stroke="#C9963A" stroke-width="1.2" fill="none"/>
           <path d="M1 6l7 4.5L15 6" stroke="#C9963A" stroke-width="1.2" fill="none"/>
         </svg>
@@ -764,12 +680,12 @@
     </div>
     <div class="trust-item">
       <div class="trust-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" role="img" aria-label="Encryption icon">
           <rect x="4" y="1" width="8" height="10" rx="2" stroke="#C9963A" stroke-width="1.2" fill="none"/>
           <path d="M2 11h12v3a1 1 0 01-1 1H3a1 1 0 01-1-1v-3z" stroke="#C9963A" stroke-width="1.2" fill="none"/>
         </svg>
       </div>
-      AES-256 · Secure Enclave
+      AES-256 · Hardware-backed keys
     </div>
     <div class="trust-item">
       <div class="trust-icon">
@@ -782,7 +698,7 @@
     </div>
     <div class="trust-item">
       <div class="trust-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" role="img" aria-label="Shield icon">
           <path d="M8 1L2 4v5c0 3 2.5 5.5 6 6 3.5-.5 6-3 6-6V4L8 1z" stroke="#C9963A" stroke-width="1.2" fill="none"/>
         </svg>
       </div>
@@ -790,7 +706,7 @@
     </div>
     <div class="trust-item">
       <div class="trust-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" role="img" aria-label="Document icon">
           <rect x="3" y="2" width="10" height="12" rx="2" stroke="#C9963A" stroke-width="1.2" fill="none"/>
           <line x1="6" y1="6" x2="10" y2="6" stroke="#C9963A" stroke-width="1.2" stroke-linecap="round"/>
           <line x1="6" y1="9" x2="10" y2="9" stroke="#C9963A" stroke-width="1.2" stroke-linecap="round"/>
@@ -812,7 +728,7 @@
       <div class="feature-card">
         <span class="feature-num">01</span>
         <h3 class="feature-title">Your documents<br><em>never leave</em> your phone.</h3>
-        <p class="feature-body">No cloud server. No company database. AES-256 GCM encryption. Keys held in Apple's Secure Enclave. Even we cannot access your documents — by design, not by policy.</p>
+        <p class="feature-body">No cloud server. No company database. AES-256 GCM encryption. Keys held in your device's secure hardware. Even we cannot access your documents — by design, not by policy.</p>
       </div>
       <div class="feature-card">
         <span class="feature-num">02</span>
@@ -950,7 +866,7 @@
           <li>Family Kit creation &amp; unlimited updates</li>
           <li>All future features — no upgrade fees, ever</li>
           <li>No renewal risk at death — your family inherits access, not the invoice</li>
-          <li>Encrypted iCloud backup</li>
+          <li>Encrypted cloud backup (iCloud &amp; Google Drive)</li>
           <li>Priority support</li>
           <li>Open format guarantee — your data is yours permanently</li>
         </ul>
@@ -968,7 +884,7 @@
           <li>Family Kit creation &amp; updates</li>
           <li>All 8 document categories</li>
           <li>Personal messages</li>
-          <li>Encrypted iCloud backup</li>
+          <li>Encrypted cloud backup (iCloud &amp; Google Drive)</li>
           <li>Cancel any time — data always exportable</li>
         </ul>
         <a href="#waitlist" class="btn-secondary" style="width:100%; justify-content:center; font-size:15px;">Get early access</a>
@@ -1009,6 +925,7 @@
       <li><a href="/terms">Terms of Service</a></li>
       <li><a href="/support">Support</a></li>
       <li><a href="/format-spec">Open Format Spec</a></li>
+      <li><a href="/blog/">Blog</a></li>
       <li><a href="mailto:privacy@myafterme.co.uk">Contact</a></li>
     </ul>
     <p class="footer-copy">© 2026 After Me · myafterme.co.uk</p>
@@ -1031,14 +948,58 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => observer.observe(el));
 
-  // Email form
+  // Mailchimp waitlist form (AJAX / JSONP)
+  // Replace MAILCHIMP_URL below with your Mailchimp audience subscribe URL.
+  // Find it in: Mailchimp > Audience > Signup forms > Embedded forms.
+  // Copy the form action URL and change "/post?" to "/post-json?" and append "&c=?"
+  // Example: https://myafterme.us21.list-manage.com/subscribe/post-json?u=XXXXX&id=YYYYY&c=?
+  const MAILCHIMP_URL = 'https://titade.us17.list-manage.com/subscribe/post-json?u=7f33893029eed5aa6b84bae1e&id=cebaac520a&f_id=00fac3e1f0&c=mailchimpCallback';
+
   function handleSubmit(e) {
     e.preventDefault();
-    const email = document.getElementById('emailInput').value;
+    const input = document.getElementById('emailInput');
     const msg = document.getElementById('emailMsg');
-    document.getElementById('emailInput').value = '';
-    msg.textContent = "✓ You're on the list. We'll be in touch.";
-    msg.style.color = '#C9963A';
+    const btn = e.target.querySelector('.email-submit');
+    const email = input.value.trim();
+
+    if (!MAILCHIMP_URL) {
+      input.value = '';
+      msg.textContent = "\u2713 You\u2019re on the list. We\u2019ll be in touch.";
+      msg.style.color = '#C9963A';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting\u2026';
+    msg.textContent = '';
+    msg.style.color = '';
+
+    const url = MAILCHIMP_URL + '&EMAIL=' + encodeURIComponent(email);
+
+    window.mailchimpCallback = function(resp) {
+      btn.disabled = false;
+      btn.textContent = 'Get early access \u2192';
+      if (resp.result === 'success') {
+        input.value = '';
+        msg.textContent = '\u2713 ' + (resp.msg || "You\u2019re on the list!");
+        msg.style.color = '#C9963A';
+      } else {
+        let errMsg = resp.msg || 'Something went wrong. Please try again.';
+        if (errMsg.includes('already subscribed')) {
+          errMsg = "You\u2019re already on the list \u2014 we\u2019ll be in touch!";
+          msg.style.color = '#C9963A';
+        } else {
+          msg.style.color = 'var(--danger, #e74c3c)';
+        }
+        msg.textContent = errMsg.replace(/<[^>]*>/g, '');
+      }
+      if (document.getElementById('mc-jsonp')) document.getElementById('mc-jsonp').remove();
+    };
+
+    const script = document.createElement('script');
+    script.id = 'mc-jsonp';
+    script.src = url;
+    document.body.appendChild(script);
   }
 
   // Smooth nav highlight
