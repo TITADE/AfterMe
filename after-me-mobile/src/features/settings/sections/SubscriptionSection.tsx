@@ -24,11 +24,11 @@ export function SubscriptionSection({
 }: SubscriptionSectionProps) {
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Subscription</Text>
+      <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Subscription</Text>
       <View style={styles.infoCard}>
         <View style={styles.subscriptionRow}>
-          <Text style={styles.subscriptionLabel} maxFontSizeMultiplier={1.4}>Status</Text>
-          <Text style={[styles.subscriptionValue, { color: isPremium ? colors.success : colors.amAmber }]} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.subscriptionLabel} maxFontSizeMultiplier={3.0}>Status</Text>
+          <Text style={[styles.subscriptionValue, { color: isPremium ? colors.success : colors.amAmber }]} maxFontSizeMultiplier={3.0}>
             {isPremium ? 'Premium' : 'Free'}
           </Text>
         </View>
@@ -39,7 +39,7 @@ export function SubscriptionSection({
             accessibilityRole="button"
             accessibilityLabel="Upgrade to Premium"
           >
-            <Text style={styles.upgradeButtonText} maxFontSizeMultiplier={1.4}>Upgrade to Premium</Text>
+            <Text style={styles.upgradeButtonText} maxFontSizeMultiplier={3.0}>Upgrade to Premium</Text>
           </TouchableOpacity>
         )}
 
@@ -86,7 +86,7 @@ export function SubscriptionSection({
           {restoringPurchases ? (
             <ActivityIndicator size="small" color={colors.textMuted} />
           ) : (
-            <Text style={styles.restorePurchasesText} maxFontSizeMultiplier={1.4}>Restore Purchases</Text>
+            <Text style={styles.restorePurchasesText} maxFontSizeMultiplier={3.0}>Restore Purchases</Text>
           )}
         </TouchableOpacity>
       </View>

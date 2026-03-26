@@ -12,7 +12,6 @@ import {
   Alert,
   TextInput,
   Modal,
-  Platform,
   ActivityIndicator,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -148,7 +147,7 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
       >
         <View style={styles.vaultHeader}>
           <View style={styles.vaultNameRow}>
-            <Text style={styles.vaultName} maxFontSizeMultiplier={1.4}>{item.name}</Text>
+            <Text style={styles.vaultName} maxFontSizeMultiplier={3.0}>{item.name}</Text>
             {isActive && (
               <View style={styles.activeBadge}>
                 <Text style={styles.activeBadgeText}>Active</Text>
@@ -172,11 +171,11 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
           )}
         </View>
         <View style={styles.vaultStats}>
-          <Text style={styles.vaultStat} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.vaultStat} maxFontSizeMultiplier={3.0}>
             {item.documentCount} document{item.documentCount !== 1 ? 's' : ''}
           </Text>
           <Text style={styles.vaultStatDot}>·</Text>
-          <Text style={styles.vaultStat} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.vaultStat} maxFontSizeMultiplier={3.0}>
             {formatSize(item.sizeBytes)}
           </Text>
         </View>
@@ -194,7 +193,7 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle} maxFontSizeMultiplier={1.4}>{title}</Text>
+          <Text style={styles.modalTitle} maxFontSizeMultiplier={3.0}>{title}</Text>
           <TextInput
             style={styles.modalInput}
             value={modalText}
@@ -203,7 +202,7 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
             placeholderTextColor={colors.textMuted}
             autoFocus
             maxLength={50}
-            maxFontSizeMultiplier={1.4}
+            maxFontSizeMultiplier={3.0}
             accessibilityLabel={placeholder}
           />
           <View style={styles.modalButtons}>
@@ -213,7 +212,7 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
               accessibilityRole="button"
               accessibilityLabel="Cancel"
             >
-              <Text style={styles.modalCancelText} maxFontSizeMultiplier={1.4}>Cancel</Text>
+              <Text style={styles.modalCancelText} maxFontSizeMultiplier={3.0}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.modalSubmitButton, !modalText.trim() && styles.modalSubmitDisabled]}
@@ -222,7 +221,7 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
               accessibilityRole="button"
               accessibilityLabel={title.includes('Create') ? 'Create vault' : 'Rename vault'}
             >
-              <Text style={styles.modalSubmitText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.modalSubmitText} maxFontSizeMultiplier={3.0}>
                 {title.includes('Create') ? 'Create' : 'Rename'}
               </Text>
             </TouchableOpacity>
@@ -264,7 +263,7 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
         renderItem={renderVault}
         contentContainerStyle={styles.list}
         ListHeaderComponent={
-          <Text style={styles.headerText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.headerText} maxFontSizeMultiplier={3.0}>
             Manage your vaults. Each vault has separate encryption and storage.
           </Text>
         }
@@ -277,10 +276,10 @@ export function VaultSwitcherScreen({ onVaultChanged }: VaultSwitcherScreenProps
               accessibilityLabel="Create new vault"
             >
               <Text style={styles.createIcon}>+</Text>
-              <Text style={styles.createText} maxFontSizeMultiplier={1.4}>Create New Vault</Text>
+              <Text style={styles.createText} maxFontSizeMultiplier={3.0}>Create New Vault</Text>
             </TouchableOpacity>
           ) : (
-            <Text style={styles.limitText} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.limitText} maxFontSizeMultiplier={3.0}>
               Maximum of 5 vaults reached
             </Text>
           )

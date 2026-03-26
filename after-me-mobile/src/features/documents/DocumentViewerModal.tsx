@@ -218,9 +218,9 @@ export function DocumentViewerModal({
             accessibilityRole="button"
             accessibilityLabel="Done, close viewer"
           >
-            <Text style={styles.headerButtonText} maxFontSizeMultiplier={1.4}>Done</Text>
+            <Text style={styles.headerButtonText} maxFontSizeMultiplier={3.0}>Done</Text>
           </TouchableOpacity>
-          <Text style={styles.title} numberOfLines={1} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.title} numberOfLines={1} maxFontSizeMultiplier={3.0}>
             {isEditing ? 'Edit Document' : displayDoc.title}
           </Text>
           {isEditing ? (
@@ -232,7 +232,7 @@ export function DocumentViewerModal({
                 accessibilityRole="button"
                 accessibilityLabel="Cancel editing"
               >
-                <Text style={styles.cancelText} maxFontSizeMultiplier={1.4}>Cancel</Text>
+                <Text style={styles.cancelText} maxFontSizeMultiplier={3.0}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleSave}
@@ -244,7 +244,7 @@ export function DocumentViewerModal({
                 {saving ? (
                   <ActivityIndicator size="small" color={colors.amAmber} />
                 ) : (
-                  <Text style={styles.saveText} maxFontSizeMultiplier={1.4}>Save</Text>
+                  <Text style={styles.saveText} maxFontSizeMultiplier={3.0}>Save</Text>
                 )}
               </TouchableOpacity>
             </View>
@@ -255,7 +255,7 @@ export function DocumentViewerModal({
               accessibilityRole="button"
               accessibilityLabel="Edit document metadata"
             >
-              <Text style={styles.editText} maxFontSizeMultiplier={1.4}>Edit</Text>
+              <Text style={styles.editText} maxFontSizeMultiplier={3.0}>Edit</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -267,14 +267,14 @@ export function DocumentViewerModal({
           {loading ? (
             <View style={styles.loading}>
               <ActivityIndicator size="large" color={colors.amAmber} />
-              <Text style={styles.loadingText} maxFontSizeMultiplier={1.4}>Decrypting...</Text>
+              <Text style={styles.loadingText} maxFontSizeMultiplier={3.0}>Decrypting...</Text>
             </View>
           ) : decryptError ? (
             <View style={styles.errorBlock} accessibilityRole="alert">
               <Text style={styles.errorIcon} accessible={false}>⚠️</Text>
-              <Text style={styles.errorTitle} maxFontSizeMultiplier={1.4}>Could Not Decrypt Document</Text>
-              <Text style={styles.errorMessage} maxFontSizeMultiplier={1.4}>{decryptError}</Text>
-              <Text style={styles.errorHint} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.errorTitle} maxFontSizeMultiplier={3.0}>Could Not Decrypt Document</Text>
+              <Text style={styles.errorMessage} maxFontSizeMultiplier={3.0}>{decryptError}</Text>
+              <Text style={styles.errorHint} maxFontSizeMultiplier={3.0}>
                 The document may be corrupted or the decryption key is unavailable.
               </Text>
             </View>
@@ -291,16 +291,16 @@ export function DocumentViewerModal({
           ) : document.format === 'pdf' && (pdfError || (!pdfUri && !loading)) ? (
             <View style={styles.pdfPlaceholder}>
               <Text style={styles.pdfIcon} accessible={false}>📄</Text>
-              <Text style={styles.pdfTitle} maxFontSizeMultiplier={1.4}>{displayDoc.title}</Text>
-              <Text style={styles.pdfHint} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.pdfTitle} maxFontSizeMultiplier={3.0}>{displayDoc.title}</Text>
+              <Text style={styles.pdfHint} maxFontSizeMultiplier={3.0}>
                 {pdfError ? `Could not display PDF: ${pdfError}` : 'Document is stored securely in your vault.'}
               </Text>
             </View>
           ) : document.format !== 'pdf' && imageError ? (
             <View style={styles.pdfPlaceholder}>
               <Text style={styles.pdfIcon} accessible={false}>🖼️</Text>
-              <Text style={styles.pdfTitle} maxFontSizeMultiplier={1.4}>{displayDoc.title}</Text>
-              <Text style={styles.pdfHint} maxFontSizeMultiplier={1.4}>{imageError}</Text>
+              <Text style={styles.pdfTitle} maxFontSizeMultiplier={3.0}>{displayDoc.title}</Text>
+              <Text style={styles.pdfHint} maxFontSizeMultiplier={3.0}>{imageError}</Text>
             </View>
           ) : contentUri && !imageError ? (
             <Image
@@ -315,7 +315,7 @@ export function DocumentViewerModal({
           <View style={styles.metadata}>
             {isEditing ? (
               <>
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Title</Text>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Title</Text>
                 <TextInput
                   style={styles.input}
                   value={editValues.title}
@@ -324,9 +324,9 @@ export function DocumentViewerModal({
                   placeholderTextColor={colors.textMuted}
                   editable={!saving}
                   accessibilityLabel="Document title"
-                  maxFontSizeMultiplier={1.4}
+                  maxFontSizeMultiplier={3.0}
                 />
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Document Date</Text>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Document Date</Text>
                 <DatePickerField
                   label=""
                   value={editValues.documentDate || null}
@@ -334,7 +334,7 @@ export function DocumentViewerModal({
                   placeholder="Select date"
                   disabled={saving}
                 />
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Expiry Date</Text>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Expiry Date</Text>
                 <DatePickerField
                   label=""
                   value={editValues.expiryDate || null}
@@ -342,7 +342,7 @@ export function DocumentViewerModal({
                   placeholder="Select date"
                   disabled={saving}
                 />
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Provider/Issuer</Text>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Provider/Issuer</Text>
                 <TextInput
                   style={styles.input}
                   value={editValues.providerName}
@@ -351,9 +351,9 @@ export function DocumentViewerModal({
                   placeholderTextColor={colors.textMuted}
                   editable={!saving}
                   accessibilityLabel="Provider or issuer"
-                  maxFontSizeMultiplier={1.4}
+                  maxFontSizeMultiplier={3.0}
                 />
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Location of Original</Text>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Location of Original</Text>
                 <TextInput
                   style={styles.input}
                   value={editValues.locationOfOriginal}
@@ -362,45 +362,45 @@ export function DocumentViewerModal({
                   placeholderTextColor={colors.textMuted}
                   editable={!saving}
                   accessibilityLabel="Location of original document"
-                  maxFontSizeMultiplier={1.4}
+                  maxFontSizeMultiplier={3.0}
                 />
               </>
             ) : (
               <>
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Category</Text>
-                <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Category</Text>
+                <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>
                   {CATEGORY_ICONS[displayDoc.category]} {CATEGORY_LABELS[displayDoc.category]}
                 </Text>
 
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Document Date</Text>
-                <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>{formatDate(displayDoc.documentDate)}</Text>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Document Date</Text>
+                <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>{formatDate(displayDoc.documentDate)}</Text>
 
-                <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Expiry Date</Text>
-                <Text style={[styles.metaValue, displayDoc.expiryDate && styles.expiryHighlight]} maxFontSizeMultiplier={1.4}>
+                <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Expiry Date</Text>
+                <Text style={[styles.metaValue, displayDoc.expiryDate && styles.expiryHighlight]} maxFontSizeMultiplier={3.0}>
                   {formatDate(displayDoc.expiryDate)}
                 </Text>
 
                 {displayDoc.providerName && (
                   <>
-                    <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Provider/Issuer</Text>
-                    <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>{displayDoc.providerName}</Text>
+                    <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Provider/Issuer</Text>
+                    <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>{displayDoc.providerName}</Text>
                   </>
                 )}
 
                 {displayDoc.locationOfOriginal && (
                   <>
-                    <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Location of Original</Text>
-                    <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>{displayDoc.locationOfOriginal}</Text>
+                    <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Location of Original</Text>
+                    <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>{displayDoc.locationOfOriginal}</Text>
                   </>
                 )}
 
                 <View style={styles.historySection}>
-                  <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Created</Text>
-                  <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>{formatDate(document.createdAt)}</Text>
-                  <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Last Updated</Text>
-                  <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>{formatDate(document.updatedAt)}</Text>
-                  <Text style={styles.metaLabel} maxFontSizeMultiplier={1.4}>Format</Text>
-                  <Text style={styles.metaValue} maxFontSizeMultiplier={1.4}>{document.format.toUpperCase()}</Text>
+                  <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Created</Text>
+                  <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>{formatDate(document.createdAt)}</Text>
+                  <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Last Updated</Text>
+                  <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>{formatDate(document.updatedAt)}</Text>
+                  <Text style={styles.metaLabel} maxFontSizeMultiplier={3.0}>Format</Text>
+                  <Text style={styles.metaValue} maxFontSizeMultiplier={3.0}>{document.format.toUpperCase()}</Text>
                 </View>
               </>
             )}
@@ -414,7 +414,7 @@ export function DocumentViewerModal({
               accessibilityLabel="Delete this document"
               accessibilityHint="Permanently removes this document from your vault"
             >
-              <Text style={styles.deleteButtonText} maxFontSizeMultiplier={1.4}>Delete Document</Text>
+              <Text style={styles.deleteButtonText} maxFontSizeMultiplier={3.0}>Delete Document</Text>
             </TouchableOpacity>
           )}
         </ScrollView>

@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { runMigrations, checkAndRecoverMigrationFailure } from './migrations';
 import { CryptoService } from '../core/crypto/CryptoService';
-import { KeyManager } from '../core/auth/KeyManager';
+import { getVaultKey } from '../core/auth/VaultKeyStore';
 import type { Document, DocumentInsert } from '../models/Document';
 
 const DB_NAME = 'afterme-vault.db';
@@ -78,7 +78,7 @@ function rowToDocument(row: Record<string, unknown>, key: Buffer): Document {
 
 export async function insertDocument(doc: DocumentInsert): Promise<Document> {
   const db = await getDb();
-  const key = await KeyManager.getVaultKey();
+  const key = await getVaultKey();
   const id = CryptoService.generateSecureId('doc');
   const now = new Date().toISOString();
 
@@ -111,7 +111,7 @@ export async function insertDocument(doc: DocumentInsert): Promise<Document> {
 
 export async function getAllDocuments(): Promise<Document[]> {
   const db = await getDb();
-  const key = await KeyManager.getVaultKey();
+  const key = await getVaultKey();
   const rows = await db.getAllAsync<Record<string, unknown>>(
     'SELECT * FROM documents ORDER BY created_at DESC',
   );
@@ -122,7 +122,7 @@ export async function getDocumentsByCategory(
   category: string,
 ): Promise<Document[]> {
   const db = await getDb();
-  const key = await KeyManager.getVaultKey();
+  const key = await getVaultKey();
   const rows = await db.getAllAsync<Record<string, unknown>>(
     'SELECT * FROM documents WHERE category = ? ORDER BY created_at DESC',
     [category],
@@ -134,7 +134,7 @@ export async function getDocumentById(
   id: string,
 ): Promise<Document | null> {
   const db = await getDb();
-  const key = await KeyManager.getVaultKey();
+  const key = await getVaultKey();
   const row = await db.getFirstAsync<Record<string, unknown>>(
     'SELECT * FROM documents WHERE id = ?',
     [id],
@@ -152,7 +152,7 @@ export async function updateDocument(
   >,
 ): Promise<void> {
   const db = await getDb();
-  const key = await KeyManager.getVaultKey();
+  const key = await getVaultKey();
   const now = new Date().toISOString();
 
   const fields: string[] = [];
@@ -234,7 +234,7 @@ export async function migrateDatesToPlaintext(): Promise<void> {
 
   let key: Buffer;
   try {
-    key = await KeyManager.getVaultKey();
+    key = await getVaultKey();
   } catch {
     return;
   }

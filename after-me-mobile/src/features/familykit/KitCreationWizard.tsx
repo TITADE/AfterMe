@@ -29,10 +29,12 @@ import { FamilyKitExportService, type KitGenerationResult } from '../../services
 import { PdfExportService } from '../../services/PdfExportService';
 import { KitHistoryService } from '../../services/KitHistoryService';
 import { useApp } from '../../context/AppContext';
+import { usePurchase } from '../../context/PurchaseContext';
+import { PaywallScreen } from '../paywall/PaywallScreen';
 import { colors } from '../../theme/colors';
 import { SERIF_FONT } from '../../theme/fonts';
 
-type WizardStep = 'intro' | 'details' | 'generating' | 'validating' | 'complete' | 'distribute';
+type WizardStep = 'intro' | 'details' | 'generating' | 'validating' | 'complete' | 'distribute' | 'handoff';
 
 interface KitCreationWizardProps {
   visible: boolean;
@@ -45,6 +47,7 @@ const QR_QUIET_ZONE = 4;
 export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps) {
   const insets = useSafeAreaInsets();
   const { totalDocuments } = useApp();
+  const { isPremium } = usePurchase();
   const [step, setStep] = useState<WizardStep>('intro');
   const [ownerName, setOwnerName] = useState('');
   const [emergencyContact, setEmergencyContact] = useState('');
@@ -52,9 +55,11 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
   const [qrDataUri, setQrDataUri] = useState<string>('');
+  const [handoffChecks, setHandoffChecks] = useState([false, false, false, false]);
   const qrRef = useRef<ViewShot>(null);
 
   const shouldBlockEmpty = visible && totalDocuments === 0;
+  const showPaywall = visible && !isPremium;
 
   useEffect(() => {
     if (shouldBlockEmpty) {
@@ -75,6 +80,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
     setError(null);
     setProgress({ current: 0, total: 0 });
     setQrDataUri('');
+    setHandoffChecks([false, false, false, false]);
   }, []);
 
   const handleDismiss = useCallback(() => {
@@ -178,38 +184,38 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
 
   const renderIntro = () => (
     <ScrollView contentContainerStyle={styles.scrollContent}>
-      <Text style={styles.stepIndicator} maxFontSizeMultiplier={1.4} accessibilityRole="text">Step 1 of 4</Text>
-      <Text style={styles.heading} maxFontSizeMultiplier={1.4} accessibilityRole="header">Create Your Family Kit</Text>
-      <Text style={styles.body} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.stepIndicator} maxFontSizeMultiplier={3.0} accessibilityRole="text">Step 1 of 5</Text>
+      <Text style={styles.heading} maxFontSizeMultiplier={3.0} accessibilityRole="header">Create Your Family Kit</Text>
+      <Text style={styles.body} maxFontSizeMultiplier={3.0}>
         A Family Kit is a secure, encrypted package of your vault contents that your
         loved ones can open after you&apos;re gone — or whenever they need it.
       </Text>
 
       <View style={styles.infoCard}>
-        <Text style={styles.infoTitle} maxFontSizeMultiplier={1.4}>What&apos;s Inside a Kit?</Text>
+        <Text style={styles.infoTitle} maxFontSizeMultiplier={3.0}>What&apos;s Inside a Kit?</Text>
         <View style={styles.infoRow}>
           <Text style={styles.infoIcon}>📦</Text>
-          <Text style={styles.infoText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
             An encrypted .afterme file with all your vault documents
           </Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.infoIcon}>🔑</Text>
-          <Text style={styles.infoText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
             A unique QR code access key (the only way to unlock the file)
           </Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.infoIcon}>📄</Text>
-          <Text style={styles.infoText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
             A printable PDF with instructions, the QR code, and storage tips
           </Text>
         </View>
       </View>
 
       <View style={styles.warningCard}>
-        <Text style={styles.warningTitle} maxFontSizeMultiplier={1.4}>Important</Text>
-        <Text style={styles.warningBody} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.warningTitle} maxFontSizeMultiplier={3.0}>Important</Text>
+        <Text style={styles.warningBody} maxFontSizeMultiplier={3.0}>
           Store the QR code and the .afterme file in separate secure locations.
           Anyone with both can access your entire vault.
         </Text>
@@ -222,44 +228,44 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         accessibilityRole="button"
         accessibilityLabel="Continue to next step"
       >
-        <Text style={styles.primaryBtnText} maxFontSizeMultiplier={1.4}>Get Started</Text>
+        <Text style={styles.primaryBtnText} maxFontSizeMultiplier={3.0}>Get Started</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 
   const renderDetails = () => (
     <ScrollView contentContainerStyle={styles.scrollContent}>
-      <Text style={styles.stepIndicator} maxFontSizeMultiplier={1.4} accessibilityRole="text">Step 2 of 4</Text>
-      <Text style={styles.heading} maxFontSizeMultiplier={1.4} accessibilityRole="header">Personalise Your Kit</Text>
-      <Text style={styles.body} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.stepIndicator} maxFontSizeMultiplier={3.0} accessibilityRole="text">Step 2 of 5</Text>
+      <Text style={styles.heading} maxFontSizeMultiplier={3.0} accessibilityRole="header">Personalise Your Kit</Text>
+      <Text style={styles.body} maxFontSizeMultiplier={3.0}>
         These details appear on the printed cover sheet and inside the README, helping
         your survivors identify the kit and know who to contact.
       </Text>
 
       {error && (
         <View style={styles.errorBanner} accessibilityRole="alert">
-          <Text style={styles.errorText} maxFontSizeMultiplier={1.4}>{error}</Text>
+          <Text style={styles.errorText} maxFontSizeMultiplier={3.0}>{error}</Text>
         </View>
       )}
 
       <View style={styles.field}>
-        <Text style={styles.label} maxFontSizeMultiplier={1.4}>Your Name (optional)</Text>
+        <Text style={styles.label} maxFontSizeMultiplier={3.0}>Your Name (optional)</Text>
         <TextInput
           style={styles.input}
           value={ownerName}
           onChangeText={setOwnerName}
           placeholder="e.g. John Smith"
           placeholderTextColor={colors.textMuted}
-          maxFontSizeMultiplier={1.4}
+          maxFontSizeMultiplier={3.0}
           accessibilityLabel="Owner name"
         />
-        <Text style={styles.hint} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.hint} maxFontSizeMultiplier={3.0}>
           Appears on the cover sheet so survivors know whose kit it is.
         </Text>
       </View>
 
       <View style={styles.field}>
-        <Text style={styles.label} maxFontSizeMultiplier={1.4}>Emergency Contact (optional)</Text>
+        <Text style={styles.label} maxFontSizeMultiplier={3.0}>Emergency Contact (optional)</Text>
         <TextInput
           style={[styles.input, { minHeight: 80 }]}
           value={emergencyContact}
@@ -267,10 +273,10 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
           placeholder="e.g. Jane Smith — 0412 345 678 — Solicitor at Smith & Co"
           placeholderTextColor={colors.textMuted}
           multiline
-          maxFontSizeMultiplier={1.4}
+          maxFontSizeMultiplier={3.0}
           accessibilityLabel="Emergency contact"
         />
-        <Text style={styles.hint} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.hint} maxFontSizeMultiplier={3.0}>
           Included in the README.txt inside the .afterme file.
         </Text>
       </View>
@@ -282,7 +288,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={styles.secondaryBtnText} maxFontSizeMultiplier={1.4}>Back</Text>
+          <Text style={styles.secondaryBtnText} maxFontSizeMultiplier={3.0}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.primaryBtn, { flex: 1, marginLeft: 12 }]}
@@ -291,7 +297,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
           accessibilityRole="button"
           accessibilityLabel="Generate Family Kit"
         >
-          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={1.4}>Generate Kit</Text>
+          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={3.0}>Generate Kit</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -300,13 +306,13 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
   const renderGenerating = () => (
     <View style={styles.centeredContent}>
       <ActivityIndicator size="large" color={colors.amAmber} />
-      <Text style={styles.heading} maxFontSizeMultiplier={1.4}>Generating Your Kit</Text>
-      <Text style={styles.body} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.heading} maxFontSizeMultiplier={3.0}>Generating Your Kit</Text>
+      <Text style={styles.body} maxFontSizeMultiplier={3.0}>
         Encrypting vault contents with a unique access key...{'\n'}
         This may take a moment depending on your vault size.
       </Text>
       {progress.total > 0 && (
-        <Text style={styles.progressText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.progressText} maxFontSizeMultiplier={3.0}>
           Processing document {progress.current} of {progress.total}…
         </Text>
       )}
@@ -316,8 +322,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
   const renderValidating = () => (
     <View style={styles.centeredContent}>
       <ActivityIndicator size="large" color={colors.success} />
-      <Text style={styles.heading} maxFontSizeMultiplier={1.4}>Verifying Kit Integrity</Text>
-      <Text style={styles.body} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.heading} maxFontSizeMultiplier={3.0}>Verifying Kit Integrity</Text>
+      <Text style={styles.body} maxFontSizeMultiplier={3.0}>
         Decrypting the generated file to confirm it can be opened...
       </Text>
     </View>
@@ -327,23 +333,23 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
     if (!result) return null;
     return (
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.stepIndicator} maxFontSizeMultiplier={1.4} accessibilityRole="text">Step 3 of 4</Text>
+        <Text style={styles.stepIndicator} maxFontSizeMultiplier={3.0} accessibilityRole="text">Step 3 of 5</Text>
         <View style={styles.successBanner} accessibilityRole="alert">
           <Text style={styles.successIcon} accessible={false}>✅</Text>
-          <Text style={styles.successText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.successText} maxFontSizeMultiplier={3.0}>
             Kit Created & Verified
           </Text>
         </View>
 
-        <Text style={styles.heading} maxFontSizeMultiplier={1.4} accessibilityRole="header">Your Access Key</Text>
-        <Text style={styles.body} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.heading} maxFontSizeMultiplier={3.0} accessibilityRole="header">Your Access Key</Text>
+        <Text style={styles.body} maxFontSizeMultiplier={3.0}>
           This QR code is the only way to unlock your Family Kit. Without it, the .afterme
           file cannot be decrypted by anyone — not even us.
         </Text>
 
         <ViewShot ref={qrRef} options={{ format: 'png', quality: 1.0 }}>
           <View style={styles.qrCard}>
-            <Text style={styles.qrLabel} maxFontSizeMultiplier={1.4}>FAMILY KIT ACCESS KEY</Text>
+            <Text style={styles.qrLabel} maxFontSizeMultiplier={3.0}>FAMILY KIT ACCESS KEY</Text>
             <QRCode
               value={result.accessKey}
               size={QR_SIZE}
@@ -353,7 +359,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
               quietZone={QR_QUIET_ZONE}
             />
             <View style={styles.qrMeta}>
-              <Text style={styles.qrMetaText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.qrMetaText} maxFontSizeMultiplier={3.0}>
                 Version {result.kitVersion} · {result.documentCount} documents · {new Date().toLocaleDateString()}
               </Text>
             </View>
@@ -361,8 +367,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         </ViewShot>
 
         <View style={styles.warningCard}>
-          <Text style={styles.warningTitle} maxFontSizeMultiplier={1.4}>Never share both together</Text>
-          <Text style={styles.warningBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.warningTitle} maxFontSizeMultiplier={3.0}>Never share both together</Text>
+          <Text style={styles.warningBody} maxFontSizeMultiplier={3.0}>
             The QR code and the .afterme file should be stored in different locations.
             Anyone with both can access all your documents.
           </Text>
@@ -377,8 +383,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
             accessibilityLabel="Save QR code as image"
           >
             <Text style={styles.actionIcon}>🖼️</Text>
-            <Text style={styles.actionLabel} maxFontSizeMultiplier={1.4}>Save Key Card</Text>
-            <Text style={styles.actionHint} maxFontSizeMultiplier={1.4}>Save QR as image</Text>
+            <Text style={styles.actionLabel} maxFontSizeMultiplier={3.0}>Save Key Card</Text>
+            <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>Save QR as image</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -389,8 +395,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
             accessibilityLabel="Share the .afterme file"
           >
             <Text style={styles.actionIcon}>📤</Text>
-            <Text style={styles.actionLabel} maxFontSizeMultiplier={1.4}>Share .afterme</Text>
-            <Text style={styles.actionHint} maxFontSizeMultiplier={1.4}>Send the encrypted file</Text>
+            <Text style={styles.actionLabel} maxFontSizeMultiplier={3.0}>Share .afterme</Text>
+            <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>Send the encrypted file</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -401,8 +407,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
             accessibilityLabel="Generate printable PDF"
           >
             <Text style={styles.actionIcon}>🖨️</Text>
-            <Text style={styles.actionLabel} maxFontSizeMultiplier={1.4}>Print PDF</Text>
-            <Text style={styles.actionHint} maxFontSizeMultiplier={1.4}>Full instructions + QR</Text>
+            <Text style={styles.actionLabel} maxFontSizeMultiplier={3.0}>Print PDF</Text>
+            <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>Full instructions + QR</Text>
           </TouchableOpacity>
         </View>
 
@@ -413,7 +419,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
           accessibilityRole="button"
           accessibilityLabel="Continue to distribution"
         >
-          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={1.4}>Next: Distribution Tips</Text>
+          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={3.0}>Next: Distribution Tips</Text>
         </TouchableOpacity>
       </ScrollView>
     );
@@ -423,9 +429,9 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
     if (!result) return null;
     return (
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.stepIndicator} maxFontSizeMultiplier={1.4} accessibilityRole="text">Step 4 of 4</Text>
-        <Text style={styles.heading} maxFontSizeMultiplier={1.4} accessibilityRole="header">Distribute Your Kit</Text>
-        <Text style={styles.body} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.stepIndicator} maxFontSizeMultiplier={3.0} accessibilityRole="text">Step 4 of 5</Text>
+        <Text style={styles.heading} maxFontSizeMultiplier={3.0} accessibilityRole="header">Distribute Your Kit</Text>
+        <Text style={styles.body} maxFontSizeMultiplier={3.0}>
           For the best protection, make sure your loved ones can actually find and use
           the kit when they need it. Here are our recommendations:
         </Text>
@@ -433,8 +439,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.tipCard}>
           <Text style={styles.tipIcon}>🏦</Text>
           <View style={styles.tipContent}>
-            <Text style={styles.tipTitle} maxFontSizeMultiplier={1.4}>Safety Deposit Box</Text>
-            <Text style={styles.tipBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.tipTitle} maxFontSizeMultiplier={3.0}>Safety Deposit Box</Text>
+            <Text style={styles.tipBody} maxFontSizeMultiplier={3.0}>
               Store the printed QR code in a safety deposit box. Give the box key
               or access instructions to your executor or trusted family member.
             </Text>
@@ -444,8 +450,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.tipCard}>
           <Text style={styles.tipIcon}>⚖️</Text>
           <View style={styles.tipContent}>
-            <Text style={styles.tipTitle} maxFontSizeMultiplier={1.4}>Solicitor / Attorney</Text>
-            <Text style={styles.tipBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.tipTitle} maxFontSizeMultiplier={3.0}>Solicitor / Attorney</Text>
+            <Text style={styles.tipBody} maxFontSizeMultiplier={3.0}>
               Include the Family Kit instructions with your will or estate plan.
               Your solicitor can hold a copy of the QR code securely.
             </Text>
@@ -455,8 +461,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.tipCard}>
           <Text style={styles.tipIcon}>💾</Text>
           <View style={styles.tipContent}>
-            <Text style={styles.tipTitle} maxFontSizeMultiplier={1.4}>USB Drive + Cloud</Text>
-            <Text style={styles.tipBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.tipTitle} maxFontSizeMultiplier={3.0}>USB Drive + Cloud</Text>
+            <Text style={styles.tipBody} maxFontSizeMultiplier={3.0}>
               Save the .afterme file on an encrypted USB drive and/or a trusted
               cloud service. The file is useless without the QR code key.
             </Text>
@@ -466,8 +472,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.tipCard}>
           <Text style={styles.tipIcon}>👨‍👩‍👧</Text>
           <View style={styles.tipContent}>
-            <Text style={styles.tipTitle} maxFontSizeMultiplier={1.4}>Tell Trusted People</Text>
-            <Text style={styles.tipBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.tipTitle} maxFontSizeMultiplier={3.0}>Tell Trusted People</Text>
+            <Text style={styles.tipBody} maxFontSizeMultiplier={3.0}>
               Make sure at least one trusted person knows the kit exists and
               where to find the QR code and the file.
             </Text>
@@ -477,8 +483,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.tipCard}>
           <Text style={styles.tipIcon}>🔄</Text>
           <View style={styles.tipContent}>
-            <Text style={styles.tipTitle} maxFontSizeMultiplier={1.4}>Keep It Updated</Text>
-            <Text style={styles.tipBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.tipTitle} maxFontSizeMultiplier={3.0}>Keep It Updated</Text>
+            <Text style={styles.tipBody} maxFontSizeMultiplier={3.0}>
               Whenever you add or update documents in your vault, regenerate the
               Family Kit. The app will remind you when your kit becomes stale.
             </Text>
@@ -487,12 +493,133 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
 
         <TouchableOpacity
           style={[styles.primaryBtn, { marginTop: 8 }]}
-          onPress={handleDismiss}
+          onPress={() => setStep('handoff')}
           activeOpacity={0.85}
           accessibilityRole="button"
-          accessibilityLabel="Done"
+          accessibilityLabel="Continue to final confirmation"
         >
-          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={1.4}>Done</Text>
+          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={3.0}>Next: Confirm Handoff</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    );
+  };
+
+  const renderHandoff = () => {
+    const CHECKS = [
+      {
+        icon: '📤',
+        title: 'The .afterme file has been sent or stored',
+        detail: 'Emailed to a trusted person, saved to a shared folder (iCloud, Google Drive), or copied to a USB drive they can access.',
+      },
+      {
+        icon: '👤',
+        title: 'At least one person knows this file exists',
+        detail: 'They know where to find it, and know to download the After Me app when the time comes.',
+      },
+      {
+        icon: '🖨️',
+        title: 'The QR code is stored separately from the file',
+        detail: 'Printed and in a safe, with a solicitor, or in a different cloud location. Anyone who finds both can open the vault.',
+      },
+      {
+        icon: '⚖️',
+        title: 'Your executor or solicitor is aware',
+        detail: 'They know about the vault and where both pieces (file + QR code) can be found.',
+      },
+    ];
+
+    const allChecked = handoffChecks.every(Boolean);
+    const uncheckedCount = handoffChecks.filter((c) => !c).length;
+
+    const toggleCheck = (i: number) => {
+      setHandoffChecks((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+    };
+
+    const handleDone = () => {
+      if (!allChecked) {
+        Alert.alert(
+          `${uncheckedCount} item${uncheckedCount > 1 ? 's' : ''} not confirmed`,
+          'Your family may not be able to access the vault if these steps aren\'t completed. Are you sure you want to close?',
+          [
+            { text: 'Go Back', style: 'cancel' },
+            { text: 'Close Anyway', style: 'destructive', onPress: handleDismiss },
+          ],
+        );
+      } else {
+        handleDismiss();
+      }
+    };
+
+    return (
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.stepIndicator} maxFontSizeMultiplier={3.0} accessibilityRole="text">Step 5 of 5</Text>
+        <Text style={styles.heading} maxFontSizeMultiplier={3.0} accessibilityRole="header">
+          Before You Close
+        </Text>
+        <Text style={styles.body} maxFontSizeMultiplier={3.0}>
+          Your kit is ready — but it only works if your family can actually find it.
+          Confirm each item below before you close.
+        </Text>
+
+        {!allChecked && (
+          <View style={styles.handoffWarning}>
+            <Text style={styles.handoffWarningIcon}>⚠️</Text>
+            <Text style={styles.handoffWarningText} maxFontSizeMultiplier={3.0}>
+              {uncheckedCount} item{uncheckedCount > 1 ? 's' : ''} still to confirm.
+              Your family may not be able to open the vault without these steps.
+            </Text>
+          </View>
+        )}
+
+        {CHECKS.map((check, i) => (
+          <TouchableOpacity
+            key={i}
+            style={[styles.checkRow, handoffChecks[i] && styles.checkRowChecked]}
+            onPress={() => toggleCheck(i)}
+            activeOpacity={0.8}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: handoffChecks[i] }}
+            accessibilityLabel={check.title}
+          >
+            <View style={[styles.checkbox, handoffChecks[i] && styles.checkboxChecked]}>
+              {handoffChecks[i] && <Text style={styles.checkMark}>✓</Text>}
+            </View>
+            <View style={styles.checkContent}>
+              <View style={styles.checkHeader}>
+                <Text style={styles.checkIcon}>{check.icon}</Text>
+                <Text
+                  style={[styles.checkTitle, handoffChecks[i] && styles.checkTitleDone]}
+                  maxFontSizeMultiplier={3.0}
+                >
+                  {check.title}
+                </Text>
+              </View>
+              <Text style={styles.checkDetail} maxFontSizeMultiplier={3.0}>
+                {check.detail}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+
+        {allChecked && (
+          <View style={styles.handoffSuccess}>
+            <Text style={styles.handoffSuccessIcon}>✅</Text>
+            <Text style={styles.handoffSuccessText} maxFontSizeMultiplier={3.0}>
+              All confirmed. Your family is prepared.
+            </Text>
+          </View>
+        )}
+
+        <TouchableOpacity
+          style={[styles.primaryBtn, { marginTop: 16 }, !allChecked && styles.primaryBtnWarning]}
+          onPress={handleDone}
+          activeOpacity={0.85}
+          accessibilityRole="button"
+          accessibilityLabel={allChecked ? 'Close wizard' : 'Close without completing all items'}
+        >
+          <Text style={styles.primaryBtnText} maxFontSizeMultiplier={3.0}>
+            {allChecked ? 'Done — Kit is Ready' : 'Close (items incomplete)'}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     );
@@ -506,10 +633,24 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
       case 'validating': return renderValidating();
       case 'complete': return renderComplete();
       case 'distribute': return renderDistribute();
+      case 'handoff': return renderHandoff();
     }
   };
 
   if (shouldBlockEmpty) return null;
+
+  // Premium gate: show paywall inline rather than requiring callers to guard.
+  // When the user purchases inside the paywall, isPremium updates immediately
+  // via PurchaseContext and the wizard renders on the next render cycle.
+  if (showPaywall) {
+    return (
+      <PaywallScreen
+        visible={showPaywall}
+        onDismiss={onDismiss}
+        trigger="family_kit"
+      />
+    );
+  }
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
@@ -522,9 +663,9 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
             accessibilityLabel="Close wizard"
             style={styles.closeBtn}
           >
-            <Text style={styles.closeBtnText} maxFontSizeMultiplier={1.4}>✕</Text>
+            <Text style={styles.closeBtnText} maxFontSizeMultiplier={3.0}>✕</Text>
           </TouchableOpacity>
-          <Text style={styles.headerTitle} maxFontSizeMultiplier={1.4}>Family Kit</Text>
+          <Text style={styles.headerTitle} maxFontSizeMultiplier={3.0}>Family Kit</Text>
           <View style={{ width: 44 }} />
         </View>
         {renderStepContent()}
@@ -813,5 +954,112 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.textSecondary,
     lineHeight: 19,
+  },
+
+  // Handoff checklist
+  handoffWarning: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: 'rgba(224,83,83,0.10)',
+    borderWidth: 1,
+    borderColor: 'rgba(224,83,83,0.25)',
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 16,
+    gap: 10,
+  },
+  handoffWarningIcon: {
+    fontSize: 18,
+    marginTop: 1,
+  },
+  handoffWarningText: {
+    flex: 1,
+    fontSize: 13,
+    color: colors.amDanger,
+    lineHeight: 19,
+  },
+  checkRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: colors.amCard,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'transparent',
+    padding: 16,
+    marginBottom: 10,
+    gap: 12,
+  },
+  checkRowChecked: {
+    borderColor: colors.success,
+    backgroundColor: 'rgba(63,207,132,0.07)',
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: colors.textMuted,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 2,
+    flexShrink: 0,
+  },
+  checkboxChecked: {
+    backgroundColor: colors.success,
+    borderColor: colors.success,
+  },
+  checkMark: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  checkContent: {
+    flex: 1,
+  },
+  checkHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
+  checkIcon: {
+    fontSize: 18,
+  },
+  checkTitle: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.amWhite,
+    lineHeight: 20,
+  },
+  checkTitleDone: {
+    color: colors.success,
+  },
+  checkDetail: {
+    fontSize: 12,
+    color: colors.textMuted,
+    lineHeight: 18,
+    marginTop: 2,
+  },
+  handoffSuccess: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: 'rgba(63,207,132,0.10)',
+    borderRadius: 12,
+    padding: 14,
+    marginTop: 4,
+  },
+  handoffSuccessIcon: {
+    fontSize: 22,
+  },
+  handoffSuccessText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.success,
+  },
+  primaryBtnWarning: {
+    backgroundColor: '#6b6340',
   },
 });

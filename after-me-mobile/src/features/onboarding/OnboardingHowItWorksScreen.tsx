@@ -85,16 +85,16 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
       >
         {/* Header */}
         <Animated.View style={[styles.header, { opacity: headerOpacity, transform: [{ translateY: headerY }] }]}>
-          <Text style={styles.eyebrow} maxFontSizeMultiplier={1.4}>Before you set up</Text>
+          <Text style={styles.eyebrow} maxFontSizeMultiplier={3.0}>Before you set up</Text>
           <Text style={styles.headline} maxFontSizeMultiplier={1.3}>
             How your family{'\n'}will access this
           </Text>
-          <Text style={styles.subhead} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.subhead} maxFontSizeMultiplier={3.0}>
             After Me is built around a simple idea: your loved ones
             should be able to access what you leave them — without
             needing your phone, your password, or your account.
           </Text>
-          <Text style={styles.subhead} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.subhead} maxFontSizeMultiplier={3.0}>
             Here&apos;s how it works in practice.
           </Text>
         </Animated.View>
@@ -106,19 +106,19 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
               <Text style={styles.pathBadgePrimaryText}>Recommended</Text>
             </View>
           </View>
-          <Text style={styles.pathTitle} maxFontSizeMultiplier={1.4}>Family Kit</Text>
-          <Text style={styles.pathBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.pathTitle} maxFontSizeMultiplier={3.0}>Family Kit</Text>
+          <Text style={styles.pathBody} maxFontSizeMultiplier={3.0}>
             You create a Family Kit inside the app. It produces two things:
             a printed QR Key Card (give to a trusted person today) and an
             encrypted .afterme file (store on USB, iCloud Drive, or email to yourself).
           </Text>
-          <Text style={styles.pathBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.pathBody} maxFontSizeMultiplier={3.0}>
             When the time comes, your loved one downloads After Me, scans
             the QR card, and selects the file. The vault opens on their
             device — no account, no password, no access to your Apple ID needed.
           </Text>
           <View style={styles.pathRequires}>
-            <Text style={styles.pathRequiresText} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.pathRequiresText} maxFontSizeMultiplier={3.0}>
               Requires: QR card + .afterme file
             </Text>
           </View>
@@ -131,14 +131,14 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
               <Text style={styles.pathBadgeSecondaryText}>For your own recovery</Text>
             </View>
           </View>
-          <Text style={styles.pathTitle} maxFontSizeMultiplier={1.4}>{CLOUD_PROVIDER_NAME} Backup</Text>
-          <Text style={styles.pathBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.pathTitle} maxFontSizeMultiplier={3.0}>{CLOUD_PROVIDER_NAME} Backup</Text>
+          <Text style={styles.pathBody} maxFontSizeMultiplier={3.0}>
             An encrypted copy of your vault is stored in your personal
             {' '}{CLOUD_PROVIDER_NAME} account. Useful if you lose or replace this phone —
             you can restore your own vault on a new device.
           </Text>
           <View style={styles.pathWarning}>
-            <Text style={styles.pathWarningText} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.pathWarningText} maxFontSizeMultiplier={3.0}>
               This does not give your family access. Accessing
               another person&apos;s cloud account after death is a complex
               legal process that can take weeks.
@@ -148,8 +148,8 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
 
         {/* Path 3 — No preparation */}
         <Animated.View style={[styles.pathCard, styles.pathCardDanger, { opacity: path3Opacity, transform: [{ translateY: path3Y }] }]}>
-          <Text style={styles.pathTitle} maxFontSizeMultiplier={1.4}>No preparation</Text>
-          <Text style={styles.pathBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.pathTitle} maxFontSizeMultiplier={3.0}>No preparation</Text>
+          <Text style={styles.pathBody} maxFontSizeMultiplier={3.0}>
             If no Family Kit or backup exists, the vault is permanently
             inaccessible to everyone — including you if you lose this device.
             This is not a policy: it is the architecture. No one can recover it.
@@ -158,7 +158,7 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
 
         {/* Bottom note */}
         <Animated.View style={[styles.note, { opacity: noteOpacity }]}>
-          <Text style={styles.noteText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.noteText} maxFontSizeMultiplier={3.0}>
             You&apos;ll set up your Family Kit right after finishing this setup.
             It takes about two minutes.
           </Text>
@@ -172,7 +172,7 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
             accessibilityRole="button"
             accessibilityLabel="Continue setup"
           >
-            <Text style={styles.ctaText} maxFontSizeMultiplier={1.4}>I understand — continue</Text>
+            <Text style={styles.ctaText} maxFontSizeMultiplier={3.0}>I understand — continue</Text>
           </Pressable>
         </Animated.View>
 

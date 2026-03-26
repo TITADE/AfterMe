@@ -281,11 +281,11 @@ export function AddDocumentModal({
                           styles.categoryLabel,
                           selectedCategory === cat && styles.categoryLabelSelected,
                         ]}
-                        maxFontSizeMultiplier={1.4}
+                        maxFontSizeMultiplier={3.0}
                       >
                         {CATEGORY_LABELS[cat]}
                       </Text>
-                      <Text style={styles.categoryDescription} numberOfLines={1} maxFontSizeMultiplier={1.4}>
+                      <Text style={styles.categoryDescription} numberOfLines={1} maxFontSizeMultiplier={3.0}>
                         {CATEGORY_DESCRIPTIONS[cat]}
                       </Text>
                     </View>
@@ -300,7 +300,7 @@ export function AddDocumentModal({
                 accessibilityRole="button"
                 accessibilityLabel="Cancel"
               >
-                <Text style={styles.secondaryButtonText} maxFontSizeMultiplier={1.4}>Cancel</Text>
+                <Text style={styles.secondaryButtonText} maxFontSizeMultiplier={3.0}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.primaryButton, !selectedCategory && styles.primaryButtonDisabled]}
@@ -312,7 +312,7 @@ export function AddDocumentModal({
                 {loading ? (
                   <ActivityIndicator color={colors.amBackground} />
                 ) : (
-                  <Text style={styles.primaryButtonText} maxFontSizeMultiplier={1.4}>
+                  <Text style={styles.primaryButtonText} maxFontSizeMultiplier={3.0}>
                     {pendingSource === 'scan' ? 'Scan Document' : 'Import'}
                   </Text>
                 )}
@@ -339,7 +339,7 @@ export function AddDocumentModal({
                 ? `${documentsRemaining} of ${FREE_TIER_DOCUMENT_LIMIT} free documents remaining`
                 : `Free limit reached, ${FREE_TIER_DOCUMENT_LIMIT} documents. Upgrade to add more.`}
             >
-              <Text style={styles.freeTierText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.freeTierText} maxFontSizeMultiplier={3.0}>
                 {canAddDocument
                   ? `${documentsRemaining} of ${FREE_TIER_DOCUMENT_LIMIT} free documents remaining`
                   : `Free limit reached (${FREE_TIER_DOCUMENT_LIMIT} documents). Upgrade to add more.`}
@@ -357,8 +357,8 @@ export function AddDocumentModal({
           >
             <Text style={styles.optionIcon}>📷</Text>
             <View style={styles.optionText}>
-              <Text style={styles.optionLabel} maxFontSizeMultiplier={1.4}>Scan with Camera</Text>
-              <Text style={styles.optionHint} maxFontSizeMultiplier={1.4}>Auto edge-detect, crop, and enhance</Text>
+              <Text style={styles.optionLabel} maxFontSizeMultiplier={3.0}>Scan with Camera</Text>
+              <Text style={styles.optionHint} maxFontSizeMultiplier={3.0}>Auto edge-detect, crop, and enhance</Text>
             </View>
           </TouchableOpacity>
 
@@ -372,8 +372,8 @@ export function AddDocumentModal({
           >
             <Text style={styles.optionIcon}>📁</Text>
             <View style={styles.optionText}>
-              <Text style={styles.optionLabel} maxFontSizeMultiplier={1.4}>Pick from Files</Text>
-              <Text style={styles.optionHint} maxFontSizeMultiplier={1.4}>PDF, JPEG, or PNG from Files or cloud</Text>
+              <Text style={styles.optionLabel} maxFontSizeMultiplier={3.0}>Pick from Files</Text>
+              <Text style={styles.optionHint} maxFontSizeMultiplier={3.0}>PDF, JPEG, or PNG from Files or cloud</Text>
             </View>
           </TouchableOpacity>
 
@@ -387,8 +387,8 @@ export function AddDocumentModal({
           >
             <Text style={styles.optionIcon}>🖼️</Text>
             <View style={styles.optionText}>
-              <Text style={styles.optionLabel} maxFontSizeMultiplier={1.4}>Pick from Photos</Text>
-              <Text style={styles.optionHint} maxFontSizeMultiplier={1.4}>Import from Photo Library</Text>
+              <Text style={styles.optionLabel} maxFontSizeMultiplier={3.0}>Pick from Photos</Text>
+              <Text style={styles.optionHint} maxFontSizeMultiplier={3.0}>Import from Photo Library</Text>
             </View>
           </TouchableOpacity>
 
@@ -398,7 +398,7 @@ export function AddDocumentModal({
             accessibilityRole="button"
             accessibilityLabel="Cancel"
           >
-            <Text style={styles.cancelButtonText} maxFontSizeMultiplier={1.4}>Cancel</Text>
+            <Text style={styles.cancelButtonText} maxFontSizeMultiplier={3.0}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>

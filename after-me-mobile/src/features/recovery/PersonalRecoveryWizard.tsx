@@ -124,14 +124,14 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
   const renderIntro = () => (
     <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.heroEmoji}>🛡️</Text>
-      <Text style={styles.title} maxFontSizeMultiplier={1.4}>Personal Recovery Kit</Text>
-      <Text style={styles.subtitle} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.title} maxFontSizeMultiplier={3.0}>Personal Recovery Kit</Text>
+      <Text style={styles.subtitle} maxFontSizeMultiplier={3.0}>
         Create a backup that lets you restore your vault if this device is lost, stolen, or damaged.
       </Text>
 
       <View style={styles.infoCard}>
-        <Text style={styles.infoTitle} maxFontSizeMultiplier={1.4}>What you&apos;ll get</Text>
-        <Text style={styles.infoText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.infoTitle} maxFontSizeMultiplier={3.0}>What you&apos;ll get</Text>
+        <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
           1. An encrypted .afterme file containing all your documents{'\n'}
           2. A QR Recovery Card to print and store safely{'\n'}
           3. Both pieces are needed to restore — neither works alone
@@ -139,8 +139,8 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
       </View>
 
       <View style={styles.infoCard}>
-        <Text style={styles.infoTitle} maxFontSizeMultiplier={1.4}>Storage recommendations</Text>
-        <Text style={styles.infoText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.infoTitle} maxFontSizeMultiplier={3.0}>Storage recommendations</Text>
+        <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
           • Print the QR card — store in a fireproof safe{'\n'}
           • Save the .afterme file to a USB drive{'\n'}
           • Give a copy to your solicitor{'\n'}
@@ -151,7 +151,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
 
       {error && (
         <View style={styles.errorCard}>
-          <Text style={styles.errorText} maxFontSizeMultiplier={1.4}>{error}</Text>
+          <Text style={styles.errorText} maxFontSizeMultiplier={3.0}>{error}</Text>
         </View>
       )}
 
@@ -161,7 +161,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
         accessibilityRole="button"
         accessibilityLabel="Generate Recovery Kit"
       >
-        <Text style={styles.primaryButtonText} maxFontSizeMultiplier={1.4}>Generate Recovery Kit</Text>
+        <Text style={styles.primaryButtonText} maxFontSizeMultiplier={3.0}>Generate Recovery Kit</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -170,7 +170,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
         accessibilityRole="button"
         accessibilityLabel="Cancel"
       >
-        <Text style={styles.cancelText} maxFontSizeMultiplier={1.4}>Cancel</Text>
+        <Text style={styles.cancelText} maxFontSizeMultiplier={3.0}>Cancel</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -178,14 +178,14 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
   const renderGenerating = () => (
     <View style={styles.centered}>
       <ActivityIndicator size="large" color={colors.amAmber} />
-      <Text style={styles.generatingText} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.generatingText} maxFontSizeMultiplier={3.0}>
         Encrypting your vault...
       </Text>
-      <Text style={styles.generatingHint} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.generatingHint} maxFontSizeMultiplier={3.0}>
         This may take a moment depending on vault size
       </Text>
       {progress.total > 0 && (
-        <Text style={styles.progressText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.progressText} maxFontSizeMultiplier={3.0}>
           Processing document {progress.current} of {progress.total}…
         </Text>
       )}
@@ -214,8 +214,8 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
   const renderComplete = () => (
     <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.heroEmoji}>✅</Text>
-      <Text style={styles.title} maxFontSizeMultiplier={1.4}>Recovery Kit Ready</Text>
-      <Text style={styles.subtitle} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.title} maxFontSizeMultiplier={3.0}>Recovery Kit Ready</Text>
+      <Text style={styles.subtitle} maxFontSizeMultiplier={3.0}>
         {result?.documentCount} document{(result?.documentCount ?? 0) !== 1 ? 's' : ''} encrypted and packaged.
       </Text>
 
@@ -230,10 +230,10 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
             quietZone={QR_QUIET_ZONE}
           />
         </View>
-        <Text style={styles.qrLabel} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.qrLabel} maxFontSizeMultiplier={3.0}>
           Your Recovery QR Code
         </Text>
-        <Text style={styles.qrHint} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.qrHint} maxFontSizeMultiplier={3.0}>
           Print this and store in a safe place
         </Text>
       </View>
@@ -244,20 +244,20 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
         accessibilityRole="button"
         accessibilityLabel="Save and share"
       >
-        <Text style={styles.primaryButtonText} maxFontSizeMultiplier={1.4}>Save & Share</Text>
+        <Text style={styles.primaryButtonText} maxFontSizeMultiplier={3.0}>Save & Share</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 
   const renderDistribute = () => (
     <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title} maxFontSizeMultiplier={1.4}>Save Your Recovery Kit</Text>
-      <Text style={styles.subtitle} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.title} maxFontSizeMultiplier={3.0}>Save Your Recovery Kit</Text>
+      <Text style={styles.subtitle} maxFontSizeMultiplier={3.0}>
         Your recovery kit has two parts. Save both to a secure location.
       </Text>
 
       <View style={styles.explainerCard}>
-        <Text style={styles.explainerText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.explainerText} maxFontSizeMultiplier={3.0}>
           <Text style={styles.explainerBold}>.afterme file</Text> — Your encrypted vault data (binary file — this is normal){'\n\n'}
           <Text style={styles.explainerBold}>PDF Recovery Card</Text> — Printable instructions with your access key QR code
         </Text>
@@ -271,9 +271,11 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
       >
         <Text style={styles.actionIcon}>💾</Text>
         <View style={styles.actionContent}>
-          <Text style={styles.actionTitle} maxFontSizeMultiplier={1.4}>Save Encrypted Vault File</Text>
-          <Text style={styles.actionHint} maxFontSizeMultiplier={1.4}>
-            .afterme file — save to Files, AirDrop, or USB drive
+          <Text style={styles.actionTitle} maxFontSizeMultiplier={3.0}>Save Encrypted Vault File</Text>
+          <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>
+            {Platform.OS === 'ios'
+              ? '.afterme file — save to Files, AirDrop, or USB drive'
+              : '.afterme file — save to Google Drive, share via Nearby Share, or USB drive'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -286,16 +288,16 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
       >
         <Text style={styles.actionIcon}>🖨️</Text>
         <View style={styles.actionContent}>
-          <Text style={styles.actionTitle} maxFontSizeMultiplier={1.4}>Save / Print PDF Recovery Card</Text>
-          <Text style={styles.actionHint} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.actionTitle} maxFontSizeMultiplier={3.0}>Save / Print PDF Recovery Card</Text>
+          <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>
             Printable PDF with QR code and recovery steps
           </Text>
         </View>
       </TouchableOpacity>
 
       <View style={styles.warningCard}>
-        <Text style={styles.warningTitle} maxFontSizeMultiplier={1.4}>Important</Text>
-        <Text style={styles.warningText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.warningTitle} maxFontSizeMultiplier={3.0}>Important</Text>
+        <Text style={styles.warningText} maxFontSizeMultiplier={3.0}>
           Store the .afterme file and QR code in separate locations. Both are needed to restore your vault. Neither works alone.
         </Text>
       </View>
@@ -306,7 +308,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
         accessibilityRole="button"
         accessibilityLabel="Done"
       >
-        <Text style={styles.doneButtonText} maxFontSizeMultiplier={1.4}>Done</Text>
+        <Text style={styles.doneButtonText} maxFontSizeMultiplier={3.0}>Done</Text>
       </TouchableOpacity>
     </ScrollView>
   );

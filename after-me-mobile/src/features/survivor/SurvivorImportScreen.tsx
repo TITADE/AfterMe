@@ -17,6 +17,7 @@ import {
   Dimensions,
   ScrollView,
   Platform,
+  Modal,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CameraView, useCameraPermissions } from 'expo-camera';
@@ -28,7 +29,7 @@ import { importFamilyKit } from '../../services/FamilyKitService';
 import { colors } from '../../theme/colors';
 import { SERIF_FONT } from '../../theme/fonts';
 
-type Step = 'welcome' | 'scan' | 'manualEntry' | 'selectFile' | 'importing' | 'vaultIntro';
+type Step = 'welcome' | 'scan' | 'manualEntry' | 'findFile' | 'selectFile' | 'importing' | 'vaultIntro';
 
 interface SurvivorImportScreenProps {
   mode?: 'kit' | 'restore';
@@ -46,6 +47,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
   const [error, setError] = useState<string | null>(null);
   const [importedCount, setImportedCount] = useState(0);
   const [manualKey, setManualKey] = useState('');
+  const [showFileHelp, setShowFileHelp] = useState(false);
 
   const handleBarCodeScanned = useCallback(
     async (result: BarcodeScanningResult) => {
@@ -54,7 +56,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
       setProcessing(true);
       await new Promise<void>((resolve) => setTimeout(resolve, 0));
       setAccessKey(result.data);
-      setStep('selectFile');
+      setStep('findFile');
       setProcessing(false);
     },
     [scanned, processing],
@@ -108,7 +110,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
         accessibilityRole="button"
         accessibilityLabel="Go back"
       >
-        <Text style={styles.backText} maxFontSizeMultiplier={1.4}>← Back</Text>
+        <Text style={styles.backText} maxFontSizeMultiplier={3.0}>← Back</Text>
       </Pressable>
     ) : null;
 
@@ -121,38 +123,38 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
           <View style={styles.welcomeIconWrap}>
             <Text style={styles.welcomeIcon}>🕊️</Text>
           </View>
-          <Text style={styles.welcomeTitle} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.welcomeTitle} maxFontSizeMultiplier={3.0}>
             Welcome
           </Text>
-          <Text style={styles.welcomeBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.welcomeBody} maxFontSizeMultiplier={3.0}>
             We understand this may be a difficult time. Someone who cared about you
             prepared this vault to make things a little easier.
           </Text>
-          <Text style={styles.welcomeBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.welcomeBody} maxFontSizeMultiplier={3.0}>
             Inside, you&apos;ll find important documents they wanted you to have —
             identity papers, legal documents, financial records, and perhaps
             personal messages.
           </Text>
-          <Text style={styles.welcomeDetail} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.welcomeDetail} maxFontSizeMultiplier={3.0}>
             Take your time. There&apos;s no rush.
           </Text>
 
           <View style={styles.welcomeSteps}>
             <View style={styles.welcomeStepRow}>
               <View style={styles.stepDot}><Text style={styles.stepNum}>1</Text></View>
-              <Text style={styles.stepText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.stepText} maxFontSizeMultiplier={3.0}>
                 Scan the QR code from the printed Family Kit
               </Text>
             </View>
             <View style={styles.welcomeStepRow}>
               <View style={styles.stepDot}><Text style={styles.stepNum}>2</Text></View>
-              <Text style={styles.stepText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.stepText} maxFontSizeMultiplier={3.0}>
                 Select the .afterme file (from USB, email, or cloud storage)
               </Text>
             </View>
             <View style={styles.welcomeStepRow}>
               <View style={styles.stepDot}><Text style={styles.stepNum}>3</Text></View>
-              <Text style={styles.stepText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.stepText} maxFontSizeMultiplier={3.0}>
                 The vault will be securely imported to this device
               </Text>
             </View>
@@ -164,7 +166,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             accessibilityRole="button"
             accessibilityLabel="Begin scanning the QR code"
           >
-            <Text style={styles.continueButtonText} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>
               I&apos;m Ready to Begin
             </Text>
           </Pressable>
@@ -181,12 +183,12 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
         {!permission ? (
           <>
             <ActivityIndicator size="large" color={colors.amAmber} />
-            <Text style={styles.statusText} maxFontSizeMultiplier={1.4}>Checking camera permission…</Text>
+            <Text style={styles.statusText} maxFontSizeMultiplier={3.0}>Checking camera permission…</Text>
           </>
         ) : (
           <>
-            <Text style={styles.permTitle} maxFontSizeMultiplier={1.4}>Camera Access Needed</Text>
-            <Text style={styles.permBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.permTitle} maxFontSizeMultiplier={3.0}>Camera Access Needed</Text>
+            <Text style={styles.permBody} maxFontSizeMultiplier={3.0}>
               To scan the QR code from the Family Kit, we need permission to use your camera.
             </Text>
             <Pressable
@@ -195,10 +197,137 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
               accessibilityRole="button"
               accessibilityLabel="Allow camera access"
             >
-              <Text style={styles.continueButtonText} maxFontSizeMultiplier={1.4}>Allow Camera</Text>
+              <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>Allow Camera</Text>
             </Pressable>
           </>
         )}
+      </View>
+    );
+  }
+
+  // --- Step: Where is the file? ---
+  if (step === 'findFile') {
+    const SCENARIOS = Platform.OS === 'ios'
+      ? [
+          {
+            icon: '📧',
+            label: 'It was emailed to me',
+            howto:
+              'Open the email, tap the .afterme attachment, then tap the Share icon → "Save to Files". Once saved, come back here and tap "Select File".',
+          },
+          {
+            icon: '☁️',
+            label: "It's in iCloud Drive",
+            howto:
+              'When you tap "Select File", the iOS Files app will open. Tap "Browse" at the bottom and choose iCloud Drive. Look for the .afterme file there.',
+          },
+          {
+            icon: '💾',
+            label: "It's on a USB drive or laptop",
+            howto:
+              'Connect the USB drive to this device (via a Lightning or USB-C adapter). The iOS Files app will show it under "Locations". Select the .afterme file from there.',
+          },
+          {
+            icon: '⚖️',
+            label: 'A solicitor or executor has it',
+            howto:
+              'Ask them to email it to you, or share it via a cloud link. Once you have it on this device, come back and tap "Select File".',
+          },
+        ]
+      : [
+          {
+            icon: '📧',
+            label: 'It was emailed to me',
+            howto:
+              'Open the email app, tap the .afterme attachment, then tap "Save" or "Download". Once downloaded, come back here and tap "Select File".',
+          },
+          {
+            icon: '☁️',
+            label: "It's in Google Drive",
+            howto:
+              'When you tap "Select File", the file picker will open. Tap "Google Drive" from the list of storage providers. Browse to the .afterme file and select it.',
+          },
+          {
+            icon: '💾',
+            label: "It's on a USB drive or device",
+            howto:
+              'Connect the USB drive via a USB-C adapter. Open the Files app (or Samsung My Files) and look under "USB storage". Select the .afterme file from there.',
+          },
+          {
+            icon: '⚖️',
+            label: 'A solicitor or executor has it',
+            howto:
+              'Ask them to email it to you, or share it via a cloud link. Once you have it on this device, come back and tap "Select File".',
+          },
+        ];
+
+    return (
+      <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+        <BackButton top={insets.top + 12} />
+        <ScrollView contentContainerStyle={styles.findFileContent}>
+          <View style={styles.findFileCheck}>
+            <Text style={styles.findFileCheckIcon}>✅</Text>
+            <Text style={styles.findFileCheckText} maxFontSizeMultiplier={3.0}>QR code received</Text>
+          </View>
+
+          <Text style={styles.findFileHeading} maxFontSizeMultiplier={3.0}>
+            Now let's find the file
+          </Text>
+          <Text style={styles.findFileIntro} maxFontSizeMultiplier={3.0}>
+            The .afterme file is the encrypted vault. The QR code you just scanned is the key
+            that unlocks it. Both are needed.{'\n\n'}
+            Where was the file stored?
+          </Text>
+
+          {SCENARIOS.map((s, i) => (
+            <View key={i} style={styles.scenarioCard}>
+              <View style={styles.scenarioHeader}>
+                <Text style={styles.scenarioIcon}>{s.icon}</Text>
+                <Text style={styles.scenarioLabel} maxFontSizeMultiplier={3.0}>{s.label}</Text>
+              </View>
+              <View style={styles.scenarioHowto}>
+                <Text style={styles.scenarioHowtoLabel} maxFontSizeMultiplier={3.0}>What to do:</Text>
+                <Text style={styles.scenarioHowtoText} maxFontSizeMultiplier={3.0}>{s.howto}</Text>
+              </View>
+            </View>
+          ))}
+
+          <View style={styles.findFileNotSure}>
+            <Text style={styles.findFileNotSureIcon}>❓</Text>
+            <Text style={styles.findFileNotSureText} maxFontSizeMultiplier={3.0}>
+              Not sure where it is? Contact the person who set up the vault, or ask the estate
+              solicitor. The file may also be with the printed Family Kit paperwork.
+            </Text>
+          </View>
+
+          <View style={styles.findFileDivider} />
+
+          <Text style={styles.findFileReady} maxFontSizeMultiplier={3.0}>
+            Once the .afterme file is accessible on this device, tap below:
+          </Text>
+
+          <Pressable
+            style={styles.continueButton}
+            onPress={() => setStep('selectFile')}
+            accessibilityRole="button"
+            accessibilityLabel="Select the Family Kit file"
+          >
+            <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>
+              Select .afterme File
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.linkButton}
+            onPress={handleScanAgain}
+            accessibilityRole="button"
+            accessibilityLabel="Scan QR code again"
+          >
+            <Text style={styles.linkText} maxFontSizeMultiplier={3.0}>
+              Scan a different QR code
+            </Text>
+          </Pressable>
+        </ScrollView>
       </View>
     );
   }
@@ -210,17 +339,17 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
         <BackButton top={insets.top + 12} />
         <ScrollView contentContainerStyle={styles.selectContent}>
           <Text style={styles.selectIcon}>✅</Text>
-          <Text style={styles.selectTitle} maxFontSizeMultiplier={1.4}>QR Code Received</Text>
-          <Text style={styles.selectBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.selectTitle} maxFontSizeMultiplier={3.0}>QR Code Received</Text>
+          <Text style={styles.selectBody} maxFontSizeMultiplier={3.0}>
             Now select the .afterme file. It may be on a USB drive, in an email attachment,
             or in cloud storage like iCloud Drive or Google Drive.
           </Text>
 
           {error && (
             <View style={styles.errorBox}>
-              <Text style={styles.errorTitle} maxFontSizeMultiplier={1.4}>Something went wrong</Text>
-              <Text style={styles.errorText} maxFontSizeMultiplier={1.4}>{error}</Text>
-              <Text style={styles.errorHint} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.errorTitle} maxFontSizeMultiplier={3.0}>Something went wrong</Text>
+              <Text style={styles.errorText} maxFontSizeMultiplier={3.0}>{error}</Text>
+              <Text style={styles.errorHint} maxFontSizeMultiplier={3.0}>
                 Check that you have the correct .afterme file and try again.
                 If the problem persists, the file or QR code may be damaged.
               </Text>
@@ -230,23 +359,37 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
           {step === 'importing' ? (
             <View style={styles.importingBox}>
               <ActivityIndicator size="large" color={colors.amAmber} />
-              <Text style={styles.importingTitle} maxFontSizeMultiplier={1.4}>Importing Vault</Text>
-              <Text style={styles.importingBody} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.importingTitle} maxFontSizeMultiplier={3.0}>Importing Vault</Text>
+              <Text style={styles.importingBody} maxFontSizeMultiplier={3.0}>
                 Decrypting and importing documents…{'\n'}
                 This may take a moment.
               </Text>
             </View>
           ) : (
-            <Pressable
-              style={styles.continueButton}
-              onPress={handleSelectFile}
-              accessibilityRole="button"
-              accessibilityLabel="Select Family Kit file"
-            >
-              <Text style={styles.continueButtonText} maxFontSizeMultiplier={1.4}>
-                Select .afterme File
-              </Text>
-            </Pressable>
+            <View style={styles.fileActionsContainer}>
+              <Pressable
+                style={styles.continueButton}
+                onPress={handleSelectFile}
+                accessibilityRole="button"
+                accessibilityLabel="Select Family Kit file"
+              >
+                <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>
+                  Select .afterme File
+                </Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.helpButton}
+                onPress={() => setShowFileHelp(true)}
+                accessibilityRole="button"
+                accessibilityLabel="Need help finding the file?"
+              >
+                <Text style={styles.helpButtonIcon}>ℹ️</Text>
+                <Text style={styles.helpButtonText} maxFontSizeMultiplier={3.0}>
+                  Need help finding the file?
+                </Text>
+              </Pressable>
+            </View>
           )}
 
           <Pressable
@@ -256,11 +399,82 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             accessibilityRole="button"
             accessibilityLabel="Scan QR code again"
           >
-            <Text style={[styles.linkText, step === 'importing' && { opacity: 0.4 }]} maxFontSizeMultiplier={1.4}>
+            <Text style={[styles.linkText, step === 'importing' && { opacity: 0.4 }]} maxFontSizeMultiplier={3.0}>
               Scan a different QR code
             </Text>
           </Pressable>
         </ScrollView>
+
+        <Modal
+          visible={showFileHelp}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowFileHelp(false)}
+        >
+          <View style={styles.helpOverlay}>
+            <View style={[styles.helpCard, { paddingBottom: insets.bottom + 24 }]}>
+              <View style={styles.helpHeader}>
+                <Text style={styles.helpTitle} maxFontSizeMultiplier={3.0}>Finding the file</Text>
+                <Pressable
+                  onPress={() => setShowFileHelp(false)}
+                  style={styles.helpClose}
+                  accessibilityRole="button"
+                  accessibilityLabel="Close help"
+                  hitSlop={12}
+                >
+                  <Text style={styles.helpCloseText} maxFontSizeMultiplier={3.0}>✕</Text>
+                </Pressable>
+              </View>
+
+              <Text style={styles.helpIntro} maxFontSizeMultiplier={3.0}>
+                {Platform.OS === 'ios'
+                  ? 'When you tap "Select .afterme File", the iOS Files app will open. Here is how to find it:'
+                  : 'When you tap "Select .afterme File", the file picker will open. Here is how to find it:'}
+              </Text>
+
+              <View style={styles.helpStepList}>
+                <View style={styles.helpStep}>
+                  <Text style={styles.helpStepNum}>1</Text>
+                  <Text style={styles.helpStepText} maxFontSizeMultiplier={3.0}>
+                    {Platform.OS === 'ios'
+                      ? <>Tap <Text style={styles.helpBold}>Browse</Text> at the bottom right.</>
+                      : <>Tap the <Text style={styles.helpBold}>menu icon</Text> or <Text style={styles.helpBold}>storage provider</Text> on the left.</>}
+                  </Text>
+                </View>
+                <View style={styles.helpStep}>
+                  <Text style={styles.helpStepNum}>2</Text>
+                  <Text style={styles.helpStepText} maxFontSizeMultiplier={3.0}>
+                    {Platform.OS === 'ios'
+                      ? <>Check <Text style={styles.helpBold}>iCloud Drive</Text> or <Text style={styles.helpBold}>On My iPhone</Text>.</>
+                      : <>Check <Text style={styles.helpBold}>Google Drive</Text>, <Text style={styles.helpBold}>Downloads</Text>, or <Text style={styles.helpBold}>Internal Storage</Text>.</>}
+                  </Text>
+                </View>
+                <View style={styles.helpStep}>
+                  <Text style={styles.helpStepNum}>3</Text>
+                  <Text style={styles.helpStepText} maxFontSizeMultiplier={3.0}>
+                    Look for a file ending in <Text style={styles.helpBold}>.afterme</Text>. It looks like a blank document icon.
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.helpNote}>
+                <Text style={styles.helpNoteIcon}>💡</Text>
+                <Text style={styles.helpNoteText} maxFontSizeMultiplier={3.0}>
+                  {Platform.OS === 'ios'
+                    ? 'If the file was emailed to you, go to the email, tap the attachment, choose "Share", and tap "Save to Files" first.'
+                    : 'If the file was emailed to you, go to the email, tap the attachment, and choose "Download" or "Save to device" first.'}
+                </Text>
+              </View>
+
+              <Pressable
+                style={styles.helpGotItBtn}
+                onPress={() => setShowFileHelp(false)}
+              >
+                <Text style={styles.helpGotItText} maxFontSizeMultiplier={3.0}>Got it</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -271,32 +485,34 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
       <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
         <ScrollView contentContainerStyle={styles.vaultIntroContent}>
           <Text style={styles.vaultIntroIcon}>📋</Text>
-          <Text style={styles.vaultIntroTitle} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.vaultIntroTitle} maxFontSizeMultiplier={3.0}>
             Vault Imported Successfully
           </Text>
-          <Text style={styles.vaultIntroBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.vaultIntroBody} maxFontSizeMultiplier={3.0}>
             {importedCount} {importedCount === 1 ? 'document has' : 'documents have'} been
             securely imported to this device.
           </Text>
 
           <View style={styles.vaultInfoCard}>
-            <Text style={styles.vaultInfoTitle} maxFontSizeMultiplier={1.4}>What Happens Next</Text>
+            <Text style={styles.vaultInfoTitle} maxFontSizeMultiplier={3.0}>What Happens Next</Text>
             <View style={styles.vaultInfoRow}>
               <Text style={styles.vaultInfoBullet}>🔒</Text>
-              <Text style={styles.vaultInfoText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.vaultInfoText} maxFontSizeMultiplier={3.0}>
                 All documents are encrypted on this device. They never leave your phone.
               </Text>
             </View>
             <View style={styles.vaultInfoRow}>
               <Text style={styles.vaultInfoBullet}>📁</Text>
-              <Text style={styles.vaultInfoText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.vaultInfoText} maxFontSizeMultiplier={3.0}>
                 Browse documents by category — identity, legal, finance, medical, and more.
               </Text>
             </View>
             <View style={styles.vaultInfoRow}>
               <Text style={styles.vaultInfoBullet}>🔐</Text>
-              <Text style={styles.vaultInfoText} maxFontSizeMultiplier={1.4}>
-                Face ID or Touch ID protects access to the vault each time you open the app.
+              <Text style={styles.vaultInfoText} maxFontSizeMultiplier={3.0}>
+                {Platform.OS === 'ios'
+                  ? 'Face ID or Touch ID protects access to the vault each time you open the app.'
+                  : 'Your fingerprint or face unlock protects access to the vault each time you open the app.'}
               </Text>
             </View>
           </View>
@@ -307,7 +523,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             accessibilityRole="button"
             accessibilityLabel="Open the vault"
           >
-            <Text style={styles.continueButtonText} maxFontSizeMultiplier={1.4}>Open the Vault</Text>
+            <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>Open the Vault</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -320,8 +536,8 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
       <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
         <BackButton top={insets.top + 12} />
         <ScrollView contentContainerStyle={styles.selectContent}>
-          <Text style={styles.selectTitle} maxFontSizeMultiplier={1.4}>Enter Access Key</Text>
-          <Text style={styles.selectBody} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.selectTitle} maxFontSizeMultiplier={3.0}>Enter Access Key</Text>
+          <Text style={styles.selectBody} maxFontSizeMultiplier={3.0}>
             Type or paste the access key from your printed Family Kit.
             It&apos;s the long text string below the QR code.
           </Text>
@@ -334,21 +550,21 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             multiline
             autoCapitalize="none"
             autoCorrect={false}
-            maxFontSizeMultiplier={1.4}
+            maxFontSizeMultiplier={3.0}
           />
           <Pressable
             style={[styles.continueButton, !manualKey.trim() && { opacity: 0.5 }]}
             onPress={() => {
               if (manualKey.trim()) {
                 setAccessKey(manualKey.trim());
-                setStep('selectFile');
+                setStep('findFile');
               }
             }}
             disabled={!manualKey.trim()}
             accessibilityRole="button"
             accessibilityLabel="Continue with entered key"
           >
-            <Text style={styles.continueButtonText} maxFontSizeMultiplier={1.4}>Continue</Text>
+            <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>Continue</Text>
           </Pressable>
           <Pressable
             style={styles.linkButton}
@@ -356,7 +572,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             accessibilityRole="button"
             accessibilityLabel="Try scanning instead"
           >
-            <Text style={styles.linkText} maxFontSizeMultiplier={1.4}>Try scanning instead</Text>
+            <Text style={styles.linkText} maxFontSizeMultiplier={3.0}>Try scanning instead</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -375,7 +591,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
       <View style={[styles.overlay, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
         <BackButton top={insets.top + 12} />
         <View style={styles.frameArea}>
-          <Text style={styles.instructionText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.instructionText} maxFontSizeMultiplier={3.0}>
             Point your camera at the QR code{'\n'}on the Family Kit
           </Text>
           <View style={styles.scanFrame}>
@@ -384,7 +600,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             <View style={[styles.corner, styles.cornerBL]} />
             <View style={[styles.corner, styles.cornerBR]} />
           </View>
-          <Text style={styles.scanHint} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.scanHint} maxFontSizeMultiplier={3.0}>
             The QR code is on the printed sheet inside the kit
           </Text>
           <Pressable
@@ -393,7 +609,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             accessibilityRole="button"
             accessibilityLabel="Enter key manually instead of scanning"
           >
-            <Text style={styles.manualEntryText} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.manualEntryText} maxFontSizeMultiplier={3.0}>
               QR code damaged? Enter key manually
             </Text>
           </Pressable>
@@ -401,7 +617,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
         {scanned && processing && (
           <View style={styles.processingOverlay}>
             <ActivityIndicator size="large" color={colors.amAmber} />
-            <Text style={styles.processingText} maxFontSizeMultiplier={1.4}>Reading QR code…</Text>
+            <Text style={styles.processingText} maxFontSizeMultiplier={3.0}>Reading QR code…</Text>
           </View>
         )}
       </View>
@@ -507,6 +723,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.85)',
   },
   frameArea: {
     alignItems: 'center',
@@ -769,5 +986,231 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255,255,255,0.5)',
     textDecorationLine: 'underline',
+  },
+  fileActionsContainer: {
+    alignSelf: 'stretch',
+    gap: 12,
+  },
+  helpButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    paddingVertical: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+    minHeight: 56,
+  },
+  helpButtonIcon: {
+    fontSize: 18,
+    marginRight: 8,
+  },
+  helpButtonText: {
+    fontSize: 16,
+    color: colors.amWhite,
+    fontWeight: '500',
+  },
+  helpOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'flex-end',
+  },
+  helpCard: {
+    backgroundColor: colors.amCard,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 24,
+  },
+  helpHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  helpTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.amWhite,
+    fontFamily: SERIF_FONT,
+  },
+  helpClose: {
+    padding: 4,
+  },
+  helpCloseText: {
+    fontSize: 20,
+    color: colors.textMuted,
+  },
+  helpIntro: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    lineHeight: 22,
+    marginBottom: 20,
+  },
+  helpStepList: {
+    gap: 16,
+    marginBottom: 24,
+  },
+  helpStep: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  helpStepNum: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: 'rgba(201,150,58,0.2)',
+    color: colors.amAmber,
+    textAlign: 'center',
+    lineHeight: 24,
+    fontWeight: '700',
+    fontSize: 13,
+    marginRight: 12,
+    marginTop: 2,
+  },
+  helpStepText: {
+    flex: 1,
+    fontSize: 15,
+    color: colors.amWhite,
+    lineHeight: 22,
+  },
+  helpBold: {
+    fontWeight: '600',
+    color: colors.amAmber,
+  },
+  helpNote: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+  helpNoteIcon: {
+    fontSize: 18,
+    marginRight: 10,
+    marginTop: 2,
+  },
+  helpNoteText: {
+    flex: 1,
+    fontSize: 14,
+    color: colors.textSecondary,
+    lineHeight: 20,
+  },
+  helpGotItBtn: {
+    backgroundColor: colors.amAmber,
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  helpGotItText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.amBackground,
+  },
+
+  // findFile step
+  findFileContent: {
+    padding: 24,
+    paddingTop: 68,
+  },
+  findFileCheck: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 20,
+  },
+  findFileCheckIcon: {
+    fontSize: 22,
+  },
+  findFileCheckText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.success,
+  },
+  findFileHeading: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: colors.amWhite,
+    fontFamily: SERIF_FONT,
+    marginBottom: 12,
+  },
+  findFileIntro: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    lineHeight: 23,
+    marginBottom: 20,
+  },
+  scenarioCard: {
+    backgroundColor: colors.amCard,
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 10,
+  },
+  scenarioHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 10,
+  },
+  scenarioIcon: {
+    fontSize: 22,
+  },
+  scenarioLabel: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.amWhite,
+    flex: 1,
+  },
+  scenarioHowto: {
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 10,
+    padding: 12,
+  },
+  scenarioHowtoLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: colors.amAmber,
+    letterSpacing: 0.5,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+  },
+  scenarioHowtoText: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    lineHeight: 20,
+  },
+  findFileNotSure: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    backgroundColor: 'rgba(201,150,58,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(201,150,58,0.20)',
+    borderRadius: 12,
+    padding: 14,
+    marginTop: 8,
+    marginBottom: 20,
+  },
+  findFileNotSureIcon: {
+    fontSize: 18,
+    marginTop: 1,
+  },
+  findFileNotSureText: {
+    flex: 1,
+    fontSize: 13,
+    color: colors.amAmber,
+    lineHeight: 20,
+  },
+  findFileDivider: {
+    height: 1,
+    backgroundColor: colors.border,
+    marginBottom: 18,
+  },
+  findFileReady: {
+    fontSize: 14,
+    color: colors.textMuted,
+    textAlign: 'center',
+    marginBottom: 14,
+    lineHeight: 20,
   },
 });

@@ -32,10 +32,10 @@ export function BackupSection({
 
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>{providerName} Backup</Text>
+      <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>{providerName} Backup</Text>
       <View style={styles.infoCard}>
         <View style={styles.row} accessibilityRole="switch" accessibilityState={{ checked: cloudEnabled }}>
-          <Text style={styles.rowLabel} maxFontSizeMultiplier={1.4}>Auto Backup</Text>
+          <Text style={styles.rowLabel} maxFontSizeMultiplier={3.0}>Auto Backup</Text>
           <Switch
             value={cloudEnabled}
             onValueChange={onCloudToggle}
@@ -46,13 +46,13 @@ export function BackupSection({
         </View>
 
         {!cloudAvailable && (
-          <Text style={styles.backupWarning} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.backupWarning} maxFontSizeMultiplier={3.0}>
             {notAvailableHint}
           </Text>
         )}
 
         {lastBackupDate && (
-          <Text style={styles.backupDate} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.backupDate} maxFontSizeMultiplier={3.0}>
             Last backup: {new Date(lastBackupDate).toLocaleDateString()} at{' '}
             {new Date(lastBackupDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </Text>
@@ -69,7 +69,7 @@ export function BackupSection({
             {backingUp ? (
               <ActivityIndicator size="small" color={colors.amAmber} />
             ) : (
-              <Text style={styles.backupActionText} maxFontSizeMultiplier={1.4}>Back Up Now</Text>
+              <Text style={styles.backupActionText} maxFontSizeMultiplier={3.0}>Back Up Now</Text>
             )}
           </TouchableOpacity>
 
@@ -83,12 +83,12 @@ export function BackupSection({
             {restoringBackup ? (
               <ActivityIndicator size="small" color={colors.amAmber} />
             ) : (
-              <Text style={styles.backupActionText} maxFontSizeMultiplier={1.4}>Restore from Backup</Text>
+              <Text style={styles.backupActionText} maxFontSizeMultiplier={3.0}>Restore from Backup</Text>
             )}
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.rowHint} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.rowHint} maxFontSizeMultiplier={3.0}>
           Backups are encrypted with your vault key. {Platform.OS === 'ios' ? 'Apple' : 'Google'} cannot read them.
         </Text>
       </View>

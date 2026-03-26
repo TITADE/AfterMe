@@ -10,7 +10,7 @@ import {
   EncodingType,
 } from 'expo-file-system/legacy';
 import { CryptoService } from '../crypto/CryptoService';
-import { KeyManager } from '../auth/KeyManager';
+import { getVaultKey } from '../auth/VaultKeyStore';
 import { captureVaultError, traceVaultOperation } from '../../services/SentryService';
 
 const VAULT_DIR = `${documentDirectory}vault/`;
@@ -39,7 +39,7 @@ export class EncryptedStorageService {
   static async saveFile(filename: string, content: Buffer): Promise<string> {
     return traceVaultOperation('saveFile', async () => {
       const safe = sanitizeFilename(filename);
-      const key = await KeyManager.getVaultKey();
+      const key = await getVaultKey();
       const encrypted = CryptoService.encrypt(content, key);
 
       const filePath = `${VAULT_DIR}${safe}.enc`;
@@ -63,7 +63,7 @@ export class EncryptedStorageService {
         });
 
         const encryptedBuffer = Buffer.from(encryptedBase64, 'base64');
-        const key = await KeyManager.getVaultKey();
+        const key = await getVaultKey();
 
         return CryptoService.decrypt(encryptedBuffer, key);
       } catch (err) {

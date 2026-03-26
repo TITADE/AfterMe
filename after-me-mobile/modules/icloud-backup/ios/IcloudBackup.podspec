@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.author         = 'After Me'
   s.homepage       = 'https://github.com/elufadeju/after-me'
   s.platforms      = { :ios => '15.0' }
-  s.source         = { git: '' }
+  s.source         = { path: '.' }
   s.static_framework = true
 
   s.dependency 'ExpoModulesCore'

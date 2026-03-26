@@ -10,7 +10,7 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
   return (
     <>
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Help</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Help</Text>
         <TouchableOpacity
           style={styles.devRow}
           onPress={onShowHelp}
@@ -18,13 +18,13 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
           accessibilityRole="button"
           accessibilityLabel="Help and FAQ"
         >
-          <Text style={styles.devRowText} maxFontSizeMultiplier={1.4}>Help & FAQ</Text>
-          <Text style={styles.devRowHint} maxFontSizeMultiplier={1.4}>Answers to common questions</Text>
+          <Text style={styles.devRowText} maxFontSizeMultiplier={3.0}>Help & FAQ</Text>
+          <Text style={styles.devRowHint} maxFontSizeMultiplier={3.0}>Answers to common questions</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Support</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Support</Text>
         <TouchableOpacity
           style={styles.devRow}
           onPress={() => Linking.openURL('mailto:support@myafterme.co.uk?subject=After%20Me%20Support')}
@@ -32,8 +32,8 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
           accessibilityRole="link"
           accessibilityLabel="Contact support"
         >
-          <Text style={styles.devRowText} maxFontSizeMultiplier={1.4}>Contact Support</Text>
-          <Text style={styles.devRowHint} maxFontSizeMultiplier={1.4}>support@myafterme.co.uk</Text>
+          <Text style={styles.devRowText} maxFontSizeMultiplier={3.0}>Contact Support</Text>
+          <Text style={styles.devRowHint} maxFontSizeMultiplier={3.0}>support@myafterme.co.uk</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.devRow}
@@ -42,8 +42,8 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
           accessibilityRole="link"
           accessibilityLabel="Visit support centre"
         >
-          <Text style={styles.devRowText} maxFontSizeMultiplier={1.4}>Support Centre</Text>
-          <Text style={styles.devRowHint} maxFontSizeMultiplier={1.4}>FAQs, guides and help articles</Text>
+          <Text style={styles.devRowText} maxFontSizeMultiplier={3.0}>Support Centre</Text>
+          <Text style={styles.devRowHint} maxFontSizeMultiplier={3.0}>FAQs, guides and help articles</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.devRow}
@@ -52,8 +52,8 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
           accessibilityRole="link"
           accessibilityLabel="View privacy policy"
         >
-          <Text style={styles.devRowText} maxFontSizeMultiplier={1.4}>Privacy Policy</Text>
-          <Text style={styles.devRowHint} maxFontSizeMultiplier={1.4}>How we handle your data</Text>
+          <Text style={styles.devRowText} maxFontSizeMultiplier={3.0}>Privacy Policy</Text>
+          <Text style={styles.devRowHint} maxFontSizeMultiplier={3.0}>How we handle your data</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.devRow}
@@ -62,13 +62,13 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
           accessibilityRole="link"
           accessibilityLabel="View terms of service"
         >
-          <Text style={styles.devRowText} maxFontSizeMultiplier={1.4}>Terms of Service</Text>
-          <Text style={styles.devRowHint} maxFontSizeMultiplier={1.4}>Your rights and our obligations</Text>
+          <Text style={styles.devRowText} maxFontSizeMultiplier={3.0}>Terms of Service</Text>
+          <Text style={styles.devRowHint} maxFontSizeMultiplier={3.0}>Your rights and our obligations</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Beta Feedback</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Beta Feedback</Text>
         <TouchableOpacity
           style={styles.devRow}
           onPress={() => Linking.openURL('mailto:support@myafterme.co.uk?subject=After%20Me%20Beta%20Feedback')}
@@ -76,8 +76,8 @@ export function HelpSection({ onShowHelp }: HelpSectionProps) {
           accessibilityRole="link"
           accessibilityLabel="Send beta feedback"
         >
-          <Text style={styles.devRowText} maxFontSizeMultiplier={1.4}>Send Feedback</Text>
-          <Text style={styles.devRowHint} maxFontSizeMultiplier={1.4}>Report bugs or suggest improvements</Text>
+          <Text style={styles.devRowText} maxFontSizeMultiplier={3.0}>Send Feedback</Text>
+          <Text style={styles.devRowHint} maxFontSizeMultiplier={3.0}>Report bugs or suggest improvements</Text>
         </TouchableOpacity>
       </View>
     </>

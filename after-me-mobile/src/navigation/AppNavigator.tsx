@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, ActivityIndicator, Pressable, Platform } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { useApp } from '../context/AppContext';
@@ -49,9 +49,10 @@ function TabIcon({ label, focused }: { label: string; focused: boolean }) {
   );
 }
 
-function MainTabs() {
+function MainTabs({ initialTab = 'Dashboard' }: { initialTab?: keyof MainTabParamList }) {
   return (
     <Tab.Navigator
+      initialRouteName={initialTab}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => <TabIcon label={route.name} focused={focused} />,
         tabBarActiveTintColor: colors.accent,
@@ -113,6 +114,8 @@ export function AppNavigator() {
   const [showSurvivorFlow, setShowSurvivorFlow] = useState(false);
   const [survivorFlowMode, setSurvivorFlowMode] = useState<'kit' | 'restore'>('kit');
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep>('welcome');
+  // After kit-path onboarding we land on Documents so users know to add docs first.
+  const [postOnboardingTab, setPostOnboardingTab] = useState<keyof MainTabParamList>('Dashboard');
   const handlePlanningLegacy = () => {
     setOnboardingStep('onboarding1');
   };
@@ -178,7 +181,10 @@ export function AppNavigator() {
           />
         ) : onboardingStep === 'onboarding6' ? (
           <OnboardingScreen6
-            onComplete={async () => {
+            onComplete={async (choice) => {
+              // Kit path: user committed to creating a kit but needs documents first.
+              // Landing on Documents makes the next step obvious.
+              if (choice === 'kit') setPostOnboardingTab('Documents');
               await refreshInit();
             }}
             onBack={() => setOnboardingStep('onboarding5')}
@@ -211,7 +217,7 @@ export function AppNavigator() {
           }}
         >
           <Stack.Screen name="Main" options={{ headerShown: false }}>
-            {() => <MainTabs />}
+            {() => <MainTabs initialTab={postOnboardingTab} />}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

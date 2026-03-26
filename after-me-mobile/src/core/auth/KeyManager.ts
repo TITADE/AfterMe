@@ -1,39 +1,20 @@
 import * as SecureStore from 'expo-secure-store';
 import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AppState, type NativeEventSubscription } from 'react-native';
 import { CryptoService } from '../crypto/CryptoService';
 import { captureVaultError } from '../../services/SentryService';
 import { KeychainBackupService } from '../../services/KeychainBackupService';
 import { EncryptedStorageService } from '../storage/EncryptedStorageService';
 import * as DocumentRepository from '../../db/DocumentRepository';
+import {
+  VAULT_KEY_TAG,
+  BIOMETRIC_PREF_KEY,
+  getVaultKey,
+  clearCachedKey,
+  setCachedKey,
+} from './VaultKeyStore';
 
-const VAULT_KEY_TAG = 'com.afterme.keys.vault';
 const VAULT_KEY_TAG_PENDING = 'com.afterme.keys.vault.pending';
-const BIOMETRIC_PREF_KEY = 'afterme_biometric_enabled';
-
-/**
- * In-memory vault key cache. Evicted when app goes to background.
- * Avoids repeated biometric prompts within a single foreground session.
- */
-let cachedVaultKey: Buffer | null = null;
-let pendingKeyPromise: Promise<Buffer> | null = null;
-let appStateSubscription: NativeEventSubscription | null = null;
-
-function ensureAppStateListener(): void {
-  if (appStateSubscription) return;
-  appStateSubscription = AppState.addEventListener('change', (state) => {
-    if (state === 'background') {
-      if (cachedVaultKey) cachedVaultKey.fill(0);
-      cachedVaultKey = null;
-      // pendingKeyPromise is NOT cleared here — it must resolve naturally.
-      // Clearing it during 'inactive' (which fires when FaceID/system dialogs
-      // appear) caused duplicate biometric prompts: the first getVaultKey()
-      // triggers FaceID → app goes inactive → pendingKeyPromise wiped →
-      // second caller creates a new promise → second FaceID prompt.
-    }
-  });
-}
 
 export class KeyManager {
   /**
@@ -87,35 +68,7 @@ export class KeyManager {
    * until the app is backgrounded.
    */
   static async getVaultKey(): Promise<Buffer> {
-    ensureAppStateListener();
-
-    if (cachedVaultKey) return cachedVaultKey;
-
-    // Deduplicate concurrent biometric prompts: all callers share one promise
-    if (pendingKeyPromise) return pendingKeyPromise;
-
-    pendingKeyPromise = (async () => {
-      try {
-        const bioPref = await AsyncStorage.getItem(BIOMETRIC_PREF_KEY);
-        const requireAuth = bioPref !== 'false';
-
-        const keyBase64 = await SecureStore.getItemAsync(VAULT_KEY_TAG, {
-          requireAuthentication: requireAuth,
-          authenticationPrompt: 'Unlock your After Me vault',
-        });
-
-        if (!keyBase64) {
-          throw new Error('Vault Key not found. Please re-initialize.');
-        }
-
-        cachedVaultKey = Buffer.from(keyBase64, 'base64');
-        return cachedVaultKey;
-      } finally {
-        pendingKeyPromise = null;
-      }
-    })();
-
-    return pendingKeyPromise;
+    return getVaultKey();
   }
 
   /**
@@ -191,8 +144,7 @@ export class KeyManager {
       captureVaultError(new Error('iCloud Keychain backup skipped after key rotation.'), 'key_management');
     }
 
-    if (cachedVaultKey) cachedVaultKey.fill(0);
-    cachedVaultKey = newKey;
+    setCachedKey(newKey);
   }
 
   /**
@@ -226,27 +178,22 @@ export class KeyManager {
       requireAuthentication: enabled,
       authenticationPrompt: 'Unlock your After Me vault',
     });
-    if (cachedVaultKey) cachedVaultKey.fill(0);
-    cachedVaultKey = null;
+    clearCachedKey();
     await AsyncStorage.setItem(BIOMETRIC_PREF_KEY, String(enabled));
   }
 
-  /**
-   * Evict the cached key manually (e.g. settings lock-now button).
-   */
+  /** Evict the cached key manually (e.g. settings lock-now button). */
   static clearCache(): void {
-    if (cachedVaultKey) cachedVaultKey.fill(0);
-    cachedVaultKey = null;
+    clearCachedKey();
   }
 
   /** Alias for clearCache — clears the in-memory session key. */
   static clearSessionKey(): void {
-    this.clearCache();
+    clearCachedKey();
   }
 
   static async resetKeys(): Promise<void> {
-    if (cachedVaultKey) cachedVaultKey.fill(0);
-    cachedVaultKey = null;
+    clearCachedKey();
     await SecureStore.deleteItemAsync(VAULT_KEY_TAG);
     await SecureStore.deleteItemAsync(VAULT_KEY_TAG_PENDING);
     await EncryptedStorageService.cleanupStagedFiles();

@@ -85,7 +85,7 @@ export function DatePickerField({
         accessibilityLabel={`${label}: ${displayText || 'not set'}. Tap to select date.`}
         disabled={disabled}
       >
-        <Text style={[styles.fieldText, !displayText && styles.placeholder]} maxFontSizeMultiplier={1.4}>
+        <Text style={[styles.fieldText, !displayText && styles.placeholder]} maxFontSizeMultiplier={3.0}>
           {displayText || placeholder}
         </Text>
         {value ? (
@@ -99,7 +99,7 @@ export function DatePickerField({
           </TouchableOpacity>
         ) : null}
       </TouchableOpacity>
-      <Text style={styles.label} maxFontSizeMultiplier={1.4}>{label}</Text>
+      <Text style={styles.label} maxFontSizeMultiplier={3.0}>{label}</Text>
 
       {showPicker && Platform.OS === 'ios' && (
         <View style={styles.iosPickerContainer}>

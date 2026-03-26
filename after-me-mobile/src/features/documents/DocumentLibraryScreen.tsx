@@ -187,14 +187,25 @@ export function DocumentLibraryScreen() {
         />
       </View>
       <View style={styles.gridInfo}>
-        <Text style={styles.gridTitle} numberOfLines={2} maxFontSizeMultiplier={1.4}>
-          {item.title}
-        </Text>
-        <Text style={styles.gridCategory} numberOfLines={1} maxFontSizeMultiplier={1.4}>
+        <View style={styles.gridTitleRow}>
+          <Text style={styles.gridTitle} numberOfLines={2} maxFontSizeMultiplier={3.0}>
+            {item.title}
+          </Text>
+          <TouchableOpacity
+            onPress={() => handleLongPress(item)}
+            style={styles.moreOptionsButton}
+            accessibilityRole="button"
+            accessibilityLabel={`Options for ${item.title}`}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Text style={styles.moreOptionsIcon}>⋯</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.gridCategory} numberOfLines={1} maxFontSizeMultiplier={3.0}>
           {CATEGORY_ICONS[item.category]} {CATEGORY_LABELS[item.category]}
         </Text>
         {item.expiryDate && (
-          <Text style={styles.gridExpiry} numberOfLines={1} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.gridExpiry} numberOfLines={1} maxFontSizeMultiplier={3.0}>
             Expires: {formatDate(item.expiryDate)}
           </Text>
         )}
@@ -205,20 +216,26 @@ export function DocumentLibraryScreen() {
   const categoryEmptyState = categoryFilter ? (
     <View style={styles.empty}>
       <Text style={styles.emptyIcon} accessible={false}>{CATEGORY_ICONS[categoryFilter]}</Text>
-      <Text style={styles.emptyTitle} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.emptyTitle} maxFontSizeMultiplier={3.0}>
         No {CATEGORY_LABELS[categoryFilter]} documents yet
       </Text>
-      <Text style={styles.emptyDesc} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.emptyDesc} maxFontSizeMultiplier={3.0}>
         {CATEGORY_DESCRIPTIONS[categoryFilter]}
       </Text>
-      <Text style={styles.emptyHint} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.emptyHint} maxFontSizeMultiplier={3.0}>
         Start with:
       </Text>
       <View style={styles.templateList}>
         {CATEGORY_TEMPLATES[categoryFilter].slice(0, 3).map((t) => (
-          <View key={t} style={styles.templateChip}>
-            <Text style={styles.templateChipText} maxFontSizeMultiplier={1.4}>{t}</Text>
-          </View>
+          <TouchableOpacity 
+            key={t} 
+            style={styles.templateChip}
+            onPress={() => setAddModalVisible(true)}
+            accessibilityRole="button"
+            accessibilityLabel={`Add ${t}`}
+          >
+            <Text style={styles.templateChipText} maxFontSizeMultiplier={3.0}>{t}</Text>
+          </TouchableOpacity>
         ))}
       </View>
       <TouchableOpacity
@@ -228,7 +245,7 @@ export function DocumentLibraryScreen() {
         accessibilityLabel={`Add your first ${CATEGORY_LABELS[categoryFilter]} document`}
         accessibilityHint="Opens the document import screen"
       >
-        <Text style={styles.addFirstButtonText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.addFirstButtonText} maxFontSizeMultiplier={3.0}>
           Add Your First Document
         </Text>
       </TouchableOpacity>
@@ -236,8 +253,8 @@ export function DocumentLibraryScreen() {
   ) : (
     <View style={styles.empty}>
       <Text style={styles.emptyIcon} accessible={false}>📁</Text>
-      <Text style={styles.emptyTitle} maxFontSizeMultiplier={1.4}>No documents yet</Text>
-      <Text style={styles.emptyHint} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.emptyTitle} maxFontSizeMultiplier={3.0}>No documents yet</Text>
+      <Text style={styles.emptyHint} maxFontSizeMultiplier={3.0}>
         Your vault is empty. Start by scanning or importing your most important document.
       </Text>
       <TouchableOpacity
@@ -247,7 +264,7 @@ export function DocumentLibraryScreen() {
         accessibilityLabel="Add your first document"
         accessibilityHint="Opens the document import screen"
       >
-        <Text style={styles.addFirstButtonText} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.addFirstButtonText} maxFontSizeMultiplier={3.0}>
           Add Your First Document
         </Text>
       </TouchableOpacity>
@@ -260,7 +277,7 @@ export function DocumentLibraryScreen() {
         <View style={styles.headerRow}>
           <Text
             style={[styles.title, { fontFamily: SERIF_FONT }]}
-            maxFontSizeMultiplier={1.4}
+            maxFontSizeMultiplier={3.0}
             accessibilityRole="header"
           >
             Documents
@@ -272,7 +289,7 @@ export function DocumentLibraryScreen() {
               accessibilityRole="button"
               accessibilityLabel={`Filter: ${CATEGORY_LABELS[categoryFilter]}. Tap to clear.`}
             >
-              <Text style={styles.filterBadgeText} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.filterBadgeText} maxFontSizeMultiplier={3.0}>
                 {CATEGORY_ICONS[categoryFilter]} {CATEGORY_LABELS[categoryFilter]} ✕
               </Text>
             </TouchableOpacity>
@@ -289,7 +306,7 @@ export function DocumentLibraryScreen() {
             returnKeyType="search"
             clearButtonMode="while-editing"
             accessibilityLabel="Search documents"
-            maxFontSizeMultiplier={1.4}
+            maxFontSizeMultiplier={3.0}
           />
           <TouchableOpacity
             style={styles.sortButton}
@@ -297,11 +314,11 @@ export function DocumentLibraryScreen() {
             accessibilityRole="button"
             accessibilityLabel={`Sort by ${sortLabel}. Tap to change.`}
           >
-            <Text style={styles.sortButtonText} maxFontSizeMultiplier={1.4}>{sortLabel}</Text>
+            <Text style={styles.sortButtonText} maxFontSizeMultiplier={3.0}>{sortLabel}</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.subtitle} maxFontSizeMultiplier={1.4} accessibilityRole="text">
+        <Text style={styles.subtitle} maxFontSizeMultiplier={3.0} accessibilityRole="text">
           {filteredDocs.length} document{filteredDocs.length !== 1 ? 's' : ''}
           {categoryFilter ? ` in ${CATEGORY_LABELS[categoryFilter]}` : ' in vault'}
         </Text>
@@ -310,15 +327,15 @@ export function DocumentLibraryScreen() {
       {loadError ? (
         <View style={styles.error}>
           <Text style={styles.errorIcon}>⚠️</Text>
-          <Text style={styles.errorTitle} maxFontSizeMultiplier={1.4}>Could not load documents</Text>
-          <Text style={styles.errorMessage} maxFontSizeMultiplier={1.4}>{loadError}</Text>
+          <Text style={styles.errorTitle} maxFontSizeMultiplier={3.0}>Could not load documents</Text>
+          <Text style={styles.errorMessage} maxFontSizeMultiplier={3.0}>{loadError}</Text>
           <TouchableOpacity
             style={styles.retryButton}
             onPress={loadDocuments}
             accessibilityRole="button"
             accessibilityLabel="Try again"
           >
-            <Text style={styles.retryButtonText} maxFontSizeMultiplier={1.4}>Try again</Text>
+            <Text style={styles.retryButtonText} maxFontSizeMultiplier={3.0}>Try again</Text>
           </TouchableOpacity>
         </View>
       ) : loading ? (
@@ -330,8 +347,8 @@ export function DocumentLibraryScreen() {
       ) : filteredDocs.length === 0 && searchQuery ? (
         <View style={styles.empty}>
           <Text style={styles.emptyIcon} accessible={false}>🔍</Text>
-          <Text style={styles.emptyTitle} maxFontSizeMultiplier={1.4}>No results</Text>
-          <Text style={styles.emptyHint} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.emptyTitle} maxFontSizeMultiplier={3.0}>No results</Text>
+          <Text style={styles.emptyHint} maxFontSizeMultiplier={3.0}>
             No documents matching &ldquo;{searchQuery}&rdquo;
           </Text>
         </View>
@@ -385,7 +402,7 @@ export function DocumentLibraryScreen() {
       <Modal visible={!!renameDoc} transparent animationType="fade">
         <View style={styles.renameOverlay}>
           <View style={styles.renameCard}>
-            <Text style={styles.renameTitle} maxFontSizeMultiplier={1.4}>Rename Document</Text>
+            <Text style={styles.renameTitle} maxFontSizeMultiplier={3.0}>Rename Document</Text>
             <TextInput
               style={styles.renameInput}
               value={renameText}
@@ -395,7 +412,7 @@ export function DocumentLibraryScreen() {
               returnKeyType="done"
               onSubmitEditing={executeRename}
               accessibilityLabel="New document name"
-              maxFontSizeMultiplier={1.4}
+              maxFontSizeMultiplier={3.0}
             />
             <View style={styles.renameButtons}>
               <TouchableOpacity
@@ -404,7 +421,7 @@ export function DocumentLibraryScreen() {
                 accessibilityRole="button"
                 accessibilityLabel="Cancel rename"
               >
-                <Text style={styles.renameCancelText} maxFontSizeMultiplier={1.4}>Cancel</Text>
+                <Text style={styles.renameCancelText} maxFontSizeMultiplier={3.0}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.renameConfirmBtn}
@@ -412,7 +429,7 @@ export function DocumentLibraryScreen() {
                 accessibilityRole="button"
                 accessibilityLabel="Confirm rename"
               >
-                <Text style={styles.renameConfirmText} maxFontSizeMultiplier={1.4}>Rename</Text>
+                <Text style={styles.renameConfirmText} maxFontSizeMultiplier={3.0}>Rename</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -591,10 +608,27 @@ const styles = StyleSheet.create({
   gridInfo: {
     padding: 10,
   },
+  gridTitleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
   gridTitle: {
+    flex: 1,
     fontSize: 14,
     fontWeight: '600',
     color: colors.amWhite,
+    lineHeight: 18,
+  },
+  moreOptionsButton: {
+    paddingHorizontal: 4,
+    paddingBottom: 4,
+  },
+  moreOptionsIcon: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.textMuted,
     lineHeight: 18,
   },
   gridCategory: {

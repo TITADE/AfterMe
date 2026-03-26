@@ -102,7 +102,7 @@ export function ActionSheet({ visible, title, options, onCancel }: ActionSheetPr
 
         <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
           {title ? (
-            <Text style={styles.title} maxFontSizeMultiplier={1.4}>{title}</Text>
+            <Text style={styles.title} maxFontSizeMultiplier={3.0}>{title}</Text>
           ) : null}
 
           {options.map((opt, i) => (

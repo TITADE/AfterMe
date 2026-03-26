@@ -304,7 +304,7 @@ export function OnboardingScreen6({ onComplete, onBack }: OnboardingScreen6Props
                 pressed && styles.cardPressed,
               ]}
               accessible
-              accessibilityLabel="Create a Family Kit. Essential. The only way your family can access this vault."
+              accessibilityLabel="I'll create a Family Kit. Your family's only way in. Set up after adding your first document."
               accessibilityRole="button"
             >
               <View style={styles.cardAccentBar} />
@@ -312,9 +312,9 @@ export function OnboardingScreen6({ onComplete, onBack }: OnboardingScreen6Props
                 <Text style={styles.cardBadgeText}>For your family</Text>
               </View>
               <View style={styles.cardContent}>
-                <Text style={styles.cardPrimary}>Create a Family Kit</Text>
+                <Text style={styles.cardPrimary}>I'll create a Family Kit</Text>
                 <Text style={styles.cardSecondary}>
-                  The only way your loved ones can access{'\n'}this vault. Add documents first, then generate your kit.
+                  Your family's only way in.{'\n'}Set up after you've added your first document.
                 </Text>
               </View>
             </Pressable>
@@ -362,10 +362,10 @@ export function OnboardingScreen6({ onComplete, onBack }: OnboardingScreen6Props
             disabled={processing}
             style={[styles.deferTouchable, { opacity: processing ? 0.5 : 1 }]}
             accessible
-            accessibilityLabel="Living dangerously — remind me later"
+            accessibilityLabel="Set this up later"
             accessibilityRole="button"
           >
-            <Text style={styles.deferText}>Living dangerously — remind me later</Text>
+            <Text style={styles.deferText}>Set this up later</Text>
           </Pressable>
         </Animated.View>
       </ScrollView>

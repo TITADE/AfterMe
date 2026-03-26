@@ -39,10 +39,10 @@ export function VaultSection({
   return (
     <>
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Encryption</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Encryption</Text>
         <View style={styles.infoCard}>
-          <Text style={styles.infoTitle} maxFontSizeMultiplier={1.4}>AES-256-GCM</Text>
-          <Text style={styles.infoText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.infoTitle} maxFontSizeMultiplier={3.0}>AES-256-GCM</Text>
+          <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
             All documents are encrypted with keys stored in device secure storage
             (iOS Secure Enclave / Android Keystore).
           </Text>
@@ -50,9 +50,9 @@ export function VaultSection({
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Vault Information</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Vault Information</Text>
         <View style={styles.storageCard}>
-          <Text style={styles.storageLabel} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.storageLabel} maxFontSizeMultiplier={3.0}>
             Storage: {formatBytes(vaultSizeBytes)} of {formatBytes(VAULT_STORAGE_CAP_PERSONAL_BYTES)}
           </Text>
           <View style={styles.progressTrack} accessibilityLabel={`Storage ${Math.round(usagePercent)}% used`}>
@@ -66,34 +66,34 @@ export function VaultSection({
               ]}
             />
           </View>
-          <Text style={styles.storageHint} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.storageHint} maxFontSizeMultiplier={3.0}>
             {totalDocuments} document{totalDocuments !== 1 ? 's' : ''} stored
           </Text>
 
           {isOver80Percent && (
-            <Text style={styles.storageWarning} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.storageWarning} maxFontSizeMultiplier={3.0}>
               Vault is over 80% full. Consider deleting unused documents to free space.
             </Text>
           )}
 
           <View style={styles.vaultInfoGrid}>
             <View style={styles.vaultInfoItem}>
-              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={1.4}>Encryption</Text>
-              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={1.4}>AES-256-GCM</Text>
+              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={3.0}>Encryption</Text>
+              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={3.0}>AES-256-GCM</Text>
             </View>
             <View style={styles.vaultInfoItem}>
-              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={1.4}>Key Derivation</Text>
-              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={1.4}>PBKDF2-SHA256</Text>
+              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={3.0}>Key Derivation</Text>
+              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={3.0}>PBKDF2-SHA256</Text>
             </View>
             <View style={styles.vaultInfoItem}>
-              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={1.4}>Key Storage</Text>
-              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={1.4}>
+              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={3.0}>Key Storage</Text>
+              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={3.0}>
                 {Platform.OS === 'ios' ? 'Secure Enclave' : 'Android Keystore'}
               </Text>
             </View>
             <View style={styles.vaultInfoItem}>
-              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={1.4}>Metadata</Text>
-              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={1.4}>Encrypted at rest</Text>
+              <Text style={styles.vaultInfoLabel} maxFontSizeMultiplier={3.0}>Metadata</Text>
+              <Text style={styles.vaultInfoValue} maxFontSizeMultiplier={3.0}>Encrypted at rest</Text>
             </View>
           </View>
 
@@ -108,12 +108,12 @@ export function VaultSection({
             {integrityLoading ? (
               <ActivityIndicator size="small" color={colors.amAmber} />
             ) : (
-              <Text style={styles.integrityButtonText} maxFontSizeMultiplier={1.4}>Check Integrity</Text>
+              <Text style={styles.integrityButtonText} maxFontSizeMultiplier={3.0}>Check Integrity</Text>
             )}
           </TouchableOpacity>
 
           {corruptedIds !== null && corruptedIds.length > 0 && (
-            <Text style={styles.corruptedHint} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.corruptedHint} maxFontSizeMultiplier={3.0}>
               {corruptedIds.length} corrupted document(s) found
             </Text>
           )}
@@ -121,7 +121,7 @@ export function VaultSection({
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Personal Recovery</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Personal Recovery</Text>
         <TouchableOpacity
           style={styles.kitButton}
           onPress={onOpenRecoveryWizard}
@@ -132,8 +132,8 @@ export function VaultSection({
         >
           <Text style={styles.kitButtonIcon}>🛡️</Text>
           <View style={styles.kitButtonContent}>
-            <Text style={styles.kitButtonText} maxFontSizeMultiplier={1.4}>Personal Recovery Kit</Text>
-            <Text style={styles.kitButtonHint} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.kitButtonText} maxFontSizeMultiplier={3.0}>Personal Recovery Kit</Text>
+            <Text style={styles.kitButtonHint} maxFontSizeMultiplier={3.0}>
               Encrypted backup for your own device loss recovery
             </Text>
           </View>
@@ -141,7 +141,7 @@ export function VaultSection({
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Manage Vaults</Text>
+        <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Manage Vaults</Text>
         <TouchableOpacity
           style={styles.kitButton}
           onPress={onOpenVaultSwitcher}
@@ -151,8 +151,8 @@ export function VaultSection({
         >
           <Text style={styles.kitButtonIcon}>🗂️</Text>
           <View style={styles.kitButtonContent}>
-            <Text style={styles.kitButtonText} maxFontSizeMultiplier={1.4}>Vault Manager</Text>
-            <Text style={styles.kitButtonHint} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.kitButtonText} maxFontSizeMultiplier={3.0}>Vault Manager</Text>
+            <Text style={styles.kitButtonHint} maxFontSizeMultiplier={3.0}>
               Create and switch between multiple vaults
             </Text>
           </View>

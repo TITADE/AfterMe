@@ -328,12 +328,10 @@ export function SettingsScreen() {
       />
 
       <FamilyKitSection
-        isPremium={isPremium}
         kitFreshness={kitFreshness}
         kitWarning={kitWarning}
         onCreateKit={() => setShowKitWizard(true)}
         onViewHistory={() => setShowKitHistory(true)}
-        onShowPaywall={() => openPaywall('family_kit')}
       />
 
       <HelpSection onShowHelp={() => setShowHelp(true)} />

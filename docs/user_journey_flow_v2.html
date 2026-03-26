@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>After Me — User Journey Flow v3 (post-rework)</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #1a1c24;
+      --card: #22242e;
+      --accent: #c9963a;
+      --accent2: #4a9eff;
+      --danger: #e05353;
+      --success: #3fcf84;
+      --muted: #8a8fa8;
+      --text: #f5f4f0;
+      --border: #2e3042;
+      --badge-kit: #3fcf84;
+      --badge-fix: #4a9eff;
+      --badge-new: #c9963a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, #0e1018 0%, #1e2235 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 40px 24px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .header h1 span { color: var(--accent); }
+    .header-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .header-meta span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .header-meta strong { color: var(--text); }
+
+    /* ── Legend ─────────────────────────────────────── */
+    .legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding: 14px 40px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    /* ── Change-log banner ──────────────────────────── */
+    .changelog {
+      margin: 24px 40px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .changelog h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .changelog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+    }
+    .cl-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .badge-fix  { background: #1d3a5c; color: var(--accent2); }
+    .badge-new  { background: #3b2a0a; color: var(--accent); }
+    .badge-copy { background: #1d2f1d; color: var(--success); }
+    .badge-arch { background: #2e1d1d; color: var(--danger); }
+
+    /* ── Section ────────────────────────────────────── */
+    .section {
+      margin: 24px 40px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    /* ── Diagram card ───────────────────────────────── */
+    .diagram-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    .diagram-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    pre.mermaid {
+      text-align: center;
+    }
+
+    /* ── Notes grid ─────────────────────────────────── */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .note-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .note-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .note-card p, .note-card li {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .note-card ul { padding-left: 16px; }
+    .note-card .highlight { color: var(--text); font-weight: 600; }
+    .note-card .changed {
+      display: inline-block;
+      background: #3b2a0a;
+      color: var(--accent);
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* ── State table ────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--bg);
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    code {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 12px;
+      background: var(--bg);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--accent2);
+    }
+
+    /* ── Footer ─────────────────────────────────────── */
+    footer {
+      margin: 40px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════════ -->
+<div class="header">
+  <h1>After Me — <span>User Journey Flow</span> v3</h1>
+  <div class="header-meta">
+    <span><strong>App version:</strong> 1.0.1 (build 4)</span>
+    <span><strong>Build:</strong> post-UI-rework — npx expo run:ios confirmed clean</span>
+    <span><strong>Updated:</strong> March 2026</span>
+    <span><strong>Platform:</strong> iOS (simulator iPhone 17 Pro · physical device TestFlight)</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     LEGEND
+════════════════════════════════════════════════════════ -->
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:#c9963a"></div> Changed in this rework</div>
+  <div class="legend-item"><div class="dot" style="background:#3fcf84"></div> New behaviour</div>
+  <div class="legend-item"><div class="dot" style="background:#4a9eff"></div> Unchanged (confirmed working)</div>
+  <div class="legend-item"><div class="dot" style="background:#e05353"></div> Removed / simplified</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHANGELOG BANNER
+════════════════════════════════════════════════════════ -->
+<div class="changelog">
+  <h2>What changed in this build</h2>
+  <div class="changelog-grid">
+    <div class="cl-item"><span class="badge badge-fix">FIX</span>Require cycles broken: EncryptedStorageService ↔ KeyManager ↔ DocumentRepository resolved via new VaultKeyStore module</div>
+    <div class="cl-item"><span class="badge badge-new">NEW</span>Premium gate moved inside KitCreationWizard — FamilyKitTab and SettingsScreen no longer own it</div>
+    <div class="cl-item"><span class="badge badge-new">NEW</span>Kit-path onboarding now lands on Documents tab (not Dashboard) — removes ambiguity about next step</div>
+    <div class="cl-item"><span class="badge badge-copy">COPY</span>Screen 6 kit card: "Create a Family Kit" → "I'll create a Family Kit" with honest "set up after first document" body</div>
+    <div class="cl-item"><span class="badge badge-copy">COPY</span>Defer link: "Living dangerously — remind me later" → "Set this up later"</div>
+    <div class="cl-item"><span class="badge badge-new">NEW</span>Safety net banner: single tap replaced with two side-by-side action buttons (Family Kit · Cloud Backup)</div>
+    <div class="cl-item"><span class="badge badge-new">NEW</span>Progress ring target: non-premium users see goal of 5 docs (free tier) instead of 24 (full vault)</div>
+    <div class="cl-item"><span class="badge badge-copy">COPY</span>Welcome screen: secondary paths demoted to small text links under "Already have a vault?" divider</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     1. COLD START
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">1. Cold Start &amp; Initialisation</div>
+  <div class="section-subtitle">AppNavigator resolves app state before rendering any screen</div>
+  <div class="diagram-card">
+    <h3>Cold start sequence</h3>
+<pre class="mermaid">
+flowchart TD
+A([App Launch]) --> B[AppNavigator mounts]
+B --> C[isInitialized = null\nRender loading spinner]
+C --> D[refreshInit runs\nChecks KeyManager.isInitialized\nChecks OnboardingStorage.hasCompleted]
+D --> E{Vault key\nexists?}
+E -- No --> F{Onboarding\ncompleted?}
+E -- Yes --> F
+F -- No --> G[Show onboarding flow\nstarts at WelcomeScreen]
+F -- Yes --> H[hasCompletedOnboarding = true\nRender MainTabs]
+H --> I{postOnboardingTab}
+I -- Dashboard --> J[Land on Vault Dashboard]
+I -- Documents --> K["Land on Documents tab\n(kit-path users only — NEW)"]
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>AppContext state flags</h4>
+      <ul>
+        <li><code>isInitialized</code> — null while checking, then true/false</li>
+        <li><code>hasCompletedOnboarding</code> — persisted in OnboardingStorage</li>
+        <li><code>postOnboardingTab</code> — local to AppNavigator, set by Screen 6 choice <span class="changed">NEW</span></li>
+      </ul>
+    </div>
+    <div class="note-card">
+      <h4>VaultKeyStore (new module)</h4>
+      <p>Previously <code>KeyManager</code> owned the in-memory key cache, causing circular imports with <code>EncryptedStorageService</code> and <code>DocumentRepository</code>. The cache logic now lives in <code>VaultKeyStore.ts</code> which has zero imports from the rest of the app. Both storage modules import <code>getVaultKey()</code> from there directly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     2. WELCOME SCREEN
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">2. Welcome Screen</div>
+  <div class="section-subtitle">Primary CTA dominates; survivor paths are demoted to text links (reworked)</div>
+  <div class="diagram-card">
+    <h3>WelcomeScreen paths</h3>
+<pre class="mermaid">
+flowchart LR
+W([WelcomeScreen]) --> P["🟡 PRIMARY BUTTON\nStart My Legacy Vault\n(amber, 64px tall)"]
+W --> S["🔗 text link\nOpen Family Vault\n(muted, 14px)"]
+W --> R["🔗 text link\nRestore My Vault\n(muted, 14px)"]
+
+P --> O1[Onboarding Screen 1]
+S --> SV[SurvivorImportScreen\nmode=kit]
+R --> SV2[SurvivorImportScreen\nmode=restore]
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>Visual hierarchy <span class="changed">CHANGED</span></h4>
+      <p>Previously three buttons of similar weight. Now: one amber CTA at 64px height, then a "Already have a vault?" muted label, then two side-by-side text links (no border, no background). Cognitive load reduced — new users cannot misread their entry point.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     3. PLAN MY LEGACY — ONBOARDING
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">3. Plan My Legacy — Linear Onboarding (Screens 1–6)</div>
+  <div class="section-subtitle">Eight-screen linear flow; all screens support back navigation</div>
+  <div class="diagram-card">
+    <h3>Onboarding sequence with Screen 6 branch outcomes</h3>
+<pre class="mermaid">
+flowchart TD
+W[WelcomeScreen] --> S1[Screen 1\nValue proposition]
+S1 --> S2[Screen 2\nHow the vault works]
+S2 --> S3[Screen 3\nDocument categories]
+S3 --> S4[Screen 4\nPrivacy & security promise]
+S4 --> HW[How It Works overview]
+HW --> LD[Legal Disclaimer]
+LD --> S5[Screen 5\nBiometric setup\nKeyManager.initializeKeys]
+S5 --> S6[Screen 6\nChoose your safety net]
+
+S6 --> K["Card: I'll create a Family Kit\n(honest copy — CHANGED)\nsets showFamilyKitCreationImmediately flag"]
+S6 --> CB["Card: Enable Cloud Backup\ncloudBackupEnabled flag set"]
+S6 --> D["Link: Set this up later\n(CHANGED from flippant copy)\nsafetyNetDeferred = true"]
+
+K --> RI1["refreshInit()\nhasCompletedOnboarding = true\npostOnboardingTab = Documents\n(NEW — lands user where next step is clear)"]
+CB --> RI2["refreshInit()\nhasCompletedOnboarding = true\npostOnboardingTab = Dashboard"]
+D --> RI3["refreshInit()\nhasCompletedOnboarding = true\npostOnboardingTab = Dashboard"]
+
+RI1 --> DT[Documents Tab\nUser can immediately add docs]
+RI2 --> VD[Vault Dashboard]
+RI3 --> VD
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>Kit card copy <span class="changed">CHANGED</span></h4>
+      <p>Was: "Create a Family Kit — The only way your loved ones can access this vault. Add documents first, then generate your kit."</p>
+      <p style="margin-top:8px">Now: <span class="highlight">"I'll create a Family Kit — Your family's only way in. Set up after you've added your first document."</span></p>
+      <p style="margin-top:8px">The first-person framing confirms intent. The body sets an honest expectation that the wizard opens later (not now).</p>
+    </div>
+    <div class="note-card">
+      <h4>Kit path → Documents tab <span class="changed">NEW</span></h4>
+      <p>Previously all three choices landed on Vault Dashboard, which shows a <em>0% complete</em> ring and a safety-net banner, leaving users confused about what to do next. The kit choice now sets <code>postOnboardingTab = 'Documents'</code> so users land directly where their first action must happen.</p>
+    </div>
+    <div class="note-card">
+      <h4>Defer copy <span class="changed">CHANGED</span></h4>
+      <p>Was: "Living dangerously — remind me later" — flippant, undermined trust at the end of setup. Now: <span class="highlight">"Set this up later"</span> — neutral, respectful, clear.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     4. SURVIVOR FLOW
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">4. Survivor / Restore Flow</div>
+  <div class="section-subtitle">Unchanged — confirmed working</div>
+  <div class="diagram-card">
+    <h3>SurvivorImportScreen</h3>
+<pre class="mermaid">
+flowchart TD
+SV([SurvivorImportScreen]) --> M{mode}
+M -- kit --> QR[QR scanner\nor manual key entry]
+M -- restore --> QR
+QR --> DEC[Decrypt & import vault]
+DEC --> IC[onImportComplete\nrefreshInit]
+IC --> VD[Vault Dashboard\nFull main app]
+</pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     5. MAIN APP — TAB NAVIGATOR
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">5. Main App — Tab Navigator</div>
+  <div class="section-subtitle">Four tabs; initialRouteName set by onboarding choice on first render</div>
+  <div class="diagram-card">
+    <h3>Tab navigator structure</h3>
+<pre class="mermaid">
+flowchart LR
+MT([MainTabs\ninitialTab from onboarding]) --> D[📋 Dashboard\nVault Dashboard]
+MT --> DO[📁 Documents\nDocument Library]
+MT --> K[📦 Family Kit\nKit History + Wizard]
+MT --> S[⚙️ Settings]
+
+D -->|"category tap"| DO
+D -->|"View All"| DO
+DO -->|"Free tier 5 docs limit"| PW[PaywallScreen]
+K -->|"Create Kit"| WZ[KitCreationWizard\nPremium gate inside wizard]
+WZ -->|"Not premium"| PW
+WZ -->|"Is premium\ntotalDocs > 0"| WZ2[Wizard steps 1-6]
+</pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     6. VAULT DASHBOARD
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">6. Vault Dashboard</div>
+  <div class="section-subtitle">Free-tier-aware progress ring; two-action safety-net banner (reworked)</div>
+  <div class="diagram-card">
+    <h3>Dashboard banners &amp; actions</h3>
+<pre class="mermaid">
+flowchart TD
+VD([VaultDashboardScreen]) --> SN{hasSafetyNet?}
+SN -- No --> SNB["Safety Net Banner\n(TWO buttons — NEW)\n📦 Family Kit → KitCreationWizard\n☁️ Cloud Backup → BackupService.enableCloudBackup"]
+SN -- Yes --> KF{stale kit?}
+
+KF -- Yes --> KB[Kit freshness banner\ntap → KitCreationWizard]
+KF -- No --> EX{expiring docs?}
+EX -- Yes --> EB[Expiry banner\ntap → Documents tab]
+EX -- No --> OK[No banners]
+
+VD --> PR["Progress Ring\nnon-premium: goal = 5 docs FREE TIER\npremium: goal = 24 docs FULL VAULT\n(NEW — honest target)"]
+PR --> CG[8 Category cards\n2-column grid\ntap → Documents tab filtered]
+CG --> VA[View All Documents button]
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>Safety net banner <span class="changed">CHANGED</span></h4>
+      <p>Was: a single tappable card that opened only the Kit Creation Wizard. Users wanting cloud backup had to navigate to Settings.</p>
+      <p style="margin-top:8px">Now: a non-tappable card with <span class="highlight">two side-by-side buttons</span>. "📦 Family Kit" opens the wizard. "☁️ Cloud Backup" calls <code>BackupService.enableCloudBackup()</code> directly, checking availability first and showing a friendly alert if iCloud/Google Drive is unavailable.</p>
+    </div>
+    <div class="note-card">
+      <h4>Progress ring target <span class="changed">CHANGED</span></h4>
+      <p>Was: always showed X of 24 key documents — a 0% ring on a fresh vault felt discouraging and set an unreachable-looking goal for free users.</p>
+      <p style="margin-top:8px">Now: <span class="highlight">non-premium users see X of 5 · free plan</span>. Premium users see X of 24 key documents. The target is achievable, honest, and contextual.</p>
+    </div>
+    <div class="note-card">
+      <h4>Kit auto-open logic (unchanged)</h4>
+      <p>When <code>showFamilyKitCreationImmediately</code> is true (set by Screen 6 kit choice), the dashboard dismisses the prompt and opens <code>KitCreationWizard</code> — but only if <code>totalDocuments &gt; 0</code>. If the vault is empty the banner guides the user to add docs first. Now that kit-path users land on Documents tab, the vault will typically have at least one doc before they navigate back to Dashboard.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     7. KIT CREATION WIZARD — PREMIUM GATE
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">7. Family Kit Creation Wizard — Centralised Premium Gate</div>
+  <div class="section-subtitle">Gate now lives inside the wizard; all entry points (Tab, Dashboard, Settings) are automatically gated</div>
+  <div class="diagram-card">
+    <h3>Wizard entry and premium gate</h3>
+<pre class="mermaid">
+flowchart TD
+ANY["Any caller:\nFamilyKitTab\nVaultDashboard\nSettingsScreen"] -->|"visible=true"| WZ[KitCreationWizard]
+
+WZ --> PG{"isPremium?"}
+PG -- No --> PW["PaywallScreen\n(rendered by wizard)\ntrigger = family_kit"]
+PW -->|"Purchase success\nisPremium updates"| WZ2[Wizard shows]
+PW -->|"Dismissed without purchase"| CLOSE[onDismiss called\nWizard closes]
+
+PG -- Yes --> EG{"totalDocuments > 0?"}
+EG -- No --> ALT["Alert: Add documents first\nonDismiss called"]
+EG -- Yes --> WZ2
+
+WZ2 --> ST1[Step 1: Intro]
+ST1 --> ST2[Step 2: Owner name + emergency contact]
+ST2 --> ST3[Step 3: Generating kit progress]
+ST3 --> ST4[Step 4: Validating kit]
+ST4 --> ST5[Step 5: QR code display + Key Card]
+ST5 --> ST6[Step 6: Share / print / distribute]
+ST6 --> DONE[onDismiss\nrefreshKitStatus]
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>Gate centralised <span class="changed">CHANGED</span></h4>
+      <p>Was: <code>FamilyKitTab</code> owned the gate (checked isPremium, showed PaywallScreen). <code>SettingsScreen</code> had its own gate in <code>FamilyKitSection</code>. Dashboard opened wizard directly (no gate). Three inconsistent behaviours.</p>
+      <p style="margin-top:8px">Now: <code>KitCreationWizard</code> checks <code>isPremium</code> itself. If not premium it renders <code>PaywallScreen</code> in its place. When the user purchases, <code>isPremium</code> updates in PurchaseContext and the wizard renders on the next cycle. All callers just set <code>visible=true</code>.</p>
+    </div>
+    <div class="note-card">
+      <h4>FamilyKitTab simplified <span class="changed">CHANGED</span></h4>
+      <p>Was 39 lines with <code>isPremium</code> check, PaywallScreen, and PaywallTrigger state. Now 22 lines — just renders <code>KitHistoryScreen</code> and <code>KitCreationWizard</code>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     8. SETTINGS
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">8. Settings</div>
+  <div class="section-subtitle">FamilyKitSection simplified; all other sections unchanged</div>
+  <div class="diagram-card">
+    <h3>Settings sections and actions</h3>
+<pre class="mermaid">
+flowchart LR
+SET([SettingsScreen]) --> SEC[Security\nBiometric toggle\nKey rotation]
+SET --> SUB[Subscription\nUpgrade / restore]
+SET --> BAK[Backup\niCloud toggle\nBackup now]
+SET --> KIT[Family Kit\nCreate Kit → Wizard\nKit History → KitHistoryScreen]
+SET --> VLT[Vault\nVaultSwitcher\nPersonalRecoveryWizard\nIntegrity check]
+SET --> HLP[Help\nHelpScreen]
+SET --> DEV["Developer (debug builds only)\nReset app state"]
+
+SUB -->|"Upgrade"| PW[PaywallScreen]
+KIT -->|"Create Kit"| WZI[KitCreationWizard\ngate inside wizard]
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>FamilyKitSection <span class="changed">CHANGED</span></h4>
+      <p>Removed <code>isPremium</code> and <code>onShowPaywall</code> props. The "Create Family Kit" button now just calls <code>onCreateKit()</code> — the wizard handles the rest. Settings no longer needs to know about purchase state for this section.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     9. PAYWALL
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">9. Paywall Screen</div>
+  <div class="section-subtitle">Reached from three trigger points; free tier = 5 documents</div>
+  <div class="diagram-card">
+    <h3>Paywall triggers and outcomes</h3>
+<pre class="mermaid">
+flowchart LR
+T1["Trigger: document_limit\nAdding doc 6+ (free tier = 5)"] --> PW
+T2["Trigger: family_kit\nKit wizard opened while !isPremium"] --> PW
+T3["Trigger: settings or upgrade\nSubscription section upgrade"] --> PW
+
+PW([PaywallScreen]) --> PUR{Purchase}
+PUR -- Success --> UPD["isPremium = true\nPurchaseContext updates\nCaller resumes"]
+PUR -- Cancelled --> BACK[Back to caller]
+PUR -- Restore --> RST[restorePurchases\nUpdate state]
+</pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     10. STATE TABLE
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">10. Key App State Reference</div>
+  <div class="section-subtitle">AppContext and PurchaseContext flags that drive conditional rendering</div>
+  <div class="diagram-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Flag</th>
+          <th>Source</th>
+          <th>Effect</th>
+          <th>Changed?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>isInitialized</code></td>
+          <td>AppContext</td>
+          <td>null → loading spinner; true/false → routing decision</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>hasCompletedOnboarding</code></td>
+          <td>AppContext / OnboardingStorage</td>
+          <td>false → show onboarding; true → show MainTabs</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>postOnboardingTab</code></td>
+          <td>AppNavigator local state</td>
+          <td>Controls <code>Tab.Navigator initialRouteName</code> on first render</td>
+          <td>✦ New</td>
+        </tr>
+        <tr>
+          <td><code>hasSafetyNet</code></td>
+          <td>AppContext</td>
+          <td>Controls whether safety net banner renders on Dashboard</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>safetyNetDeferred</code></td>
+          <td>AppContext</td>
+          <td>Banner title text only; banner always shows if !hasSafetyNet</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>showFamilyKitCreationImmediately</code></td>
+          <td>AppContext</td>
+          <td>Dashboard auto-opens wizard after kit choice (requires totalDocuments &gt; 0)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>totalDocuments</code></td>
+          <td>AppContext</td>
+          <td>Used by wizard empty-vault guard, progress ring, free-tier limit</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>isPremium</code></td>
+          <td>PurchaseContext</td>
+          <td>Kit wizard gate; document limit gate; progress ring target</td>
+          <td>✦ Ring target now depends on this</td>
+        </tr>
+        <tr>
+          <td><code>categoryFilter</code></td>
+          <td>AppContext</td>
+          <td>Passed when Dashboard navigates to Documents tab by category</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     11. DEPENDENCY FIX
+════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">11. Dependency Architecture Fix — VaultKeyStore</div>
+  <div class="section-subtitle">Require cycles eliminated; runtime stability improved</div>
+  <div class="diagram-card">
+    <h3>Before vs After import graph (storage layer)</h3>
+<pre class="mermaid">
+flowchart TD
+subgraph BEFORE["Before (cycles)"]
+direction LR
+B1[EncryptedStorageService] -->|import getVaultKey| B2[KeyManager]
+B2 -->|import initializeVault\ncommitStagedFiles etc.| B1
+B2 -->|import getAllFileRefs\nreEncryptAllMetadata| B3[DocumentRepository]
+B3 -->|import getVaultKey| B2
+end
+
+subgraph AFTER["After (acyclic)"]
+direction LR
+A4[VaultKeyStore\ngetVaultKey / clearCachedKey\nsetCachedKey] --> A5["(nothing — platform libs only)"]
+A1[EncryptedStorageService] -->|import getVaultKey| A4
+A3[DocumentRepository] -->|import getVaultKey| A4
+A2[KeyManager] -->|import getVaultKey\nclearCachedKey\nsetCachedKey| A4
+A2 -->|import for key rotation| A1
+A2 -->|import for key rotation| A3
+end
+</pre>
+  </div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <h4>What VaultKeyStore owns</h4>
+      <ul>
+        <li>In-memory vault key cache (<code>cachedVaultKey</code>)</li>
+        <li>AppState listener (evicts cache on background)</li>
+        <li>Deduplication of concurrent biometric prompts (<code>pendingKeyPromise</code>)</li>
+        <li><code>getVaultKey()</code> — SecureStore retrieval with biometric prompt</li>
+        <li><code>clearCachedKey()</code> — zero-fill + null</li>
+        <li><code>setCachedKey()</code> — used by KeyManager after key rotation</li>
+      </ul>
+    </div>
+    <div class="note-card">
+      <h4>What KeyManager retains</h4>
+      <ul>
+        <li><code>initializeKeys()</code> — first-run vault key generation</li>
+        <li><code>rotateKeys()</code> — two-phase commit rotation</li>
+        <li><code>recoverFromInterruptedRotation()</code> — crash recovery</li>
+        <li><code>restoreFromCloudKeychain()</code> — device migration</li>
+        <li><code>setBiometricProtection()</code></li>
+        <li><code>resetKeys()</code></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  After Me — User Journey Flow v3 · Generated March 2026 · Reflects build 1.0.1(4) post-rework · Confirmed clean build on iPhone 17 Pro simulator
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#22242e',
+      primaryTextColor: '#f5f4f0',
+      primaryBorderColor: '#c9963a',
+      lineColor: '#8a8fa8',
+      secondaryColor: '#1a1c24',
+      tertiaryColor: '#2e3042',
+      background: '#1a1c24',
+      mainBkg: '#22242e',
+      nodeBorder: '#c9963a',
+      clusterBkg: '#1e2030',
+      titleColor: '#f5f4f0',
+      edgeLabelBackground: '#22242e',
+      fontFamily: "'Segoe UI', system-ui, sans-serif"
+    }
+  });
+</script>
+</body>
+</html>

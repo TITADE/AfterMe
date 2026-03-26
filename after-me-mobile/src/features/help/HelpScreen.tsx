@@ -154,13 +154,13 @@ function FaqAccordion({ item }: { item: FaqItem }) {
       accessibilityState={{ expanded }}
     >
       <View style={styles.faqHeader}>
-        <Text style={styles.faqQuestion} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.faqQuestion} maxFontSizeMultiplier={3.0}>
           {item.question}
         </Text>
         <Text style={styles.faqChevron}>{expanded ? '▲' : '▼'}</Text>
       </View>
       {expanded && (
-        <Text style={styles.faqAnswer} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.faqAnswer} maxFontSizeMultiplier={3.0}>
           {item.answer}
         </Text>
       )}
@@ -177,14 +177,14 @@ export function HelpScreen() {
       contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 40 }]}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.pageTitle} maxFontSizeMultiplier={1.4}>Help & FAQ</Text>
-      <Text style={styles.pageSubtitle} maxFontSizeMultiplier={1.4}>
+      <Text style={styles.pageTitle} maxFontSizeMultiplier={3.0}>Help & FAQ</Text>
+      <Text style={styles.pageSubtitle} maxFontSizeMultiplier={3.0}>
         Everything you need to know about After Me
       </Text>
 
       {FAQ_SECTIONS.map((section) => (
         <View key={section.title} style={styles.section}>
-          <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>{section.title}</Text>
+          <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>{section.title}</Text>
           {section.items.map((item) => (
             <FaqAccordion key={item.question} item={item} />
           ))}
@@ -192,7 +192,7 @@ export function HelpScreen() {
       ))}
 
       <View style={styles.contactSection}>
-        <Text style={styles.contactTitle} maxFontSizeMultiplier={1.4}>
+        <Text style={styles.contactTitle} maxFontSizeMultiplier={3.0}>
           Still need help?
         </Text>
         <TouchableOpacity
@@ -201,7 +201,7 @@ export function HelpScreen() {
           accessibilityRole="button"
           accessibilityLabel="Email support"
         >
-          <Text style={styles.contactButtonText} maxFontSizeMultiplier={1.4}>
+          <Text style={styles.contactButtonText} maxFontSizeMultiplier={3.0}>
             Contact Support
           </Text>
         </TouchableOpacity>
@@ -211,7 +211,7 @@ export function HelpScreen() {
           accessibilityRole="link"
           accessibilityLabel="View privacy policy"
         >
-          <Text style={styles.linkText} maxFontSizeMultiplier={1.4}>Privacy Policy</Text>
+          <Text style={styles.linkText} maxFontSizeMultiplier={3.0}>Privacy Policy</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.linkButton}
@@ -219,7 +219,7 @@ export function HelpScreen() {
           accessibilityRole="link"
           accessibilityLabel="View terms of service"
         >
-          <Text style={styles.linkText} maxFontSizeMultiplier={1.4}>Terms of Service</Text>
+          <Text style={styles.linkText} maxFontSizeMultiplier={3.0}>Terms of Service</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

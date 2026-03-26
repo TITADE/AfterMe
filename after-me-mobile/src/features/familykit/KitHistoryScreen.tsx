@@ -10,7 +10,6 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Platform,
   RefreshControl,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -83,9 +82,9 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
       {onBack && (
         <View style={styles.header}>
           <TouchableOpacity onPress={onBack} style={styles.backBtn} accessibilityRole="button" accessibilityLabel="Go back">
-            <Text style={styles.backText} maxFontSizeMultiplier={1.4}>← Back</Text>
+            <Text style={styles.backText} maxFontSizeMultiplier={3.0}>← Back</Text>
           </TouchableOpacity>
-          <Text style={styles.headerTitle} maxFontSizeMultiplier={1.4}>Family Kit History</Text>
+          <Text style={styles.headerTitle} maxFontSizeMultiplier={3.0}>Family Kit History</Text>
           <View style={{ width: 60 }} />
         </View>
       )}
@@ -100,18 +99,18 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
             <View style={styles.freshnessRow}>
               <Text style={styles.freshnessIcon}>{cfg.icon}</Text>
               <View style={styles.freshnessContent}>
-                <Text style={[styles.freshnessLabel, { color: cfg.color }]} maxFontSizeMultiplier={1.4}>
+                <Text style={[styles.freshnessLabel, { color: cfg.color }]} maxFontSizeMultiplier={3.0}>
                   {cfg.label}
                 </Text>
                 {freshness.kitVersion && (
-                  <Text style={styles.freshnessDetail} maxFontSizeMultiplier={1.4}>
+                  <Text style={styles.freshnessDetail} maxFontSizeMultiplier={3.0}>
                     Kit v{freshness.kitVersion} · {freshness.daysSinceKit > 0 ? `${freshness.daysSinceKit} days old` : 'Created today'}
                   </Text>
                 )}
               </View>
             </View>
             {warning && (
-              <Text style={styles.freshnessWarning} maxFontSizeMultiplier={1.4}>{warning}</Text>
+              <Text style={styles.freshnessWarning} maxFontSizeMultiplier={3.0}>{warning}</Text>
             )}
             {freshness.level !== 'fresh' && (
               <TouchableOpacity
@@ -121,7 +120,7 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
                 accessibilityRole="button"
                 accessibilityLabel="Create new kit"
               >
-                <Text style={styles.refreshBtnText} maxFontSizeMultiplier={1.4}>
+                <Text style={styles.refreshBtnText} maxFontSizeMultiplier={3.0}>
                   {freshness.kitVersion ? 'Regenerate Kit' : 'Create First Kit'}
                 </Text>
               </TouchableOpacity>
@@ -133,8 +132,8 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
         {history.length === 0 && (
           <View style={styles.emptyCard}>
             <Text style={styles.emptyIcon}>📦</Text>
-            <Text style={styles.emptyTitle} maxFontSizeMultiplier={1.4}>No Family Kits Yet</Text>
-            <Text style={styles.emptyBody} maxFontSizeMultiplier={1.4}>
+            <Text style={styles.emptyTitle} maxFontSizeMultiplier={3.0}>No Family Kits Yet</Text>
+            <Text style={styles.emptyBody} maxFontSizeMultiplier={3.0}>
               Create your first Family Kit to share your vault with loved ones.
             </Text>
             <TouchableOpacity
@@ -144,7 +143,7 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
               accessibilityRole="button"
               accessibilityLabel="Create Family Kit"
             >
-              <Text style={styles.createBtnText} maxFontSizeMultiplier={1.4}>Create Family Kit</Text>
+              <Text style={styles.createBtnText} maxFontSizeMultiplier={3.0}>Create Family Kit</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -152,31 +151,31 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
         {/* Version history */}
         {history.length > 0 && (
           <>
-            <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Kit Versions</Text>
+            <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Kit Versions</Text>
             {history.map((entry) => {
               const dists = distributions.filter((d) => d.kitVersion === entry.version);
               return (
                 <View key={entry.version} style={styles.versionCard}>
                   <View style={styles.versionHeader}>
-                    <Text style={styles.versionLabel} maxFontSizeMultiplier={1.4}>
+                    <Text style={styles.versionLabel} maxFontSizeMultiplier={3.0}>
                       Version {entry.version}
                     </Text>
-                    <Text style={styles.versionDate} maxFontSizeMultiplier={1.4}>
+                    <Text style={styles.versionDate} maxFontSizeMultiplier={3.0}>
                       {new Date(entry.createdAt).toLocaleDateString()}
                     </Text>
                   </View>
-                  <Text style={styles.versionDetail} maxFontSizeMultiplier={1.4}>
+                  <Text style={styles.versionDetail} maxFontSizeMultiplier={3.0}>
                     {entry.documentCount} documents · {entry.categories.map((c) =>
                       `${CATEGORY_ICONS[c as DocumentCategory] ?? ''} ${CATEGORY_LABELS[c as DocumentCategory] ?? c}`
                     ).join(', ')}
                   </Text>
                   {dists.length > 0 && (
                     <View style={styles.distList}>
-                      <Text style={styles.distTitle} maxFontSizeMultiplier={1.4}>
+                      <Text style={styles.distTitle} maxFontSizeMultiplier={3.0}>
                         Distributed {dists.length}×:
                       </Text>
                       {dists.map((d) => (
-                        <Text key={d.id} style={styles.distItem} maxFontSizeMultiplier={1.4}>
+                        <Text key={d.id} style={styles.distItem} maxFontSizeMultiplier={3.0}>
                           • {d.recipientLabel} ({d.method}) — {new Date(d.distributedAt).toLocaleDateString()}
                         </Text>
                       ))}
@@ -191,19 +190,19 @@ export function KitHistoryScreen({ onCreateKit, onBack }: KitHistoryScreenProps)
         {/* Distribution log */}
         {distributions.length > 0 && (
           <>
-            <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.4}>Distribution Log</Text>
+            <Text style={styles.sectionTitle} maxFontSizeMultiplier={3.0}>Distribution Log</Text>
             {distributions.map((d) => (
               <View key={d.id} style={styles.distCard}>
                 <View style={styles.distCardRow}>
-                  <Text style={styles.distCardMethod} maxFontSizeMultiplier={1.4}>
+                  <Text style={styles.distCardMethod} maxFontSizeMultiplier={3.0}>
                     {d.method === 'print' ? '🖨️' : d.method === 'digital' ? '📤' : d.method === 'airdrop' ? '📡' : '📋'}
                     {'  '}{d.recipientLabel}
                   </Text>
-                  <Text style={styles.distCardDate} maxFontSizeMultiplier={1.4}>
+                  <Text style={styles.distCardDate} maxFontSizeMultiplier={3.0}>
                     v{d.kitVersion}
                   </Text>
                 </View>
-                <Text style={styles.distCardMeta} maxFontSizeMultiplier={1.4}>
+                <Text style={styles.distCardMeta} maxFontSizeMultiplier={3.0}>
                   {d.method} · {new Date(d.distributedAt).toLocaleDateString()}
                   {d.notes ? ` · ${d.notes}` : ''}
                 </Text>

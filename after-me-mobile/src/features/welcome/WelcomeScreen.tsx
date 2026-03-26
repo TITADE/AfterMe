@@ -24,35 +24,38 @@ export function WelcomeScreen({ onPlanningLegacy, onHaveKit, onRestoreVault }: W
           onPress={onPlanningLegacy}
           activeOpacity={0.9}
           accessibilityRole="button"
-          accessibilityLabel="I'm Planning My Legacy — Create your secure vault"
+          accessibilityLabel="Start My Legacy Vault"
         >
-          <Text style={styles.primaryButtonText}>I&apos;m Planning My Legacy</Text>
-          <Text style={styles.primaryButtonHint}>Create your secure vault</Text>
+          <Text style={styles.primaryButtonText} maxFontSizeMultiplier={3.0}>Start My Legacy Vault</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.secondaryButton}
-          onPress={onHaveKit}
-          activeOpacity={0.9}
-          accessibilityRole="button"
-          accessibilityLabel="I Have a Legacy Kit — Open a shared vault with QR code"
-        >
-          <Text style={styles.secondaryButtonText}>I Have a Legacy Kit</Text>
-          <Text style={styles.secondaryButtonHint}>Open a shared vault with QR code</Text>
-        </TouchableOpacity>
+        <View style={styles.secondaryGroup}>
+          <Text style={styles.secondaryDivider}>Already have a vault?</Text>
+          <View style={styles.secondaryLinks}>
+            <TouchableOpacity
+              onPress={onHaveKit}
+              activeOpacity={0.75}
+              accessibilityRole="button"
+              accessibilityLabel="Open a Family Vault"
+            >
+              <Text style={styles.secondaryLinkText} maxFontSizeMultiplier={3.0}>Open Family Vault</Text>
+            </TouchableOpacity>
 
-        {onRestoreVault && (
-          <TouchableOpacity
-            style={styles.restoreButton}
-            onPress={onRestoreVault}
-            activeOpacity={0.9}
-            accessibilityRole="button"
-            accessibilityLabel="Restore My Vault — Recover from a Personal Recovery Kit"
-          >
-            <Text style={styles.restoreButtonText}>Restore My Vault</Text>
-            <Text style={styles.restoreButtonHint}>Recover from a Personal Recovery Kit</Text>
-          </TouchableOpacity>
-        )}
+            {onRestoreVault && (
+              <>
+                <Text style={styles.secondaryLinkSep}>·</Text>
+                <TouchableOpacity
+                  onPress={onRestoreVault}
+                  activeOpacity={0.75}
+                  accessibilityRole="button"
+                  accessibilityLabel="Restore My Vault"
+                >
+                  <Text style={styles.secondaryLinkText} maxFontSizeMultiplier={3.0}>Restore My Vault</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </View>
 
         <Text style={styles.footer}>Your documents never leave this device</Text>
       </View>
@@ -89,66 +92,55 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   buttons: {
-    gap: 16,
-    alignItems: 'center',
+    gap: 20,
+    alignItems: 'stretch',
+    width: '100%',
   },
   primaryButton: {
     backgroundColor: colors.amAmber,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 24,
     borderRadius: 16,
     alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 4,
+    minHeight: 64,
   },
   primaryButtonText: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
     color: colors.amBackground,
+    textAlign: 'center',
   },
-  primaryButtonHint: {
-    fontSize: 14,
-    color: 'rgba(45,49,66,0.85)',
-    marginTop: 4,
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    padding: 20,
-    borderRadius: 16,
+  secondaryGroup: {
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'rgba(250,249,246,0.4)',
+    gap: 6,
   },
-  secondaryButtonText: {
-    fontSize: 18,
-    fontWeight: '600',
+  secondaryDivider: {
+    fontSize: 12,
     color: colors.amWhite,
+    opacity: 0.3,
+    letterSpacing: 0.3,
   },
-  secondaryButtonHint: {
-    fontSize: 14,
-    color: 'rgba(250,249,246,0.7)',
-    marginTop: 4,
-  },
-  restoreButton: {
-    backgroundColor: 'transparent',
-    padding: 16,
-    borderRadius: 16,
+  secondaryLinks: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(250,249,246,0.2)',
+    gap: 8,
   },
-  restoreButtonText: {
-    fontSize: 16,
+  secondaryLinkText: {
+    fontSize: 14,
     fontWeight: '500',
     color: colors.amWhite,
-    opacity: 0.7,
+    opacity: 0.55,
   },
-  restoreButtonHint: {
-    fontSize: 13,
-    color: 'rgba(250,249,246,0.4)',
-    marginTop: 3,
+  secondaryLinkSep: {
+    fontSize: 14,
+    color: colors.amWhite,
+    opacity: 0.2,
   },
   footer: {
     fontSize: 11,
