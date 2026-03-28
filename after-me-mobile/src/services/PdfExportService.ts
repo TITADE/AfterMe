@@ -76,9 +76,9 @@ function buildHtml(opts: KitPdfOptions): string {
   <h2>How to Access the Vault</h2>
   <ol class="steps">
     <li><strong>Download the After Me app</strong> from the App Store or Google Play.</li>
-    <li>Choose <strong>"I Have a Legacy Kit"</strong> on the welcome screen.</li>
+    <li>Choose <strong>"Open Family Vault"</strong> on the welcome screen.</li>
     <li><strong>Scan the QR code</strong> on the next page of this document using your phone's camera.</li>
-    <li>When prompted, <strong>select the .afterme file</strong> — it may be on a USB drive, in cloud storage, or emailed to you alongside this kit.</li>
+    <li>When prompted, <strong>select the encrypted vault file</strong> (ending in .afterme) — it may be on a USB drive, in cloud storage, or emailed to you alongside this kit.</li>
     <li>The app will decrypt and import all documents into a local vault on your device.</li>
   </ol>
 
@@ -114,7 +114,7 @@ function buildHtml(opts: KitPdfOptions): string {
 
   <div class="warning" style="margin-top: 24px;">
     <span class="warning-icon">🔐</span>
-    <strong>Security Note:</strong> Store this QR code <strong>separately</strong> from the .afterme file.
+    <strong>Security Note:</strong> Store this QR code <strong>separately</strong> from the vault file.
     Anyone with both the QR code and the file can access all documents in the vault.
   </div>
 
@@ -143,14 +143,14 @@ function buildHtml(opts: KitPdfOptions): string {
     <div class="storage-item">
       <div class="storage-icon">💾</div>
       <h3 style="margin-top: 4px;">USB Drive (encrypted)</h3>
-      <p style="font-size: 13px;">Store the .afterme file on an encrypted USB alongside this printout.</p>
+      <p style="font-size: 13px;">Store the vault file on a USB drive alongside this printout.</p>
     </div>
   </div>
 
   <h2>Distribution Checklist</h2>
   <ul class="checklist" style="list-style: none; padding: 0;">
     <li>Printed this document and the QR code</li>
-    <li>Stored the .afterme file on a USB drive or cloud storage</li>
+    <li>Stored the encrypted vault file on a USB drive or cloud storage</li>
     <li>Placed QR code printout in a separate secure location from the file</li>
     <li>Informed trusted family member(s) about the kit's existence</li>
     <li>Noted storage locations in estate planning documents</li>

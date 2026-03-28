@@ -27,6 +27,7 @@ import { BackupService } from '../../services/BackupService';
 import { colors } from '../../theme/colors';
 import { SERIF_FONT } from '../../theme/fonts';
 import { FREE_TIER_DOCUMENT_LIMIT } from '../../constants/products';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RING_SIZE = 48;
 const RING_STROKE = 4;
@@ -275,8 +276,9 @@ export function VaultDashboardScreen({
   };
 
   return (
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
     <ScrollView
-      style={styles.container}
+      style={{ flex: 1 }}
       contentContainerStyle={styles.content}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.accent} />
@@ -390,6 +392,14 @@ export function VaultDashboardScreen({
         </View>
       </View>
 
+      {!isPremium && totalDocuments >= 3 && totalDocuments < FREE_TIER_DOCUMENT_LIMIT && (
+        <View style={styles.freeTierNudge} accessibilityRole="text">
+          <Text style={styles.freeTierNudgeText} maxFontSizeMultiplier={3.0}>
+            {FREE_TIER_DOCUMENT_LIMIT - totalDocuments} more document{FREE_TIER_DOCUMENT_LIMIT - totalDocuments === 1 ? '' : 's'} on your free plan — upgrade any time for unlimited.
+          </Text>
+        </View>
+      )}
+
       <View style={styles.categoryGrid}>
         {DOCUMENT_CATEGORIES.map((cat) => (
           <CategoryCard
@@ -414,6 +424,7 @@ export function VaultDashboardScreen({
         <Text style={styles.viewAllHint} maxFontSizeMultiplier={3.0}>Open Document Library</Text>
       </TouchableOpacity>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -532,6 +543,19 @@ const styles = StyleSheet.create({
     color: colors.amAmber,
     fontWeight: '600',
     marginTop: 2,
+  },
+  freeTierNudge: {
+    backgroundColor: 'rgba(201,150,58,0.08)',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 16,
+  },
+  freeTierNudgeText: {
+    fontSize: 13,
+    color: colors.amAmber,
+    textAlign: 'center',
+    lineHeight: 18,
   },
   categoryGrid: {
     flexDirection: 'row',

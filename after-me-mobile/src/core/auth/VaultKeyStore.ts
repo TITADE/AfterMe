@@ -29,25 +29,41 @@ let cachedVaultKey: Buffer | null = null;
 let pendingKeyPromise: Promise<Buffer> | null = null;
 let appStateSubscription: NativeEventSubscription | null = null;
 
+/** When app entered background; used to avoid clearing the key on transient background (e.g. image picker). */
+let backgroundEnteredAt: number | null = null;
+
+/**
+ * If the app stays in background longer than this, we clear the cached vault key
+ * when returning to foreground. Shorter backgrounds (pickers, share sheets, Face ID)
+ * keep the key so users are not re-prompted every time they add a document.
+ */
+const SUSTAINED_BACKGROUND_CLEAR_MS = 45_000;
+
 function ensureAppStateListener(): void {
   if (appStateSubscription) return;
   appStateSubscription = AppState.addEventListener('change', (state) => {
     if (state === 'background') {
-      // Zero-fill before releasing to prevent key material lingering in heap.
-      // pendingKeyPromise is NOT cleared here — clearing it during 'inactive'
-      // (which fires when Face ID system dialogs appear) caused duplicate
-      // biometric prompts. It must resolve naturally.
-      if (cachedVaultKey) cachedVaultKey.fill(0);
-      cachedVaultKey = null;
+      backgroundEnteredAt = Date.now();
+      return;
+    }
+    if (state === 'active') {
+      if (backgroundEnteredAt == null) return;
+      const elapsed = Date.now() - backgroundEnteredAt;
+      backgroundEnteredAt = null;
+      if (elapsed >= SUSTAINED_BACKGROUND_CLEAR_MS) {
+        if (cachedVaultKey) cachedVaultKey.fill(0);
+        cachedVaultKey = null;
+      }
     }
   });
 }
 
 /**
  * Returns the vault key, prompting biometrics on first call per foreground
- * session. Subsequent calls return the cached key until the app is
- * backgrounded. Concurrent callers share a single pending promise to avoid
- * duplicate prompts.
+ * session. Subsequent calls return the cached key until the app has been in
+ * the background for an extended period (~45s), then the key is cleared for
+ * security. Short background transitions (pickers, etc.) do not clear the key.
+ * Concurrent callers share a single pending promise to avoid duplicate prompts.
  */
 export async function getVaultKey(): Promise<Buffer> {
   ensureAppStateListener();

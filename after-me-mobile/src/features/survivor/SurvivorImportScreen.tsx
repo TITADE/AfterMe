@@ -149,7 +149,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             <View style={styles.welcomeStepRow}>
               <View style={styles.stepDot}><Text style={styles.stepNum}>2</Text></View>
               <Text style={styles.stepText} maxFontSizeMultiplier={3.0}>
-                Select the .afterme file (from USB, email, or cloud storage)
+                Select the encrypted vault file (from USB, email, or cloud storage)
               </Text>
             </View>
             <View style={styles.welcomeStepRow}>
@@ -213,19 +213,19 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             icon: '📧',
             label: 'It was emailed to me',
             howto:
-              'Open the email, tap the .afterme attachment, then tap the Share icon → "Save to Files". Once saved, come back here and tap "Select File".',
+              'Open the email, tap the vault file attachment (it ends in .afterme), then tap the Share icon → "Save to Files". Once saved, come back here and tap "Select File".',
           },
           {
             icon: '☁️',
             label: "It's in iCloud Drive",
             howto:
-              'When you tap "Select File", the iOS Files app will open. Tap "Browse" at the bottom and choose iCloud Drive. Look for the .afterme file there.',
+              'When you tap "Select File", the iOS Files app will open. Tap "Browse" at the bottom and choose iCloud Drive. Look for a file ending in .afterme — that\'s the vault file.',
           },
           {
             icon: '💾',
             label: "It's on a USB drive or laptop",
             howto:
-              'Connect the USB drive to this device (via a Lightning or USB-C adapter). The iOS Files app will show it under "Locations". Select the .afterme file from there.',
+              'Connect the USB drive to this device (via a Lightning or USB-C adapter). The iOS Files app will show it under "Locations". Select the file ending in .afterme from there.',
           },
           {
             icon: '⚖️',
@@ -239,19 +239,19 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             icon: '📧',
             label: 'It was emailed to me',
             howto:
-              'Open the email app, tap the .afterme attachment, then tap "Save" or "Download". Once downloaded, come back here and tap "Select File".',
+              'Open the email app, tap the vault file attachment (it ends in .afterme), then tap "Save" or "Download". Once downloaded, come back here and tap "Select File".',
           },
           {
             icon: '☁️',
             label: "It's in Google Drive",
             howto:
-              'When you tap "Select File", the file picker will open. Tap "Google Drive" from the list of storage providers. Browse to the .afterme file and select it.',
+              'When you tap "Select File", the file picker will open. Tap "Google Drive" from the list of storage providers. Look for a file ending in .afterme — that\'s the vault file.',
           },
           {
             icon: '💾',
             label: "It's on a USB drive or device",
             howto:
-              'Connect the USB drive via a USB-C adapter. Open the Files app (or Samsung My Files) and look under "USB storage". Select the .afterme file from there.',
+              'Connect the USB drive via a USB-C adapter. Open the Files app (or Samsung My Files) and look under "USB storage". Select the file ending in .afterme from there.',
           },
           {
             icon: '⚖️',
@@ -274,8 +274,8 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             Now let's find the file
           </Text>
           <Text style={styles.findFileIntro} maxFontSizeMultiplier={3.0}>
-            The .afterme file is the encrypted vault. The QR code you just scanned is the key
-            that unlocks it. Both are needed.{'\n\n'}
+            The encrypted vault file is what holds the documents. The QR code you just
+            scanned is the key that unlocks it. Both are needed.{'\n\n'}
             Where was the file stored?
           </Text>
 
@@ -303,7 +303,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
           <View style={styles.findFileDivider} />
 
           <Text style={styles.findFileReady} maxFontSizeMultiplier={3.0}>
-            Once the .afterme file is accessible on this device, tap below:
+            Once the vault file is accessible on this device, tap below:
           </Text>
 
           <Pressable
@@ -313,7 +313,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
             accessibilityLabel="Select the Family Kit file"
           >
             <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>
-              Select .afterme File
+              Select Vault File
             </Text>
           </Pressable>
 
@@ -341,8 +341,8 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
           <Text style={styles.selectIcon}>✅</Text>
           <Text style={styles.selectTitle} maxFontSizeMultiplier={3.0}>QR Code Received</Text>
           <Text style={styles.selectBody} maxFontSizeMultiplier={3.0}>
-            Now select the .afterme file. It may be on a USB drive, in an email attachment,
-            or in cloud storage like iCloud Drive or Google Drive.
+            Now select the encrypted vault file. It may be on a USB drive, in an email
+            attachment, or in cloud storage like iCloud Drive or Google Drive.
           </Text>
 
           {error && (
@@ -350,7 +350,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
               <Text style={styles.errorTitle} maxFontSizeMultiplier={3.0}>Something went wrong</Text>
               <Text style={styles.errorText} maxFontSizeMultiplier={3.0}>{error}</Text>
               <Text style={styles.errorHint} maxFontSizeMultiplier={3.0}>
-                Check that you have the correct .afterme file and try again.
+                Check that you have the correct vault file and try again.
                 If the problem persists, the file or QR code may be damaged.
               </Text>
             </View>
@@ -374,7 +374,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
                 accessibilityLabel="Select Family Kit file"
               >
                 <Text style={styles.continueButtonText} maxFontSizeMultiplier={3.0}>
-                  Select .afterme File
+                  Select Vault File
                 </Text>
               </Pressable>
 
@@ -414,7 +414,7 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
           <View style={styles.helpOverlay}>
             <View style={[styles.helpCard, { paddingBottom: insets.bottom + 24 }]}>
               <View style={styles.helpHeader}>
-                <Text style={styles.helpTitle} maxFontSizeMultiplier={3.0}>Finding the file</Text>
+                <Text style={styles.helpTitle} maxFontSizeMultiplier={3.0}>Finding the vault file</Text>
                 <Pressable
                   onPress={() => setShowFileHelp(false)}
                   style={styles.helpClose}
@@ -428,8 +428,8 @@ export function SurvivorImportScreen({ mode: _mode, onBack, onImportComplete }: 
 
               <Text style={styles.helpIntro} maxFontSizeMultiplier={3.0}>
                 {Platform.OS === 'ios'
-                  ? 'When you tap "Select .afterme File", the iOS Files app will open. Here is how to find it:'
-                  : 'When you tap "Select .afterme File", the file picker will open. Here is how to find it:'}
+                  ? 'When you tap "Select Vault File", the iOS Files app will open. Look for a file ending in .afterme:'
+                  : 'When you tap "Select Vault File", the file picker will open. Look for a file ending in .afterme:'}
               </Text>
 
               <View style={styles.helpStepList}>

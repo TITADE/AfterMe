@@ -196,7 +196,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.infoRow}>
           <Text style={styles.infoIcon}>📦</Text>
           <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
-            An encrypted .afterme file with all your vault documents
+            An encrypted vault file (.afterme) with all your documents
           </Text>
         </View>
         <View style={styles.infoRow}>
@@ -216,7 +216,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
       <View style={styles.warningCard}>
         <Text style={styles.warningTitle} maxFontSizeMultiplier={3.0}>Important</Text>
         <Text style={styles.warningBody} maxFontSizeMultiplier={3.0}>
-          Store the QR code and the .afterme file in separate secure locations.
+          Store the QR code and the vault file in separate secure locations.
           Anyone with both can access your entire vault.
         </Text>
       </View>
@@ -343,8 +343,8 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
 
         <Text style={styles.heading} maxFontSizeMultiplier={3.0} accessibilityRole="header">Your Access Key</Text>
         <Text style={styles.body} maxFontSizeMultiplier={3.0}>
-          This QR code is the only way to unlock your Family Kit. Without it, the .afterme
-          file cannot be decrypted by anyone — not even us.
+          This QR code is the only way to unlock your Family Kit. Without it, the encrypted
+          vault file cannot be decrypted by anyone — not even us.
         </Text>
 
         <ViewShot ref={qrRef} options={{ format: 'png', quality: 1.0 }}>
@@ -369,7 +369,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
         <View style={styles.warningCard}>
           <Text style={styles.warningTitle} maxFontSizeMultiplier={3.0}>Never share both together</Text>
           <Text style={styles.warningBody} maxFontSizeMultiplier={3.0}>
-            The QR code and the .afterme file should be stored in different locations.
+            The QR code and the vault file should be stored in different locations.
             Anyone with both can access all your documents.
           </Text>
         </View>
@@ -395,7 +395,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
             accessibilityLabel="Share the .afterme file"
           >
             <Text style={styles.actionIcon}>📤</Text>
-            <Text style={styles.actionLabel} maxFontSizeMultiplier={3.0}>Share .afterme</Text>
+            <Text style={styles.actionLabel} maxFontSizeMultiplier={3.0}>Share Vault File</Text>
             <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>Send the encrypted file</Text>
           </TouchableOpacity>
 
@@ -463,7 +463,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
           <View style={styles.tipContent}>
             <Text style={styles.tipTitle} maxFontSizeMultiplier={3.0}>USB Drive + Cloud</Text>
             <Text style={styles.tipBody} maxFontSizeMultiplier={3.0}>
-              Save the .afterme file on an encrypted USB drive and/or a trusted
+              Save the encrypted vault file on a USB drive and/or a trusted
               cloud service. The file is useless without the QR code key.
             </Text>
           </View>
@@ -508,7 +508,7 @@ export function KitCreationWizard({ visible, onDismiss }: KitCreationWizardProps
     const CHECKS = [
       {
         icon: '📤',
-        title: 'The .afterme file has been sent or stored',
+        title: 'The encrypted vault file has been sent or stored',
         detail: 'Emailed to a trusted person, saved to a shared folder (iCloud, Google Drive), or copied to a USB drive they can access.',
       },
       {

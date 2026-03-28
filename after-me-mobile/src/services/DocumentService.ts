@@ -22,6 +22,7 @@ import {
   ALLOWED_EXTENSIONS,
 } from '../constants/storage';
 import { safeAsync } from '../utils/safeAsync';
+import { isValidIsoDateString } from '../utils/dateValidation';
 
 const THUMBNAIL_WIDTH = 200;
 
@@ -295,6 +296,22 @@ export class DocumentService {
     id: string,
     updates: Parameters<typeof DocumentRepository.updateDocument>[1],
   ): Promise<void> {
+    if (
+      updates.documentDate !== undefined &&
+      updates.documentDate !== null &&
+      updates.documentDate !== '' &&
+      !isValidIsoDateString(updates.documentDate)
+    ) {
+      throw new Error('Invalid document date. Use YYYY-MM-DD.');
+    }
+    if (
+      updates.expiryDate !== undefined &&
+      updates.expiryDate !== null &&
+      updates.expiryDate !== '' &&
+      !isValidIsoDateString(updates.expiryDate)
+    ) {
+      throw new Error('Invalid expiry date. Use YYYY-MM-DD.');
+    }
     await DocumentRepository.updateDocument(id, updates);
     safeAsync(KitHistoryService.recordVaultChange(), 'recordVaultChange');
     safeAsync(CloudBackupService.autoBackupIfEnabled(), 'autoBackupIfEnabled');

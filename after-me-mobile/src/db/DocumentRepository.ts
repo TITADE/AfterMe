@@ -16,11 +16,21 @@ async function getDb(): Promise<SQLite.SQLiteDatabase> {
   if (dbInitPromise) return dbInitPromise;
 
   dbInitPromise = (async () => {
-    await checkAndRecoverMigrationFailure();
-    const db = await SQLite.openDatabaseAsync(DB_NAME);
-    await runMigrations(db);
-    dbInstance = db;
-    return db;
+    try {
+      await checkAndRecoverMigrationFailure();
+      const db = await SQLite.openDatabaseAsync(DB_NAME);
+      await runMigrations(db);
+      dbInstance = db;
+      return db;
+    } catch (e) {
+      dbInstance = null;
+      if (__DEV__) {
+        console.warn('[DocumentRepository] getDb init failed:', e);
+      }
+      throw new Error(
+        'Could not open your document vault. Please try again or restart the app.',
+      );
+    }
   })();
 
   try {

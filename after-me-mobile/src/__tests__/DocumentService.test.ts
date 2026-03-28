@@ -323,6 +323,22 @@ describe('DocumentService', () => {
       await DocumentService.updateDocument('doc_test1', { title: 'New' });
       expect(KitHistoryService.recordVaultChange).toHaveBeenCalled();
     });
+
+    it('rejects invalid documentDate before repository', async () => {
+      const repo = jest.requireMock('../db/DocumentRepository');
+      await expect(
+        DocumentService.updateDocument('doc_test1', { documentDate: 'not-a-date' }),
+      ).rejects.toThrow(/Invalid document date/);
+      expect(repo.updateDocument).not.toHaveBeenCalled();
+    });
+
+    it('rejects invalid expiryDate before repository', async () => {
+      const repo = jest.requireMock('../db/DocumentRepository');
+      await expect(
+        DocumentService.updateDocument('doc_test1', { expiryDate: '03/28/2026' }),
+      ).rejects.toThrow(/Invalid expiry date/);
+      expect(repo.updateDocument).not.toHaveBeenCalled();
+    });
   });
 
   describe('getDocumentContent', () => {

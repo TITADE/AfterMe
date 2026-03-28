@@ -132,7 +132,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
       <View style={styles.infoCard}>
         <Text style={styles.infoTitle} maxFontSizeMultiplier={3.0}>What you&apos;ll get</Text>
         <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
-          1. An encrypted .afterme file containing all your documents{'\n'}
+          1. An encrypted vault file (.afterme) containing all your documents{'\n'}
           2. A QR Recovery Card to print and store safely{'\n'}
           3. Both pieces are needed to restore — neither works alone
         </Text>
@@ -142,7 +142,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
         <Text style={styles.infoTitle} maxFontSizeMultiplier={3.0}>Storage recommendations</Text>
         <Text style={styles.infoText} maxFontSizeMultiplier={3.0}>
           • Print the QR card — store in a fireproof safe{'\n'}
-          • Save the .afterme file to a USB drive{'\n'}
+          • Save the vault file to a USB drive{'\n'}
           • Give a copy to your solicitor{'\n'}
           • Keep file and QR code in separate locations{'\n'}
           • Update when you add or remove documents
@@ -258,7 +258,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
 
       <View style={styles.explainerCard}>
         <Text style={styles.explainerText} maxFontSizeMultiplier={3.0}>
-          <Text style={styles.explainerBold}>.afterme file</Text> — Your encrypted vault data (binary file — this is normal){'\n\n'}
+          <Text style={styles.explainerBold}>Vault file (.afterme)</Text> — Your encrypted vault data{'\n\n'}
           <Text style={styles.explainerBold}>PDF Recovery Card</Text> — Printable instructions with your access key QR code
         </Text>
       </View>
@@ -274,8 +274,8 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
           <Text style={styles.actionTitle} maxFontSizeMultiplier={3.0}>Save Encrypted Vault File</Text>
           <Text style={styles.actionHint} maxFontSizeMultiplier={3.0}>
             {Platform.OS === 'ios'
-              ? '.afterme file — save to Files, AirDrop, or USB drive'
-              : '.afterme file — save to Google Drive, share via Nearby Share, or USB drive'}
+              ? 'Vault file — save to Files, AirDrop, or USB drive'
+              : 'Vault file — save to Google Drive, share via Nearby Share, or USB drive'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -298,7 +298,7 @@ export function PersonalRecoveryWizard({ visible, onDismiss }: PersonalRecoveryW
       <View style={styles.warningCard}>
         <Text style={styles.warningTitle} maxFontSizeMultiplier={3.0}>Important</Text>
         <Text style={styles.warningText} maxFontSizeMultiplier={3.0}>
-          Store the .afterme file and QR code in separate locations. Both are needed to restore your vault. Neither works alone.
+          Store the vault file and QR code in separate locations. Both are needed to restore your vault. Neither works alone.
         </Text>
       </View>
 

@@ -12,6 +12,7 @@ import {
   Alert,
   useWindowDimensions,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DatePickerField } from '../../components/DatePickerField';
 import { cacheDirectory, documentDirectory, writeAsStringAsync, deleteAsync, EncodingType } from 'expo-file-system/legacy';
 import { PdfView } from '@kishannareshpal/expo-pdf';
@@ -19,6 +20,7 @@ import { DocumentService } from '../../services/DocumentService';
 import type { Document } from '../../models/Document';
 import { CATEGORY_LABELS, CATEGORY_ICONS } from '../../models/DocumentCategory';
 import { colors } from '../../theme/colors';
+import { isValidIsoDateString } from '../../utils/dateValidation';
 
 interface DocumentViewerModalProps {
   document: Document;
@@ -33,6 +35,7 @@ export function DocumentViewerModal({
   onClose,
   onDocumentUpdated,
 }: DocumentViewerModalProps) {
+  const insets = useSafeAreaInsets();
   const { width: windowWidth } = useWindowDimensions();
   const [contentUri, setContentUri] = useState<string | null>(null);
   const [pdfUri, setPdfUri] = useState<string | null>(null);
@@ -160,6 +163,16 @@ export function DocumentViewerModal({
 
   const handleSave = async () => {
     if (!document?.id) return;
+    if (
+      !isValidIsoDateString(editValues.documentDate ?? '') ||
+      !isValidIsoDateString(editValues.expiryDate ?? '')
+    ) {
+      Alert.alert(
+        'Invalid date',
+        'Use a valid calendar date (YYYY-MM-DD), or clear the field.',
+      );
+      return;
+    }
     setSaving(true);
     try {
       const updates: Parameters<typeof DocumentService.updateDocument>[1] = {
@@ -211,7 +224,7 @@ export function DocumentViewerModal({
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
       <View style={styles.container}>
-        <View style={styles.header}>
+        <View style={[styles.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <TouchableOpacity
             onPress={onClose}
             style={styles.headerButton}
@@ -432,7 +445,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
     backgroundColor: colors.amBackground,

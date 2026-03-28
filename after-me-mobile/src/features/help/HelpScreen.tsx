@@ -60,7 +60,7 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
       {
         question: 'What is a Personal Recovery Kit?',
         answer:
-          'A Personal Recovery Kit is an encrypted .afterme file paired with a QR Recovery Card. You store the file on a USB drive and print the QR card. Both are needed to restore — neither works alone. Create one from Settings > Personal Recovery.',
+          'A Personal Recovery Kit is an encrypted vault file paired with a QR Recovery Card. You store the vault file on a USB drive and print the QR card. Both are needed to restore — neither works alone. Create one from Settings > Personal Recovery.',
       },
       {
         question: 'What is a Family Kit?',
@@ -125,7 +125,7 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
     ],
   },
   {
-    title: 'The .afterme Format',
+    title: 'The Vault File Format',
     items: [
       {
         question: 'What is the .afterme format?',
@@ -133,9 +133,9 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
           'It\'s an open standard — a ZIP file containing an encrypted vault (AES-256-GCM), a key file, a manifest, and a README with recovery instructions. You can always recover your data without the After Me app using freely available tools.',
       },
       {
-        question: 'Can someone access my .afterme file without the QR code?',
+        question: 'Can someone access my vault file without the QR code?',
         answer:
-          'No. The .afterme file is encrypted with a key derived from the access key (encoded in the QR code) using PBKDF2-HMAC-SHA256 with 600,000 iterations. Without the access key, the file is cryptographically unreadable.',
+          'No. The vault file is encrypted with a key derived from the access key (encoded in the QR code). Without the QR code, the file cannot be opened by anyone.',
       },
     ],
   },

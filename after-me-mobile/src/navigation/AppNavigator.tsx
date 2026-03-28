@@ -50,6 +50,7 @@ function TabIcon({ label, focused }: { label: string; focused: boolean }) {
 }
 
 function MainTabs({ initialTab = 'Dashboard' }: { initialTab?: keyof MainTabParamList }) {
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       initialRouteName={initialTab}
@@ -57,7 +58,13 @@ function MainTabs({ initialTab = 'Dashboard' }: { initialTab?: keyof MainTabPara
         tabBarIcon: ({ focused }) => <TabIcon label={route.name} focused={focused} />,
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [
+          styles.tabBar,
+          {
+            paddingBottom: Math.max(insets.bottom, 10),
+            paddingTop: 8,
+          },
+        ],
         tabBarLabelStyle: styles.tabLabel,
       })}
     >

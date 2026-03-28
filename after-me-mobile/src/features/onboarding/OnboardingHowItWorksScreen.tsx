@@ -110,16 +110,32 @@ export function OnboardingHowItWorksScreen({ onContinue, onBack }: OnboardingHow
           <Text style={styles.pathBody} maxFontSizeMultiplier={3.0}>
             You create a Family Kit inside the app. It produces two things:
             a printed QR Key Card (give to a trusted person today) and an
-            encrypted .afterme file (store on USB, iCloud Drive, or email to yourself).
+            encrypted vault file (store on USB, iCloud Drive, or email to yourself).
           </Text>
           <Text style={styles.pathBody} maxFontSizeMultiplier={3.0}>
             When the time comes, your loved one downloads After Me, scans
             the QR card, and selects the file. The vault opens on their
             device — no account, no password, no access to your Apple ID needed.
           </Text>
+          <View style={styles.equationRow}>
+            <View style={styles.equationItem}>
+              <Text style={styles.equationIcon}>🔑</Text>
+              <Text style={styles.equationLabel} maxFontSizeMultiplier={3.0}>QR Card</Text>
+            </View>
+            <Text style={styles.equationPlus} maxFontSizeMultiplier={3.0}>+</Text>
+            <View style={styles.equationItem}>
+              <Text style={styles.equationIcon}>📦</Text>
+              <Text style={styles.equationLabel} maxFontSizeMultiplier={3.0}>Vault File</Text>
+            </View>
+            <Text style={styles.equationPlus} maxFontSizeMultiplier={3.0}>=</Text>
+            <View style={styles.equationItem}>
+              <Text style={styles.equationIcon}>✅</Text>
+              <Text style={styles.equationLabel} maxFontSizeMultiplier={3.0}>Vault Opens</Text>
+            </View>
+          </View>
           <View style={styles.pathRequires}>
             <Text style={styles.pathRequiresText} maxFontSizeMultiplier={3.0}>
-              Requires: QR card + .afterme file
+              Both pieces are needed — neither works alone
             </Text>
           </View>
         </Animated.View>
@@ -286,6 +302,37 @@ const styles = StyleSheet.create({
     color: 'rgba(250,249,246,0.55)',
     lineHeight: 21,
     marginBottom: 8,
+  },
+  equationRow: {
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    marginTop: 12,
+    marginBottom: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    backgroundColor: 'rgba(201,150,58,0.06)',
+    borderRadius: 12,
+  },
+  equationItem: {
+    alignItems: 'center' as const,
+    gap: 4,
+    minWidth: 64,
+  },
+  equationIcon: {
+    fontSize: 24,
+  },
+  equationLabel: {
+    fontSize: 11,
+    fontWeight: '600' as const,
+    color: 'rgba(250,249,246,0.7)',
+    textAlign: 'center' as const,
+  },
+  equationPlus: {
+    fontSize: 20,
+    fontWeight: '700' as const,
+    color: '#C9963A',
+    marginHorizontal: 8,
   },
   pathRequires: {
     marginTop: 4,

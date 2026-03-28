@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
-  SafeAreaView,
   Image,
   TextInput,
   Alert,
@@ -29,6 +28,7 @@ import { AddDocumentModal } from './AddDocumentModal';
 import { DocumentViewerModal } from './DocumentViewerModal';
 import { PaywallScreen } from '../paywall/PaywallScreen';
 import { ActionSheet, showActionSheet, type ActionSheetOption } from '../../components/ActionSheet';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type SortMode = 'newest' | 'oldest' | 'name';
 
@@ -55,10 +55,6 @@ export function DocumentLibraryScreen() {
         : await DocumentService.getAllDocuments();
       setDocuments(docs);
 
-      if (categoryFilter && docs.length === 0) {
-        setCategoryFilter(null);
-      }
-
       refreshDocuments();
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to load documents';
@@ -67,7 +63,7 @@ export function DocumentLibraryScreen() {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [categoryFilter, setCategoryFilter, refreshDocuments]);
+  }, [categoryFilter, refreshDocuments]);
 
   useEffect(() => {
     if (initialLoadDone) loadDocuments();
@@ -272,7 +268,7 @@ export function DocumentLibraryScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <View style={styles.headerRow}>
           <Text
@@ -382,6 +378,7 @@ export function DocumentLibraryScreen() {
         onClose={() => setAddModalVisible(false)}
         onDocumentAdded={loadDocuments}
         onShowPaywall={() => setPaywallVisible(true)}
+        initialCategory={categoryFilter}
       />
 
       <PaywallScreen

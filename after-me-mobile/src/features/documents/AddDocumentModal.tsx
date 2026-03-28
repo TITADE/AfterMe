@@ -25,21 +25,32 @@ import {
 import { usePurchase } from '../../context/PurchaseContext';
 import { FREE_TIER_DOCUMENT_LIMIT } from '../../constants/products';
 import { colors } from '../../theme/colors';
+import { PhotoAdjustModal } from '../../components/PhotoAdjustModal';
 
 interface AddDocumentModalProps {
   visible: boolean;
   onClose: () => void;
   onDocumentAdded: () => void;
   onShowPaywall?: () => void;
+  /** When set, Pick from Files / Photos skip category selection; Scan pre-selects this category. */
+  initialCategory?: DocumentCategory | null;
 }
 
 type Step = 'source' | 'category';
+type ImportSource = 'scan' | 'files' | 'photos';
+
+type PendingPhotoImport = {
+  uri: string;
+  cat: DocumentCategory;
+  dateOptions: { documentDate?: string; expiryDate?: string };
+};
 
 export function AddDocumentModal({
   visible,
   onClose,
   onDocumentAdded,
   onShowPaywall,
+  initialCategory = null,
 }: AddDocumentModalProps) {
   const { canAddDocument, documentsRemaining, isPremium } = usePurchase();
   const [loading, setLoading] = useState(false);
@@ -50,6 +61,7 @@ export function AddDocumentModal({
   const [documentDate, setDocumentDate] = useState<string | null>(null);
   const [expiryDate, setExpiryDate] = useState<string | null>(null);
   const [categorySearch, setCategorySearch] = useState('');
+  const [pendingPhotoImport, setPendingPhotoImport] = useState<PendingPhotoImport | null>(null);
 
   const reset = () => {
     setLoading(false);
@@ -60,6 +72,7 @@ export function AddDocumentModal({
     setDocumentDate(null);
     setExpiryDate(null);
     setCategorySearch('');
+    setPendingPhotoImport(null);
   };
 
   const handleClose = () => {
@@ -67,18 +80,32 @@ export function AddDocumentModal({
     onClose();
   };
 
-  const showCategoryPicker = (source: 'scan' | 'files' | 'photos') => {
+  const showCategoryPicker = (source: ImportSource) => {
     if (!canAddDocument) {
       onShowPaywall?.();
       handleClose();
       return;
     }
     setPendingSource(source);
+    if (initialCategory) {
+      setSelectedCategory(initialCategory);
+    }
+    if (initialCategory && (source === 'files' || source === 'photos')) {
+      queueMicrotask(() => {
+        void executeImport(initialCategory, source);
+      });
+      return;
+    }
     setStep('category');
   };
 
-  const executeImport = async () => {
-    if (!selectedCategory || !pendingSource) return;
+  const executeImport = async (
+    categoryOverride?: DocumentCategory,
+    sourceOverride?: ImportSource | null,
+  ) => {
+    const cat = categoryOverride ?? selectedCategory;
+    const src = sourceOverride ?? pendingSource;
+    if (!cat || !src) return;
 
     const dateOptions: { documentDate?: string; expiryDate?: string } = {};
     if (documentDate) dateOptions.documentDate = documentDate;
@@ -87,7 +114,7 @@ export function AddDocumentModal({
     try {
       setLoading(true);
 
-      if (pendingSource === 'scan') {
+      if (src === 'scan') {
         const result = await DocumentScanner.scanDocument({
           croppedImageQuality: 90,
         });
@@ -120,17 +147,17 @@ export function AddDocumentModal({
             : baseName;
 
           if (isBase64) {
-            await DocumentService.importFromBase64(img, selectedCategory, title, dateOptions);
+            await DocumentService.importFromBase64(img, cat, title, dateOptions);
           } else {
             await DocumentService.importFromFilePath(
               img as string,
-              selectedCategory,
+              cat,
               title,
               dateOptions,
             );
           }
         }
-      } else if (pendingSource === 'files') {
+      } else if (src === 'files') {
         const result = await DocumentPicker.getDocumentAsync({
           type: ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'],
           copyToCacheDirectory: true,
@@ -144,7 +171,7 @@ export function AddDocumentModal({
         const file = result.assets[0];
         await DocumentService.importFromFilePath(
           file.uri,
-          selectedCategory,
+          cat,
           file.name || 'Imported Document',
           {
             format: file.mimeType?.includes('pdf')
@@ -155,10 +182,10 @@ export function AddDocumentModal({
             ...dateOptions,
           },
         );
-      } else if (pendingSource === 'photos') {
+      } else if (src === 'photos') {
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images'],
-          allowsEditing: true,
+          allowsEditing: false,
           quality: 0.9,
         });
 
@@ -168,12 +195,9 @@ export function AddDocumentModal({
         }
 
         const asset = result.assets[0];
-        await DocumentService.importFromFilePath(
-          asset.uri,
-          selectedCategory,
-          'Photo from Library',
-          dateOptions,
-        );
+        setPendingPhotoImport({ uri: asset.uri, cat, dateOptions });
+        setLoading(false);
+        return;
       }
 
       onDocumentAdded();
@@ -189,16 +213,48 @@ export function AddDocumentModal({
     }
   };
 
+  const finalizePhotoImport = async (finalUri: string) => {
+    const pending = pendingPhotoImport;
+    if (!pending) return;
+    setPendingPhotoImport(null);
+    try {
+      setLoading(true);
+      await DocumentService.importFromFilePath(
+        finalUri,
+        pending.cat,
+        'Photo from Library',
+        pending.dateOptions,
+      );
+      onDocumentAdded();
+      handleClose();
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Import failed';
+      Alert.alert('Import Error', msg, [{ text: 'OK', onPress: handleClose }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleCategoryConfirm = () => {
     if (!selectedCategory) {
       Alert.alert('Select Category', 'Please choose a category for your document.');
       return;
     }
-    executeImport();
+    void executeImport();
   };
+
+  const photoAdjustModal = (
+    <PhotoAdjustModal
+      visible={Boolean(visible && pendingPhotoImport)}
+      uri={pendingPhotoImport?.uri ?? ''}
+      onCancel={() => setPendingPhotoImport(null)}
+      onConfirm={(finalUri) => void finalizePhotoImport(finalUri)}
+    />
+  );
 
   if (step === 'category') {
     return (
+      <>
       <Modal visible={visible} transparent animationType="slide">
         <View style={styles.overlay}>
           <View style={styles.card}>
@@ -321,12 +377,20 @@ export function AddDocumentModal({
           </View>
         </View>
       </Modal>
+      {photoAdjustModal}
+      </>
     );
   }
 
   return (
+    <>
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.overlay}>
+        {loading && step === 'source' && (
+          <View style={styles.importingOverlay} accessibilityRole="progressbar" accessibilityLabel="Importing document">
+            <ActivityIndicator size="large" color={colors.amAmber} />
+          </View>
+        )}
         <View style={styles.card}>
           <Text style={styles.title} accessibilityRole="header">Add Document</Text>
           <Text style={styles.subtitle}>Choose how to add your document</Text>
@@ -403,6 +467,8 @@ export function AddDocumentModal({
         </View>
       </View>
     </Modal>
+    {photoAdjustModal}
+    </>
   );
 }
 
@@ -411,6 +477,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'flex-end',
+  },
+  importingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
   },
   card: {
     backgroundColor: colors.amBackground,
